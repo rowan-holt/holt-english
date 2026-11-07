@@ -81,8 +81,14 @@ body.memo-en .grid .card:not(.open):hover .k,body.memo-ko .grid .card:not(.open)
 .post .pl{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
 .post .pl a{font-family:"Jost",sans-serif;font-size:14px;border:1px solid #ccc;padding:3px 9px;line-height:1.4}
 .post .pl a:hover{border-color:var(--ink);background:var(--ink);color:#fff}
+.cat-head .ctl{margin-left:auto;display:flex;align-items:center;gap:6px}.cat-head .ctl+.psize{margin-left:14px}
+.cat-head .ctl .hide-kn,.cat-head .ctl .edit-mine,.cat-head .ctl .fc-open{margin-left:0}
 .cat-head .hide-kn{margin-left:auto;border:0;background:none;font:inherit;font-size:13px;color:var(--ink2);padding:4px 8px;cursor:pointer;text-decoration:underline;text-underline-offset:4px;text-decoration-color:#bbb}
-.cat-head .hide-kn+.fc-open{margin-left:8px}
+.cat-head .hide-kn+.edit-mine,.cat-head .hide-kn+.fc-open{margin-left:8px}
+.cat-head .edit-mine{margin-left:auto;border:0;background:none;font:inherit;font-size:13px;color:var(--ink2);padding:4px 8px;cursor:pointer;text-decoration:underline;text-underline-offset:4px;text-decoration-color:#bbb}
+.cat-head .edit-mine+.fc-open{margin-left:8px}
+.rm{flex:none;border:1px solid #c0392b;color:#c0392b;background:#fff;font:inherit;font-size:13px;padding:4px 10px;cursor:pointer}
+.mine-rows .row{padding-right:20px}.mine-rows .kn{width:32px;height:32px;font-size:15px}
 .cat-head .fc-open{margin-left:auto;border:1px solid var(--ink);background:none;font:inherit;font-size:13px;padding:4px 12px;cursor:pointer}
 .cat-head .fc-open:hover{background:var(--ink);color:#fff}.cat-head .fc-open+.psize{margin-left:14px}
 .kn{flex:none;width:28px;height:28px;border:1px solid #c8c8c8;background:none;color:#bbb;font-size:14px;line-height:1;cursor:pointer;padding:0}
@@ -194,6 +200,7 @@ footer.site .c{text-align:right;align-self:end}
 .recent .posts{grid-template-columns:1fr}.post{border-right:0!important;border-bottom:1px solid var(--line)}.post:last-child{border-bottom:0}
 .listfoot{grid-template-columns:1fr;padding:0 12px}.listfoot .pager{grid-column:1}.mine-tools{grid-column:1;justify-self:center;padding-bottom:10px}
 .cat-head .fc-open{font-size:12.5px;padding:4px 9px}
+.cat-head .ctl{width:100%;justify-content:flex-end;margin-top:4px}
 .fc-top{flex-wrap:wrap;row-gap:10px;padding:12px 14px}.fc-dir{order:3;width:100%}.fc-dir button{flex:1;padding:7px 4px;font-size:12.5px}.psize span{display:none}
 .memo button{font-size:12.5px;width:78px}
 .chips .sub{grid-column:1/-1;justify-content:center;gap:28px;padding:10px 0}

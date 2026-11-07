@@ -27,9 +27,10 @@ var subs=document.querySelectorAll('.chips .sub a');for(var i=0;i<subs.length;i+
 var a=load(),h='',kn=knownGet();
 function list(l,title,empty){var nk=l.filter(function(x){return kn[x.s]}).length,hide=false;try{hide=localStorage.getItem('holt_hide_known')==='1'}catch(e){}
 var shown=(hide&&nk)?l.filter(function(x){return !kn[x.s]}):l;
-return '<div class="cat-head"><h2>'+title+'<small>'+l.length+(nk?' · 외움 '+nk:'')+'</small></h2>'
+return '<div class="cat-head"><h2>'+title+'<small>'+l.length+(nk?' · 외움 '+nk:'')+'</small></h2><div class="ctl">'
 +(nk?'<button type="button" class="hide-kn'+(hide?' on':'')+'">'+(hide?'외운 것 보기':'외운 것 숨기기')+'</button>':'')
-+(l.length?'<button type="button" class="fc-open">카드로 외우기</button>':'')+'</div>'
++(l.length?'<button type="button" class="edit-mine">'+(EDIT?'완료':'편집')+'</button>':'')
++(l.length?'<button type="button" class="fc-open">카드로 외우기</button>':'')+'</div></div>'
 +(shown.length?'<ul class="rows mine-rows">'+shown.map(function(x){return mrow(x,kn[x.s])}).join('')+'</ul>':'<p class="empty">'+(l.length?'모두 외웠어요. [외운 것 보기]를 누르면 다시 보여요.':empty)+'</p>')}
 if(c==='all'){h=list(a,'전체','저장한 것이 없습니다.')}
 else if(c&&name(c)){h=list(a.filter(function(x){return x.c===c}),name(c),'저장한 '+name(c)+ga(name(c))+' 없습니다.')}
@@ -40,8 +41,11 @@ box.innerHTML=h;memoApply();sync();if(typeof paginate==='function')paginate()}
 var KK='holt_known_v1';
 function knownGet(){try{var o=JSON.parse(localStorage.getItem(KK));return o&&typeof o==='object'?o:{}}catch(e){return {}}}
 function knownSet(o){try{localStorage.setItem(KK,JSON.stringify(o))}catch(e){}}
+var EDIT=false;
 function mrow(x,k){return '<li class="row'+(k?' known':'')+'"><a href="e/'+esc(x.s)+'.html"><b>'+esc(x.p)+'</b><span>'+esc(x.k)+'</span></a>'
-+'<button type="button" class="kn'+(k?' on':'')+'" data-s="'+esc(x.s)+'" aria-pressed="'+(k?'true':'false')+'" aria-label="외웠어요">✓</button>'+btn(x)+'</li>'}
++(EDIT?'<button type="button" class="rm" data-s="'+esc(x.s)+'">빼기</button>'
+:'<button type="button" class="kn'+(k?' on':'')+'" data-s="'+esc(x.s)+'" aria-pressed="'+(k?'true':'false')+'" aria-label="외웠어요">✓</button>')
++'<i class="sv" data-s="'+esc(x.s)+'" hidden></i></li>'}
 function b64e(t){return btoa(unescape(encodeURIComponent(t)))}function b64d(t){return decodeURIComponent(escape(atob(t)))}
 function mineTool(t){var a=load(),kn=knownGet();
 if(t==='copy'){var code='HOLT1.'+b64e(JSON.stringify({s:a,k:kn}));
@@ -69,9 +73,11 @@ var ds=el.querySelectorAll('.fc-dir button');for(var i=0;i<ds.length;i++)ds[i].c
 el.querySelector('.fc-hint').textContent=FC.ko?'카드를 누르면 영어가 보여요':'카드를 누르면 뜻이 보여요';
 var x=FC.q[0],f=FC.ko?x.k:x.p,b=FC.ko?x.p:x.k;card.innerHTML='<div class="fc-front'+(FC.ko?' ko':'')+'">'+esc(f)+'</div><div class="fc-back'+(FC.ko?'':' ko')+'">'+esc(b)+'</div>'}
 function fcClose(){var el=document.querySelector('.fc');if(el)el.remove();document.body.style.overflow='';FC=null;render()}
-document.addEventListener('click',function(ev){var t=ev.target.closest&&ev.target.closest('.kn,.hide-kn,.mine-tools button,.fc-open,.fc-x,.fc-card,.fc-again,.fc-ok,.fc-dir button');if(!t)return;
+document.addEventListener('click',function(ev){var t=ev.target.closest&&ev.target.closest('.kn,.rm,.edit-mine,.hide-kn,.mine-tools button,.fc-open,.fc-x,.fc-card,.fc-again,.fc-ok,.fc-dir button');if(!t)return;
 if(t.hasAttribute('data-d')){if(!FC)return;FC.ko=t.getAttribute('data-d')==='ko';try{localStorage.setItem('holt_fc_dir',FC.ko?'ko':'en')}catch(e){}fcShow();return}
 if(t.classList.contains('kn')){var kn=knownGet(),s=t.getAttribute('data-s');if(kn[s])delete kn[s];else kn[s]=1;knownSet(kn);render();track('known_toggle',{item:s});return}
+if(t.classList.contains('edit-mine')){EDIT=!EDIT;render();return}
+if(t.classList.contains('rm')){var s2=t.getAttribute('data-s');store(load().filter(function(x){return x.s!==s2}));track('unsave_item',{item:s2});render();return}
 if(t.classList.contains('hide-kn')){try{localStorage.setItem('holt_hide_known',t.classList.contains('on')?'0':'1')}catch(e){}render();return}
 if(t.hasAttribute('data-mt'))return mineTool(t.getAttribute('data-mt'));
 if(t.classList.contains('fc-open'))return fcOpen();
