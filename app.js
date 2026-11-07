@@ -14,12 +14,12 @@ function card(x){var n=x.p.length,sz=n>30?'l':(n>14?'m':'');
 return '<div class="card"><a href="e/'+esc(x.s)+'.html"><b class="'+sz+'">'+esc(x.p)+'</b><span><span class="k">'+esc(x.k)+'</span>'+(x.t?'<span class="tag">'+esc(x.t)+'</span>':'')+'</span></a>'+btn(x)+'</div>'}
 function row(x){return '<li class="row"><a href="e/'+esc(x.s)+'.html"><b>'+esc(x.p)+'</b><span>'+esc(x.k)+'</span></a>'+btn(x)+'</li>'}
 function head(nm,n,href){return '<div class="cat-head"><h2><a href="'+href+'">'+nm+'<small>'+n+'</small></a></h2><a class="more" href="'+href+'">전체 보기 →</a></div>'}
-var MEMO='<div class="memo" role="group" aria-label="암기 모드"><span>암기</span><button type="button" data-m="en" aria-pressed="false">영어 → 뜻</button><button type="button" data-m="ko" aria-pressed="false">뜻 → 영어</button></div>';
+var MEMO='<div class="memo" role="group" aria-label="암기 모드"><button type="button" data-m="ko" aria-pressed="false">영어 가리기</button><button type="button" data-m="en" aria-pressed="false">뜻 가리기</button></div>';
 function memoGet(){try{return localStorage.getItem('holt_memo')||''}catch(e){return ''}}
 function memoSet(m){try{m?localStorage.setItem('holt_memo',m):localStorage.removeItem('holt_memo')}catch(e){}}
 function memoApply(){var m=document.querySelector('.memo')?memoGet():'',b=document.body;b.classList.toggle('memo-en',m==='en');b.classList.toggle('memo-ko',m==='ko');
 var bs=document.querySelectorAll('.memo button');for(var i=0;i<bs.length;i++){var on=bs[i].getAttribute('data-m')===m;bs[i].classList.toggle('on',on);bs[i].setAttribute('aria-pressed',on?'true':'false')}
-var o=document.querySelectorAll('.row.open,.card.open');for(var j=0;j<o.length;j++)o[j].classList.remove('open')}
+var o=document.querySelectorAll('.open');for(var j=0;j<o.length;j++)o[j].classList.remove('open')}
 function render(){var box=document.getElementById('mine');if(!box)return;
 var c='';try{c=new URLSearchParams(location.search).get('c')||''}catch(e){}
 var subs=document.querySelectorAll('.chips .sub a');for(var i=0;i<subs.length;i++)subs[i].classList.toggle('on',subs[i].getAttribute('data-c')===c);
@@ -32,6 +32,12 @@ box.innerHTML=h;if(!c&&a.length){var f=box.querySelector('.cat-head .more');if(f
 document.addEventListener('click',function(ev){
 var mb=ev.target.closest&&ev.target.closest('.memo button');
 if(mb){var m=mb.getAttribute('data-m');memoSet(memoGet()===m?'':m);memoApply();return}
+var qb=ev.target.closest&&ev.target.closest('.quiz .reveal');
+if(qb){var bx=qb.closest('.quiz'),bl=bx.querySelector('.blank');if(bl){var shown=bx.classList.toggle('solved');
+if(shown){bl.setAttribute('data-b',bl.innerHTML);bl.innerHTML='<u>'+esc(bl.getAttribute('data-a'))+'</u>'}else{bl.innerHTML=bl.getAttribute('data-b')}
+qb.textContent=shown?'다시 풀기':'정답 보기'}return}
+var hx=memoGet()&&document.querySelector('.memo')&&ev.target.closest&&ev.target.closest('.term .hx,.doc p.en:not(.qz),.doc p.ko');
+if(hx&&!hx.classList.contains('open')){hx.classList.add('open');return}
 var hid=memoGet()&&ev.target.closest&&ev.target.closest('.row>a,.card>a');
 if(hid&&!ev.target.closest('.sv')){var it=hid.parentNode;if(!it.classList.contains('open')&&document.querySelector('.memo')){ev.preventDefault();it.classList.add('open');return}}
 var t=ev.target.closest&&ev.target.closest('.chips .sub a, #mine a[href^="saved.html?c="]');
