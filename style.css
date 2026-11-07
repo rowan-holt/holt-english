@@ -228,6 +228,7 @@ footer.site{position:relative}footer.site .install{position:absolute;left:50%;to
 .fc-top{flex-wrap:wrap;row-gap:10px;padding:12px 14px}.fc-dir{order:3;width:100%}.fc-dir button{flex:1;padding:7px 4px;font-size:12.5px}
 .cat-head .psize,.cat-head .ctl~.psize{width:100%;margin-left:0;justify-content:flex-end}
 .cat-head.has-ps h2 .say{display:none}.cat-head.has-ps .psize .ps-say{display:block;--i:28px;--p:6px;margin:0 auto 0 -11px;padding:var(--p) 6px;color:#8a8a8a}
+.cat-head.has-ps .psize .ps-say.on,.cat-head.has-ps .psize .ps-say:hover{background:none;color:var(--ink)}
 .fc{justify-content:flex-start;padding-top:0;overflow-y:auto}.fc-top{position:static;align-self:stretch;margin:0 -16px;flex:none}.fc-card{margin-top:auto}.fc-say{margin-bottom:auto!important}
 .memo button{font-size:12.5px;width:78px}
 .chips .sub{grid-column:1/-1;justify-content:center;gap:28px;padding:10px 0}
