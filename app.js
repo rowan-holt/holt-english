@@ -25,17 +25,15 @@ var c='';try{c=new URLSearchParams(location.search).get('c')||''}catch(e){}
 var subs=document.querySelectorAll('.chips .sub a');for(var i=0;i<subs.length;i++)subs[i].classList.toggle('on',subs[i].getAttribute('data-c')===c);
 var a=load(),h='';
 if(c&&name(c)){var l=a.filter(function(x){return x.c===c});
-h='<div class="cat-head"><h2>'+name(c)+'<small>'+l.length+'</small></h2>'+(l.length?MEMO:'')+'</div>'+(l.length?'<ul class="rows">'+l.map(row).join('')+'</ul>':'<p class="empty">저장한 '+name(c)+ga(name(c))+' 없습니다.</p>')}
+h='<div class="cat-head"><h2>'+name(c)+'<small>'+l.length+'</small></h2></div>'+(l.length?'<ul class="rows">'+l.map(row).join('')+'</ul>':'<p class="empty">저장한 '+name(c)+ga(name(c))+' 없습니다.</p>')}
 else{CATS.forEach(function(k){var l=a.filter(function(x){return x.c===k[0]});
 h+='<section>'+head(k[1],l.length,'saved.html?c='+k[0])+(l.length?'<div class="grid">'+l.map(card).join('')+'</div>':'<p class="empty">저장한 '+k[1]+ga(k[1])+' 없습니다.</p>')+'</section>'})}
-box.innerHTML=h;if(!c&&a.length){var f=box.querySelector('.cat-head .more');if(f)f.insertAdjacentHTML('beforebegin',MEMO)}memoApply();sync()}
+box.innerHTML=h;memoApply();sync()}
 document.addEventListener('click',function(ev){
 var mb=ev.target.closest&&ev.target.closest('.memo button');
 if(mb){var m=mb.getAttribute('data-m');memoSet(memoGet()===m?'':m);memoApply();return}
 var qb=ev.target.closest&&ev.target.closest('.quiz .reveal');
-if(qb){var bx=qb.closest('.quiz'),bl=bx.querySelector('.blank');if(bl){var shown=bx.classList.toggle('solved');
-if(shown){bl.setAttribute('data-b',bl.innerHTML);bl.innerHTML='<u>'+esc(bl.getAttribute('data-a'))+'</u>'}else{bl.innerHTML=bl.getAttribute('data-b')}
-qb.textContent=shown?'다시 풀기':'정답 보기'}return}
+if(qb){var bx=qb.closest('.quiz'),shown=bx.classList.toggle('solved');qb.textContent=shown?'다시 풀기':'정답 보기';return}
 var hx=memoGet()&&document.querySelector('.memo')&&ev.target.closest&&ev.target.closest('.term .hx,.doc p.en:not(.qz),.doc p.ko');
 if(hx&&!hx.classList.contains('open')){hx.classList.add('open');return}
 var hid=memoGet()&&ev.target.closest&&ev.target.closest('.row>a,.card>a');
