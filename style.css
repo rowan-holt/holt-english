@@ -81,7 +81,7 @@ body.memo-en .grid .card:not(.open):hover .k,body.memo-ko .grid .card:not(.open)
 .post .pl{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
 .post .pl a{font-family:"Jost",sans-serif;font-size:14px;border:1px solid #ccc;padding:3px 9px;line-height:1.4}
 .post .pl a:hover{border-color:var(--ink);background:var(--ink);color:#fff}
-.cat-head .ctl{margin-left:auto;display:flex;align-items:center;gap:6px}.cat-head .ctl+.psize{margin-left:14px}
+.cat-head .ctl{margin-left:auto;display:flex;align-items:center;gap:6px}.cat-head .ctl~.psize{margin-left:14px}
 .cat-head .ctl .hide-kn,.cat-head .ctl .edit-mine,.cat-head .ctl .fc-open{margin-left:0}
 .cat-head .hide-kn{margin-left:auto;border:0;background:none;font:inherit;font-size:13px;color:var(--ink2);padding:4px 8px;cursor:pointer;text-decoration:underline;text-underline-offset:4px;text-decoration-color:#bbb}
 .cat-head .hide-kn+.edit-mine,.cat-head .hide-kn+.fc-open{margin-left:8px}
@@ -112,6 +112,7 @@ body.memo-en .grid .card:not(.open):hover .k,body.memo-ko .grid .card:not(.open)
 .psize{margin-left:auto;display:flex;align-items:center;gap:2px;font-size:13px;color:var(--gray)}
 .psize button{border:0;background:none;font:inherit;font-family:"Jost",sans-serif;font-size:13px;color:var(--ink2);padding:3px 7px;cursor:pointer}
 .psize button.on{background:var(--ink);color:#fff}.psize span{margin-left:4px}
+.cat-head .kn-hint{order:9;width:100%;margin:0;font-size:13px;color:var(--gray);line-height:1.5}.cat-head .kn-hint b{display:inline-block;width:18px;height:18px;line-height:16px;border:1px solid #c8c8c8;color:#bbb;text-align:center;font-weight:400;font-size:11px;margin:0 2px;vertical-align:-3px}
 .pager{display:flex;justify-content:center;align-items:center;gap:4px;padding:30px 16px 6px;flex-wrap:wrap}
 .pager button{min-width:38px;height:38px;border:1px solid transparent;background:none;font-family:"Jost",sans-serif;font-size:15px;color:var(--ink);cursor:pointer}
 .pager button:hover{border-color:#bbb}.pager button.on{border-color:var(--ink);font-weight:500}.pager span{color:var(--gray);padding:0 4px}
@@ -201,7 +202,8 @@ footer.site .c{text-align:right;align-self:end}
 .listfoot{grid-template-columns:1fr;padding:0 12px}.listfoot .pager{grid-column:1}.mine-tools{grid-column:1;justify-self:center;padding-bottom:10px}
 .cat-head .fc-open{font-size:12.5px;padding:4px 9px}
 .cat-head .ctl{width:100%;justify-content:flex-end;margin-top:4px}
-.fc-top{flex-wrap:wrap;row-gap:10px;padding:12px 14px}.fc-dir{order:3;width:100%}.fc-dir button{flex:1;padding:7px 4px;font-size:12.5px}.psize span{display:none}
+.fc-top{flex-wrap:wrap;row-gap:10px;padding:12px 14px}.fc-dir{order:3;width:100%}.fc-dir button{flex:1;padding:7px 4px;font-size:12.5px}
+.cat-head .psize,.cat-head .ctl~.psize{width:100%;margin-left:0;justify-content:flex-end}
 .memo button{font-size:12.5px;width:78px}
 .chips .sub{grid-column:1/-1;justify-content:center;gap:28px;padding:10px 0}
 .chips .sub a{padding:0;font-size:13px;border:0;grid-column:auto}

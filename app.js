@@ -29,7 +29,8 @@ function list(l,title,empty){var nk=l.filter(function(x){return kn[x.s]}).length
 var shown=l.filter(function(x){return !kn[x.s]}).concat(l.filter(function(x){return kn[x.s]}));   // 외운 것은 맨 아래로
 return '<div class="cat-head"><h2>'+title+'<small>'+l.length+(nk?' · 외움 '+nk:'')+'</small></h2><div class="ctl">'
 +(l.length?'<button type="button" class="edit-mine">'+(EDIT?'완료':'편집')+'</button>':'')
-+(l.length?'<button type="button" class="fc-open">카드로 외우기</button>':'')+'</div></div>'
++(l.length?'<button type="button" class="fc-open">카드로 외우기</button>':'')+'</div>'
++(l.length&&!EDIT?'<p class="kn-hint">오른쪽 <b>✓</b>를 누르면 외움 표시가 돼요. 외운 건 흐려지고 맨 아래로 내려가요.</p>':'')+'</div>'
 +(shown.length?'<ul class="rows mine-rows">'+shown.map(function(x){return mrow(x,kn[x.s])}).join('')+'</ul>':'<p class="empty">'+empty+'</p>')}
 if(c==='all'){h=list(a,'전체','저장한 것이 없습니다.')}
 else if(c&&name(c)){h=list(a.filter(function(x){return x.c===c}),name(c),'저장한 '+name(c)+ga(name(c))+' 없습니다.')}
@@ -43,7 +44,7 @@ function knownSet(o){try{localStorage.setItem(KK,JSON.stringify(o))}catch(e){}}
 var EDIT=false;
 function mrow(x,k){return '<li class="row'+(k?' known':'')+'"><a href="e/'+esc(x.s)+'.html"><b>'+esc(x.p)+'</b><span>'+esc(x.k)+'</span></a>'
 +(EDIT?'<button type="button" class="rm" data-s="'+esc(x.s)+'">빼기</button>'
-:'<button type="button" class="kn'+(k?' on':'')+'" data-s="'+esc(x.s)+'" aria-pressed="'+(k?'true':'false')+'" aria-label="외웠어요">✓</button>')
+:'<button type="button" class="kn'+(k?' on':'')+'" data-s="'+esc(x.s)+'" aria-pressed="'+(k?'true':'false')+'" aria-label="외움 표시" title="외움 표시">✓</button>')
 +'<i class="sv" data-s="'+esc(x.s)+'" hidden></i></li>'}
 function b64e(t){return btoa(unescape(encodeURIComponent(t)))}function b64d(t){return decodeURIComponent(escape(atob(t)))}
 function mineTool(t){var a=load(),kn=knownGet();
