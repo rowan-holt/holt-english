@@ -1,87 +1,95 @@
-:root{--bg:#0f1b21;--card:#15252c;--card2:#1b2e36;--text:#f4f1d2;--muted:#a8b0a2;--line:#2a3d45;--mark:#f4f1d2;
---sans:"IBM Plex Sans KR","IBM Plex Sans",-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
---mono:"IBM Plex Mono","IBM Plex Sans KR",ui-monospace,monospace}
+:root{--bg:#fff;--ink:#111;--ink2:#444;--gray:#8a8a8a;--line:#111;--soft:#f3f3f1;--hl:#ffe28c;
+--latin:"Jost","Pretendard Variable",Pretendard,sans-serif;
+--sans:"Pretendard Variable",Pretendard,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif}
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);font-size:17px;line-height:1.7;
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.75;
 word-break:keep-all;overflow-wrap:break-word}
 a{color:inherit;text-decoration:none}
-.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
-/* 머리 */
-.top{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:18px 24px;max-width:1160px;margin:0 auto}
-.brand{font-family:var(--mono);font-weight:600;font-size:15px;letter-spacing:.06em;display:flex;align-items:center;gap:10px}
-.brand i{width:30px;height:30px;border:1.5px solid var(--text);border-radius:50%;display:inline-flex;align-items:center;
-justify-content:center;font-style:normal;font-size:13px}
-.top nav{display:flex;flex-wrap:wrap;gap:6px 20px;font-family:var(--mono);font-size:13px;letter-spacing:.06em;text-transform:uppercase}
-.top nav a{opacity:.82}.top nav a:hover,.top nav a.on{opacity:1;text-decoration:underline;text-underline-offset:5px}
-.top .news{font-family:var(--mono);font-size:13px;letter-spacing:.06em;opacity:.82}
-.top .news:hover{opacity:1}
-/* 첫 문장 */
-.hero{padding:56px 0 28px}
-.hero h1{font-weight:400;font-size:clamp(26px,3.4vw,40px);line-height:1.45;margin:0;max-width:860px;letter-spacing:-.01em}
-.note{display:inline-flex;gap:14px;align-items:center;margin-top:28px;background:var(--card);border-radius:10px;padding:14px 18px;
-font-family:var(--mono);font-size:13px;line-height:1.6;color:var(--muted)}
-.note b{color:var(--text);font-weight:500}
-.chips{display:flex;flex-wrap:wrap;gap:10px;margin:30px 0 0}
-.chips a{font-family:var(--mono);font-size:13px;letter-spacing:.04em;border:1px solid var(--line);border-radius:999px;padding:7px 14px}
-.chips a:hover,.chips a.on{border-color:var(--text)}
-.chips a span{opacity:.6;margin-left:6px}
-/* 카테고리 */
-.cat{margin:56px 0 0}
-.cat-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin:0 0 20px}
-.cat-head h2{margin:0;font-size:clamp(22px,2.4vw,30px);font-weight:700;letter-spacing:-.01em}
-.cat-head h2 small{font-family:var(--mono);font-size:13px;font-weight:400;color:var(--muted);margin-left:10px}
-.cat-head a{font-family:var(--mono);font-size:13px;color:var(--muted)}.cat-head a:hover{color:var(--text)}
-.cat-desc{color:var(--muted);margin:-10px 0 22px;max-width:720px}
-/* 카드 */
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
-.card{display:flex;flex-direction:column;background:var(--card);border-radius:10px;overflow:hidden;transition:transform .2s,background .2s}
-.card:hover{transform:translateY(-3px);background:var(--card2)}
-.card .face{background:var(--c);min-height:190px;display:flex;align-items:center;justify-content:center;padding:26px 22px;text-align:center}
-.card .face b{font-family:"IBM Plex Sans",var(--sans);font-weight:600;font-size:clamp(24px,2.3vw,32px);line-height:1.2;color:#fbf8e2;letter-spacing:-.01em}
-.card .face b.m{font-size:clamp(20px,1.8vw,25px)}
-.card .face b.l{font-size:clamp(17px,1.45vw,20px);line-height:1.35}
-.card .body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:8px;flex:1}
-.card h3{margin:0;font-size:19px;font-weight:700;line-height:1.4}
-.card p{margin:0;color:var(--muted);font-size:15px;line-height:1.6;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.card .tag{margin-top:auto;padding-top:6px;font-family:var(--mono);font-size:12px;letter-spacing:.05em;color:var(--muted);text-transform:uppercase}
+/* 머리 — holtnews.com과 같은 틀 */
+.top{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:6px 24px 4px;
+border-bottom:1px solid var(--line);background:var(--bg);position:sticky;top:0;z-index:5}
+.top nav{display:flex;flex-wrap:wrap;gap:4px 18px;font-size:clamp(14px,1.15vw,17px)}
+.top nav a:hover,.top nav a.on{text-decoration:underline;text-underline-offset:5px;text-decoration-thickness:1px}
+.logo{font-family:"Jost",sans-serif;font-weight:500;font-size:clamp(30px,5vw,70px);letter-spacing:.05em;line-height:1.15;white-space:nowrap}
+.top .right{justify-self:end;font-size:clamp(14px,1.25vw,18px)}
+.top .right:hover{text-decoration:underline;text-underline-offset:5px}
+/* 첫 줄 */
+.intro{display:flex;justify-content:space-between;align-items:baseline;gap:20px;padding:44px 24px 18px;border-bottom:1px solid var(--line)}
+.intro h1{margin:0;font-weight:500;font-size:clamp(20px,2.2vw,30px);line-height:1.45;max-width:820px}
+.intro span{color:var(--gray);font-size:14px;white-space:nowrap}
+.chips{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+.chips a{padding:13px 24px;border-right:1px solid var(--line);font-size:15px}
+.chips a span{color:var(--gray);margin-left:6px;font-family:"Jost",sans-serif}
+.chips a:hover,.chips a.on{background:var(--ink);color:#fff}.chips a:hover span,.chips a.on span{color:#bbb}
+/* 카테고리 머리 */
+.cat-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:40px 24px 14px;border-bottom:1px solid var(--line)}
+.cat-head h2{margin:0;font-family:var(--latin);font-weight:400;font-size:clamp(26px,3vw,44px);line-height:1.2}
+.cat-head h2 small{font-size:.45em;color:var(--gray);margin-left:10px}
+.cat-head a{font-size:14px;color:var(--ink2)}.cat-head a:hover{text-decoration:underline;text-underline-offset:4px}
+.cat-desc{margin:0;padding:14px 24px;color:var(--ink2);border-bottom:1px solid var(--line)}
+/* 단어 격자 — 선으로만 나눈 칸, 단어가 주인공 */
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.card{display:flex;flex-direction:column;justify-content:space-between;gap:18px;min-height:220px;padding:22px 22px 18px;
+border-right:1px solid var(--line);border-bottom:1px solid var(--line);transition:background .15s}
+.grid .card:nth-child(4n){border-right:0}
+.card:hover{background:var(--ink);color:#fff}
+.card:hover .k,.card:hover .tag{color:#bbb}
+.card b{font-family:"Jost",sans-serif;font-weight:500;font-size:clamp(28px,2.7vw,40px);line-height:1.12;letter-spacing:-.01em}
+.card b.m{font-size:clamp(23px,2.1vw,30px)}
+.card b.l{font-size:clamp(18px,1.55vw,22px);line-height:1.3}
+.card .k{font-size:15.5px;color:var(--ink2);line-height:1.5}
+.card .tag{font-size:12.5px;color:var(--gray);display:block;margin-top:6px}
 /* 전체 목록 */
-.alpha{columns:3 260px;column-gap:28px;margin:10px 0 0;padding:0;list-style:none}
-.alpha li{break-inside:avoid;padding:9px 0;border-bottom:1px solid var(--line)}
-.alpha a b{font-weight:600}.alpha a span{display:block;color:var(--muted);font-size:14px}
+.alpha{columns:3 260px;column-gap:0;margin:0;padding:0 24px;list-style:none}
+.alpha li{break-inside:avoid;padding:10px 0;border-bottom:1px solid #ddd;margin-right:28px}
+.alpha a b{font-family:"Jost",sans-serif;font-weight:500;font-size:19px}.alpha a span{display:block;color:var(--gray);font-size:14px}
 .alpha a:hover b{text-decoration:underline;text-underline-offset:4px}
 /* 표현 쪽 */
-.term{background:var(--c);border-radius:12px;padding:56px 28px;text-align:center;margin:30px 0 26px}
-.term h1{margin:0;font-family:"IBM Plex Sans",var(--sans);font-weight:600;font-size:clamp(30px,5vw,56px);line-height:1.18;color:#fbf8e2}
-.term .kind{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#fbf8e2;opacity:.75;margin-bottom:14px}
-.doc{max-width:760px;margin:0 auto}
-.meaning{font-size:clamp(20px,2vw,24px);font-weight:700;margin:0 0 6px;text-align:center}
-.sub{color:var(--muted);margin:0 0 10px;text-align:center;font-family:var(--mono);font-size:13px}
-.doc h2{font-size:14px;font-family:var(--mono);font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:40px 0 12px}
-mark{background:none;color:inherit;border-bottom:2px solid var(--hl,#e8c860);padding:0 1px}
-.box{background:var(--card);border-radius:10px;padding:18px 20px}
-.en{font-size:18px;margin:0}.ko{color:var(--muted);margin:2px 0 0}
-.pair+.pair{margin-top:16px}
+.term{text-align:center;padding:64px 20px 40px;border-bottom:1px solid var(--line)}
+.term .kind{font-size:13px;letter-spacing:.06em;color:var(--gray);margin-bottom:10px}
+.term .kind a:hover{text-decoration:underline}
+.term h1{margin:0;font-family:"Jost",sans-serif;font-weight:500;font-size:clamp(40px,7vw,96px);line-height:1.08;letter-spacing:-.01em}
+.term .meaning{margin:22px 0 0;font-size:clamp(19px,2vw,24px);font-weight:700}
+.doc{max-width:740px;margin:0 auto;padding:10px 20px}
+.sub{display:none}
+.doc h2{font-size:14px;font-weight:600;letter-spacing:.04em;color:var(--gray);margin:44px 0 12px;padding-top:14px;border-top:1px solid var(--line)}
+mark{background:linear-gradient(transparent 55%,var(--hl) 55%);color:inherit;padding:0 1px}
+.box{background:var(--soft);padding:18px 20px}
+.en{font-family:var(--latin);font-size:19px;margin:0;line-height:1.6}.ko{color:var(--ink2);margin:4px 0 0}
+.pair+.pair{margin-top:18px}
 table{border-collapse:collapse;width:100%;font-size:15.5px}
-th,td{text-align:left;vertical-align:top;padding:11px 8px;border-bottom:1px solid var(--line)}
+th,td{text-align:left;vertical-align:top;padding:11px 8px;border-bottom:1px solid #ddd}
 tr:last-child>*{border-bottom:0}
-td.ex{color:var(--muted)}
-details{margin-top:12px}summary{cursor:pointer;font-family:var(--mono);font-size:13px;letter-spacing:.04em;color:#e8c860}
-.meta{font-size:13px;color:var(--muted);font-family:var(--mono);margin-top:18px}
+td b{font-family:var(--latin);font-weight:500;font-size:17px}
+td.ex{color:var(--ink2)}
+details{margin-top:12px}summary{cursor:pointer;font-size:14px;font-weight:600;display:inline-block;border:1px solid var(--ink);padding:5px 14px}
+details[open] summary{background:var(--ink);color:#fff}
+.meta{font-size:13px;color:var(--gray);margin-top:20px}
 .meta a{text-decoration:underline}
-.occ+.occ{margin-top:48px;padding-top:12px;border-top:1px dashed var(--line)}
+.occ+.occ{margin-top:40px}
 .ad{margin:28px 0}
 .fix{list-style:none;padding:0;margin:0;display:grid;gap:10px}
-.fix li{background:var(--card);border-radius:10px;padding:14px 18px}
-.fix p{margin:0}.x{text-decoration:line-through;color:var(--muted)}.o{font-weight:700}
+.fix li{background:var(--soft);padding:14px 18px}
+.fix p{margin:0}.x{text-decoration:line-through;color:var(--gray)}.o{font-weight:700}
 .tip{margin-top:14px}
-.page{max-width:760px;margin:0 auto;padding:40px 0}
-.page h1{font-size:34px;margin:0 0 20px}.page h2{font-size:20px;margin:30px 0 8px}.page a{text-decoration:underline}
-/* 꼬리 */
-footer.site{border-top:1px solid var(--line);margin-top:80px;padding:28px 24px 40px;font-family:var(--mono);font-size:13px;color:var(--muted)}
-footer.site .in{max-width:1160px;margin:0 auto;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
-footer.site a{margin-right:16px}footer.site a:hover{color:var(--text)}
-@media (max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.top{flex-wrap:wrap}.top nav{order:3;width:100%}}
-@media (max-width:560px){.wrap{padding:0 16px}.top{padding:14px 16px}.grid{grid-template-columns:1fr;gap:16px}
-.card .face{min-height:150px}.hero{padding:34px 0 10px}.term{padding:40px 18px}.note{display:flex}
-table,tbody,tr,td{display:block}tr{padding:10px 0;border-bottom:1px solid var(--line)}td{border:0;padding:2px 0}tr:last-child{border:0}}
+.page{max-width:740px;margin:0 auto;padding:56px 20px}
+.page h1{font-weight:800;font-size:34px;margin:0 0 20px}.page h2{font-size:20px;margin:30px 0 8px}.page a{text-decoration:underline}
+/* 꼬리 — holtnews.com과 같은 검은 띠 */
+footer.site{background:#000;color:#cfcfcf;margin-top:80px;padding:40px 56px 48px;font-size:13px;line-height:1.8;
+display:grid;grid-template-columns:auto 1fr auto;gap:20px 48px;align-items:start}
+footer.site .logo-s{font-family:"Jost",sans-serif;font-weight:600;color:#fff;font-size:17px;letter-spacing:.04em}
+footer.site nav{display:flex;gap:10px;flex-wrap:wrap;color:#fff}footer.site nav span{opacity:.5}
+footer.site .c{text-align:right;align-self:end}
+@media (max-width:1000px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.grid .card:nth-child(4n){border-right:1px solid var(--line)}
+.grid .card:nth-child(3n){border-right:0}}
+@media (max-width:700px){.top{grid-template-columns:1fr auto;padding:8px 16px;row-gap:2px}
+.top .logo{grid-column:1;grid-row:1;justify-self:start;font-size:28px}.top .right{grid-column:2;grid-row:1;font-size:14px}
+.top nav{grid-column:1/3;grid-row:2;gap:4px 16px;font-size:14.5px;padding-bottom:4px}
+.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.grid .card:nth-child(3n){border-right:1px solid var(--line)}
+.grid .card:nth-child(2n){border-right:0}.card{min-height:170px;padding:16px 14px}
+.card b{font-size:26px}.card b.m{font-size:21px}.card b.l{font-size:16.5px}.card .k{font-size:14px}
+.intro{flex-direction:column;padding:30px 16px 14px}.cat-head{padding:30px 16px 12px}.cat-desc{padding:12px 16px}
+.chips a{padding:10px 14px;font-size:14px}.alpha{padding:0 16px}.alpha li{margin-right:0}
+footer.site{grid-template-columns:1fr;padding:32px 20px 40px}footer.site .c{text-align:left}
+table,tbody,tr,td{display:block}tr{padding:10px 0;border-bottom:1px solid #ddd}td{border:0;padding:2px 0}tr:last-child{border:0}}
