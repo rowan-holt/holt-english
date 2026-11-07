@@ -34,7 +34,7 @@ var mb=ev.target.closest&&ev.target.closest('.memo button');
 if(mb){var m=mb.getAttribute('data-m');memoSet(memoGet()===m?'':m);memoApply();return}
 var qb=ev.target.closest&&ev.target.closest('.quiz .reveal');
 if(qb){var bx=qb.closest('.quiz'),shown=bx.classList.toggle('solved');qb.textContent=shown?'다시 풀기':'정답 보기';return}
-var hx=memoGet()&&document.querySelector('.memo')&&ev.target.closest&&ev.target.closest('.term .hx,.doc p.en:not(.qz),.doc p.ko');
+var hx=memoGet()&&document.querySelector('.memo')&&ev.target.closest&&ev.target.closest('.term .hx,.doc p.en:not(.qz),.doc p.ko,.doc .me,.doc .mk');
 if(hx&&!hx.classList.contains('open')){hx.classList.add('open');return}
 var hid=memoGet()&&ev.target.closest&&ev.target.closest('.row>a,.card>a');
 if(hid&&!ev.target.closest('.sv')){var it=hid.parentNode;if(!it.classList.contains('open')&&document.querySelector('.memo')){ev.preventDefault();it.classList.add('open');return}}
@@ -51,7 +51,7 @@ return (a>0?'… ':'')+mark(t.slice(a,b),q)+(b<t.length?' …':'')}
 function srow(x,q,body){return '<li class="row"><a href="e/'+esc(x.s)+'.html"><b>'+mark(x.p,q)+'</b><span>'+mark(x.k,q)+'</span>'+(body?'<span class="snip">'+body+'</span>':'')+'</a>'+btn({s:x.s,p:x.p,k:x.k,c:x.c,t:x.t})+'</li>'}
 function search(){var box=document.getElementById('found');if(!box)return;
 var q='';try{q=(new URLSearchParams(location.search).get('q')||'').trim()}catch(e){}
-var ins=document.querySelectorAll('.chips .q input');for(var i=0;i<ins.length;i++)ins[i].value=q;
+var ins=document.querySelectorAll('.tools .q input');for(var i=0;i<ins.length;i++)ins[i].value=q;
 var h1=document.getElementById('qtitle');
 if(!q){h1.innerHTML='검색';box.innerHTML='';return}
 document.title=q+' 검색 | HOLT 영어';
