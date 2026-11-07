@@ -188,6 +188,7 @@ footer.site{position:relative}footer.site .install{position:absolute;left:50%;to
 .ig{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px}
 .ig-box{background:#fff;color:var(--ink);max-width:360px;width:100%;padding:26px 24px 20px;border:1px solid var(--ink)}
 .ig-box h3{margin:0 0 12px;font-size:18px}.ig-box p{margin:0 0 10px;font-size:15px;line-height:1.6}.ig-box .ig-s{font-size:13px;color:var(--gray)}
+.ig-go{display:block;margin-top:16px;padding:11px 0;text-align:center;background:var(--ink);color:#fff;font-size:15px;font-weight:600}.ig-go~.ig-x{background:none;color:var(--ink);margin-top:8px;width:100%}
 .ig-x{display:block;margin:16px 0 0 auto;border:1px solid var(--ink);background:var(--ink);color:#fff;font:inherit;font-size:14px;padding:7px 20px;cursor:pointer}
 @media (max-width:1200px){footer.site .install{position:static;transform:none;grid-column:2;justify-self:start;margin-top:-6px}}
 @media (max-width:1000px){.recent .posts{grid-template-columns:repeat(2,minmax(0,1fr))}.post:nth-child(2n){border-right:0}
