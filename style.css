@@ -63,6 +63,11 @@ body.memo-en .grid .card:not(.open):hover .k,body.memo-ko .grid .card:not(.open)
 .sv svg{width:22px;height:22px}.sv path{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round}
 .sv.on path{fill:currentColor}.sv:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .sv.big{margin-top:16px}.sv.big svg{width:30px;height:30px}
+.say{background:none;border:0;padding:4px 6px;margin:0 0 0 4px;cursor:pointer;color:#8a8a8a;line-height:0;vertical-align:-3px;-webkit-tap-highlight-color:transparent}
+.say:hover,.say.on{color:var(--ink)}.say:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.say.big{margin:16px 0 0;padding:8px}.say.big svg{width:30px;height:30px}.acts{display:flex;justify-content:center;gap:6px}.acts .sv.big{margin-top:16px}
+.quiz:not(.solved) .qsay{display:none}.quiz .qsay{margin:0 0 6px -6px}
+.fc-card .say{margin:14px 0 0;padding:8px}.fc-card .say svg{width:26px;height:26px}
 /* 한 줄 목록: 영어  뜻 */
 .rows{list-style:none;margin:0;padding:0}
 .row{display:flex;align-items:center;gap:12px;padding:0 16px 0 24px;border-bottom:1px solid #ddd}
