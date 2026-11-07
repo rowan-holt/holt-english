@@ -63,11 +63,13 @@ body.memo-en .grid .card:not(.open):hover .k,body.memo-ko .grid .card:not(.open)
 .sv svg{width:22px;height:22px}.sv path{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round}
 .sv.on path{fill:currentColor}.sv:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .sv.big{margin-top:16px}.sv.big svg{width:30px;height:30px}
-.say{background:none;border:0;padding:4px 6px;margin:0 0 0 4px;cursor:pointer;color:#8a8a8a;line-height:0;vertical-align:-3px;-webkit-tap-highlight-color:transparent}
+/* 스피커 아래 끝 = 옆 글자 바닥선(1108). 버튼 바닥선 = svg 아래 끝이라 아이콘 그림 아래 빈칸(24칸 중 5.4)만큼 vertical-align으로 내림, 위·아래 음수 margin은 줄 높이 안 늘리려고 */
+.say{--i:18px;--p:4px;background:none;border:0;padding:var(--p) 6px;margin:calc(-1*var(--p) - var(--i)*.25) 0 calc(-1*var(--p) - var(--i)*5.4/24) 4px;cursor:pointer;color:#8a8a8a;line-height:0;vertical-align:calc(var(--i)*-5.4/24);-webkit-tap-highlight-color:transparent}
+.say svg{display:block;width:var(--i);height:var(--i)}
 .say:hover,.say.on{color:var(--ink)}.say:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
-.say.big{margin:0 0 0 .12em;padding:6px;vertical-align:middle;position:relative;top:-.05em}.say.big svg{width:.36em;height:.36em;min-width:26px;min-height:26px}.acts{display:flex;justify-content:center;gap:6px}.acts .sv.big{margin-top:16px}
-.doc h2{display:flex;align-items:center}.doc h2 .say{margin:-8px 0 -8px 6px;padding:6px;line-height:0}.doc h2 .say svg{display:block;width:20px;height:20px}
-.cat-head h2 .say{margin:0 0 0 14px;padding:6px;vertical-align:middle;position:relative;top:-.13em}.cat-head h2 .say svg{display:block;width:28px;height:28px}
+.say.big{--i:26px;--p:6px;margin-left:.12em}.acts{display:flex;justify-content:center;gap:6px}.acts .sv.big{margin-top:16px}
+.doc h2 .say{--i:20px;--p:6px;margin-left:6px}
+.cat-head h2 .say{--i:28px;--p:6px;margin-left:14px}
 .rows .reading{background:#fff3a8;transition:background .2s}
 h2:has(+ .quiz:not(.solved)) .qsay{display:none}
 .doc .reading{background:#fff3a8;transition:background .2s}
