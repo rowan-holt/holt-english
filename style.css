@@ -92,7 +92,9 @@ body.memo-en .grid .card:not(.open):hover .k,body.memo-ko .grid .card:not(.open)
 .mine-tools button[data-mt=reset]:hover{color:#c0392b}
 .fc{position:fixed;inset:0;z-index:50;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 16px;gap:18px}
 .fc-top{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line)}
-.fc-n{font-family:"Jost",sans-serif;font-size:15px}.fc-x{border:0;background:none;font-size:20px;cursor:pointer;padding:4px 8px}
+.fc-n{font-size:14px;flex:1}
+.fc-dir{display:flex;gap:4px}.fc-dir button{border:1px solid var(--ink);background:#fff;font:inherit;font-size:13px;padding:5px 11px;cursor:pointer}
+.fc-dir button.on{background:var(--ink);color:#fff}.fc-x{flex:1;text-align:right}.fc-x{border:0;background:none;font-size:20px;cursor:pointer;padding:4px 8px}
 .fc-card{width:min(560px,100%);min-height:280px;border:1px solid var(--ink);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:32px 24px;cursor:pointer;background:#fff;outline:0}
 .fc-front{font-family:"Jost",sans-serif;font-weight:500;font-size:clamp(28px,6vw,46px);line-height:1.2}.fc-front.ko{font-family:var(--sans);font-weight:700;font-size:clamp(22px,4.6vw,32px)}
 .fc-back{margin-top:20px;font-size:19px;color:var(--ink2);visibility:hidden}.fc-back:not(.ko){font-family:"Jost",sans-serif;font-size:24px;color:var(--ink)}
@@ -189,7 +191,8 @@ footer.site .c{text-align:right;align-self:end}
 .pager{gap:2px}.pager button{min-width:34px;height:36px}
 .recent .posts{grid-template-columns:1fr}.post{border-right:0!important;border-bottom:1px solid var(--line)}.post:last-child{border-bottom:0}
 .listfoot{grid-template-columns:1fr;padding:0 12px}.listfoot .pager{grid-column:1}.mine-tools{grid-column:1;justify-self:center;padding-bottom:10px}
-.cat-head .fc-open{font-size:12.5px;padding:4px 9px}.psize span{display:none}
+.cat-head .fc-open{font-size:12.5px;padding:4px 9px}
+.fc-top{flex-wrap:wrap;row-gap:10px;padding:12px 14px}.fc-dir{order:3;width:100%}.fc-dir button{flex:1;padding:7px 4px;font-size:12.5px}.psize span{display:none}
 .memo button{font-size:12.5px;width:78px}
 .chips .sub{grid-column:1/-1;justify-content:center;gap:28px;padding:10px 0}
 .chips .sub a{padding:0;font-size:13px;border:0;grid-column:auto}
