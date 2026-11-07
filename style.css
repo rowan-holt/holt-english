@@ -74,6 +74,12 @@ body.memo-en .grid .card:not(.open):hover .k,body.memo-ko .grid .card:not(.open)
 .cat-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;padding:40px 24px 14px;border-bottom:1px solid var(--line)}
 .cat-head h2{margin:0;font-family:var(--latin);font-weight:400;font-size:clamp(26px,3vw,44px);line-height:1.2}
 .cat-head h2 small{font-size:.45em;color:var(--gray);margin-left:10px}
+.psize{margin-left:auto;display:flex;align-items:center;gap:2px;font-size:13px;color:var(--gray)}
+.psize button{border:0;background:none;font:inherit;font-family:"Jost",sans-serif;font-size:13px;color:var(--ink2);padding:3px 7px;cursor:pointer}
+.psize button.on{background:var(--ink);color:#fff}.psize span{margin-left:4px}
+.pager{display:flex;justify-content:center;align-items:center;gap:4px;padding:30px 16px 6px;flex-wrap:wrap}
+.pager button{min-width:38px;height:38px;border:1px solid transparent;background:none;font-family:"Jost",sans-serif;font-size:15px;color:var(--ink);cursor:pointer}
+.pager button:hover{border-color:#bbb}.pager button.on{border-color:var(--ink);font-weight:500}.pager span{color:var(--gray);padding:0 4px}
 .cat-head .more{font-size:14px;color:var(--ink2);white-space:nowrap}.cat-head .more:hover{text-decoration:underline;text-underline-offset:4px}
 .cat-desc{margin:0;padding:14px 24px;color:var(--ink2);border-bottom:1px solid var(--line)}
 /* 단어 격자 — 선으로만 나눈 칸, 단어가 주인공 */
@@ -154,6 +160,7 @@ footer.site .c{text-align:right;align-self:end}
 .tools{position:sticky;top:0;z-index:6;margin:0;padding:8px 12px 9px 16px;border-bottom:1px solid var(--line);gap:12px}
 .tools .q{flex:1;min-width:0;padding:0}.tools .q input{flex:1;min-width:0;width:auto;font-size:16px}
 .qhead{padding:30px 16px 12px}
+.pager{gap:2px}.pager button{min-width:34px;height:36px}
 .memo button{font-size:12.5px;width:78px}
 .chips .sub{grid-column:1/-1;justify-content:center;gap:28px;padding:10px 0}
 .chips .sub a{padding:0;font-size:13px;border:0;grid-column:auto}
