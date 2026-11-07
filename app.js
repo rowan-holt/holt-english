@@ -144,14 +144,16 @@ function psGet(){try{return +localStorage.getItem('holt_ps')||30}catch(e){return
 function setupList(ul){var it=ul.children,n=it.length,ps=psGet(),head=ul.previousElementSibling;
 var nx=ul.nextElementSibling,foot=(nx&&nx.classList.contains('listfoot'))?nx:(ul.parentNode.querySelector(':scope > .listfoot'));if(nx&&nx.classList.contains('pager'))nx.remove();
 if(head&&head.classList.contains('cat-head')){var o=head.querySelector('.psize');if(o)o.remove();
-if(n>10)head.insertAdjacentHTML('beforeend','<div class="psize">'+[10,30,50,100].map(function(k){return '<button type="button" data-ps="'+k+'"'+(k===ps?' class="on"':'')+'>'+k+'</button>'}).join('')+'<span>개씩 보기</span></div>')}
+head.classList.remove('has-ps');
+if(n>10){head.insertAdjacentHTML('beforeend','<div class="psize">'+[10,30,50,100].map(function(k){return '<button type="button" data-ps="'+k+'"'+(k===ps?' class="on"':'')+'>'+k+'</button>'}).join('')+'<span>개씩 보기</span></div>');
+var sp=head.querySelector('h2 .say');if(sp){var cl=sp.cloneNode(true);cl.classList.add('ps-say');head.querySelector('.psize').insertBefore(cl,head.querySelector('.psize').firstChild);head.classList.add('has-ps')}}}   // 모바일: 두 줄일 때 스피커를 아래 줄 왼쪽으로
 var pages=Math.max(1,Math.ceil(n/ps)),cur=ul._p||+(new URLSearchParams(location.search).get('p'))||1;cur=Math.min(Math.max(1,cur),pages);ul._p=cur;
 for(var i=0;i<n;i++)it[i].style.display=(i>=(cur-1)*ps&&i<cur*ps)?'':'none';
 if(foot)foot.querySelector('.pager').innerHTML='';if(pages<2)return;var b=[],add=function(p,l,on){b.push('<button type="button" data-p="'+p+'"'+(on?' class="on" aria-current="page"':'')+'>'+l+'</button>')};
 if(cur>1)add(cur-1,'‹');var last=0;for(var p=1;p<=pages;p++){if(p===1||p===pages||Math.abs(p-cur)<=(innerWidth<700?1:2)){if(last&&p-last>1)b.push('<span>…</span>');add(p,p,p===cur);last=p}}
 if(cur<pages)add(cur+1,'›');if(foot){foot.querySelector('.pager').innerHTML=b.join('');return}ul.insertAdjacentHTML('afterend','<nav class="pager" aria-label="페이지">'+b.join('')+'</nav>')}
 function paginate(){var uls=document.querySelectorAll('main ul.rows');for(var i=0;i<uls.length;i++)if(!uls[i].closest('#found'))setupList(uls[i])}
-document.addEventListener('click',function(ev){var t=ev.target.closest&&ev.target.closest('.pager button,.psize button');if(!t)return;
+document.addEventListener('click',function(ev){var t=ev.target.closest&&ev.target.closest('.pager button,.psize button[data-ps]');if(!t)return;
 if(t.hasAttribute('data-ps')){try{localStorage.setItem('holt_ps',t.getAttribute('data-ps'))}catch(e){}var uls=document.querySelectorAll('main ul.rows');for(var i=0;i<uls.length;i++)uls[i]._p=1;setP(1);paginate();return}
 var pg=t.closest('.pager'),ul=pg.parentNode.classList.contains('listfoot')?pg.parentNode.parentNode.querySelector('ul.rows'):pg.previousElementSibling,p=+t.getAttribute('data-p');ul._p=p;setP(p);setupList(ul);
 var h=ul.previousElementSibling||ul;window.scrollTo(0,h.getBoundingClientRect().top+scrollY-70)});

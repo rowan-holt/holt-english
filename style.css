@@ -126,7 +126,7 @@ h2:has(+ .quiz:not(.solved)) .qsay{display:none}
 .fc-btns .fc-ok{background:var(--ink);color:#fff}.fc-hint{margin:0;color:var(--gray);font-size:13px}
 .psize{margin-left:auto;display:flex;align-items:center;gap:2px;font-size:13px;color:var(--gray)}
 .psize button{border:0;background:none;font:inherit;font-family:"Jost",sans-serif;font-size:13px;color:var(--ink2);padding:3px 7px;cursor:pointer}
-.psize button.on{background:var(--ink);color:#fff}.psize span{margin-left:4px}
+.psize button.on{background:var(--ink);color:#fff}.psize span{margin-left:4px}.psize .ps-say{display:none}
 .pager{display:flex;justify-content:center;align-items:center;gap:4px;padding:30px 16px 6px;flex-wrap:wrap}
 .pager button{min-width:38px;height:38px;border:1px solid transparent;background:none;font-family:"Jost",sans-serif;font-size:15px;color:var(--ink);cursor:pointer}
 .pager button:hover{border-color:#bbb}.pager button.on{border-color:var(--ink);font-weight:500}.pager span{color:var(--gray);padding:0 4px}
@@ -227,6 +227,8 @@ footer.site{position:relative}footer.site .install{position:absolute;left:50%;to
 .cat-head{row-gap:8px}#mine .cat-head{align-items:baseline}#mine .cat-head .ctl{width:auto;margin:0 0 0 auto;align-self:baseline}#mine .cat-head .fc-open{border:0;padding:4px 0;font-size:14px;text-decoration:underline;text-underline-offset:4px;text-decoration-color:#bbb}#mine .cat-head .fc-open:hover{background:none;color:var(--ink)}
 .fc-top{flex-wrap:wrap;row-gap:10px;padding:12px 14px}.fc-dir{order:3;width:100%}.fc-dir button{flex:1;padding:7px 4px;font-size:12.5px}
 .cat-head .psize,.cat-head .ctl~.psize{width:100%;margin-left:0;justify-content:flex-end}
+.cat-head.has-ps h2 .say{display:none}.cat-head.has-ps .psize .ps-say{display:block;--i:28px;--p:6px;margin:0 auto 0 -11px;padding:var(--p) 6px;color:#8a8a8a}
+.fc{justify-content:flex-start;padding-top:0;overflow-y:auto}.fc-top{position:static;align-self:stretch;margin:0 -16px;flex:none}.fc-card{margin-top:auto}.fc-say{margin-bottom:auto!important}
 .memo button{font-size:12.5px;width:78px}
 .chips .sub{grid-column:1/-1;justify-content:center;gap:28px;padding:10px 0}
 .chips .sub a{padding:0;font-size:13px;border:0;grid-column:auto}
