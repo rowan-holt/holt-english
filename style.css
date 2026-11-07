@@ -182,7 +182,8 @@ display:grid;grid-template-columns:auto 1fr auto;gap:20px 48px;align-items:start
 footer.site .logo-s{font-family:"Jost",sans-serif;font-weight:600;color:#fff;font-size:17px;letter-spacing:.04em}
 footer.site nav{display:flex;gap:10px;flex-wrap:wrap;color:#fff}footer.site nav span{opacity:.5}
 footer.site .c{text-align:right;align-self:end}
-@media (max-width:1000px){.recent .posts{grid-template-columns:repeat(2,minmax(0,1fr))}.post:nth-child(2n){border-right:0}
+footer.site{position:relative}footer.site .install{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:#fff;border:1px solid #fff;padding:7px 18px;font-size:14px;line-height:1.4}footer.site .install:hover{background:#fff;color:#000}footer.site .install[hidden]{display:none}
+@media (max-width:1000px){footer.site .install{position:static;transform:none;grid-column:2;justify-self:start;margin-top:-6px}.recent .posts{grid-template-columns:repeat(2,minmax(0,1fr))}.post:nth-child(2n){border-right:0}
 .post:nth-child(-n+2){border-bottom:1px solid var(--line)}.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.grid .card:nth-child(4n){border-right:1px solid var(--line)}
 .grid .card:nth-child(3n){border-right:0}}
 @media (max-width:700px){.top{grid-template-columns:1fr auto;padding:8px 16px;row-gap:2px}
@@ -216,7 +217,7 @@ footer.site .c{text-align:right;align-self:end}
 .card b{font-size:26px}.card b.m{font-size:21px}.card b.l{font-size:16.5px}.card .k{font-size:14px}
 .intro{flex-direction:column;padding:30px 16px 14px}.cat-head{padding:30px 16px 12px}.cat-desc{padding:12px 16px}
 .chips a{padding:10px 14px;font-size:14px}.alpha{padding:0 16px}.alpha li{margin-right:0}
-footer.site{grid-template-columns:1fr;padding:32px 20px 40px}footer.site .c{text-align:left}
+footer.site{grid-template-columns:1fr;padding:32px 20px 40px}footer.site .c{text-align:left}footer.site .install{position:static;transform:none;grid-column:auto;justify-self:center;margin:4px 0 0}
 .term{grid-template-columns:1fr 1fr;grid-template-areas:"mid mid" "prev next";padding:40px 0 0}
 .term .mid{padding:0 16px 28px}
 .nav{flex-direction:row;gap:8px;padding:13px 16px;border-top:1px solid var(--line);min-height:50px}

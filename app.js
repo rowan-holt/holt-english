@@ -157,7 +157,16 @@ document.addEventListener('submit',function(ev){var i=ev.target.querySelector&&e
 if('IntersectionObserver' in window){var seen={},io=new IntersectionObserver(function(es){es.forEach(function(x){var id=x.target.getAttribute('data-ad');
 if(x.isIntersecting&&!seen[id]){seen[id]=1;track('ad_view',{ad_id:id,slot:x.target.getAttribute('data-slot')})}})},{threshold:.5});
 var ads=document.querySelectorAll('[data-ad]');for(var k=0;k<ads.length;k++)io.observe(ads[k])}
-if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost')){addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}
+if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost')){var SWR=null,HADC=!!navigator.serviceWorker.controller;
+addEventListener('load',function(){navigator.serviceWorker.register('/sw.js',{updateViaCache:'none'}).then(function(r){SWR=r}).catch(function(){})});
+navigator.serviceWorker.addEventListener('controllerchange',function(){if(HADC&&!sessionStorage.getItem('holt-swr')){try{sessionStorage.setItem('holt-swr','1')}catch(e){}location.reload()}})}
+function verCheck(){var m=document.querySelector('meta[name="holt-v"]');if(!m||!window.fetch)return;if(SWR_())SWR_().update().catch(function(){});
+fetch('/v.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.json()}).then(function(j){var k='holt-rv-'+j.v;
+if(j.v&&j.v!==m.content&&!sessionStorage.getItem(k)){try{sessionStorage.setItem(k,'1')}catch(e){}location.reload()}}).catch(function(){})}
+function SWR_(){return typeof SWR!=='undefined'?SWR:null}
+addEventListener('pageshow',function(e){if(e.persisted)verCheck()});
+document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible')verCheck()});
+setTimeout(verCheck,1500);
 var DEFER=null;addEventListener('beforeinstallprompt',function(e){e.preventDefault();DEFER=e;var b=document.querySelectorAll('.install');for(var i=0;i<b.length;i++)b[i].hidden=false});
 document.addEventListener('click',function(ev){var t=ev.target.closest&&ev.target.closest('.install');if(!t||!DEFER)return;ev.preventDefault();DEFER.prompt();DEFER.userChoice.then(function(r){track('app_install',{outcome:r.outcome});DEFER=null;t.hidden=true})});
 memoApply();render();search();sync();paginate();
