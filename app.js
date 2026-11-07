@@ -25,13 +25,12 @@ function render(){var box=document.getElementById('mine');if(!box)return;
 var c='';try{c=new URLSearchParams(location.search).get('c')||''}catch(e){}
 var subs=document.querySelectorAll('.chips .sub a');for(var i=0;i<subs.length;i++)subs[i].classList.toggle('on',subs[i].getAttribute('data-c')===c);
 var a=load(),h='',kn=knownGet();
-function list(l,title,empty){var nk=l.filter(function(x){return kn[x.s]}).length,hide=false;try{hide=localStorage.getItem('holt_hide_known')==='1'}catch(e){}
-var shown=(hide&&nk)?l.filter(function(x){return !kn[x.s]}):l;
+function list(l,title,empty){var nk=l.filter(function(x){return kn[x.s]}).length;
+var shown=l.filter(function(x){return !kn[x.s]}).concat(l.filter(function(x){return kn[x.s]}));   // 외운 것은 맨 아래로
 return '<div class="cat-head"><h2>'+title+'<small>'+l.length+(nk?' · 외움 '+nk:'')+'</small></h2><div class="ctl">'
-+(nk?'<button type="button" class="hide-kn'+(hide?' on':'')+'">'+(hide?'외운 것 보기':'외운 것 숨기기')+'</button>':'')
 +(l.length?'<button type="button" class="edit-mine">'+(EDIT?'완료':'편집')+'</button>':'')
 +(l.length?'<button type="button" class="fc-open">카드로 외우기</button>':'')+'</div></div>'
-+(shown.length?'<ul class="rows mine-rows">'+shown.map(function(x){return mrow(x,kn[x.s])}).join('')+'</ul>':'<p class="empty">'+(l.length?'모두 외웠어요. [외운 것 보기]를 누르면 다시 보여요.':empty)+'</p>')}
++(shown.length?'<ul class="rows mine-rows">'+shown.map(function(x){return mrow(x,kn[x.s])}).join('')+'</ul>':'<p class="empty">'+empty+'</p>')}
 if(c==='all'){h=list(a,'전체','저장한 것이 없습니다.')}
 else if(c&&name(c)){h=list(a.filter(function(x){return x.c===c}),name(c),'저장한 '+name(c)+ga(name(c))+' 없습니다.')}
 else{CATS.forEach(function(k){var l=a.filter(function(x){return x.c===k[0]});
