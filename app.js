@@ -21,26 +21,25 @@ function memoSet(m){try{m?localStorage.setItem('holt_memo',m):localStorage.remov
 function memoApply(){var m=document.querySelector('.memo')?memoGet():'',b=document.body;b.classList.toggle('memo-en',m==='en');b.classList.toggle('memo-ko',m==='ko');
 var bs=document.querySelectorAll('.memo button');for(var i=0;i<bs.length;i++){var on=bs[i].getAttribute('data-m')===m;bs[i].classList.toggle('on',on);bs[i].setAttribute('aria-pressed',on?'true':'false')}
 var o=document.querySelectorAll('.open');for(var j=0;j<o.length;j++)o[j].classList.remove('open')}
-function render(){var box=document.getElementById('mine');if(!box)return;
+function render(){var box=document.getElementById('mine');if(!box)return;CANEDIT=false;
 var c='';try{c=new URLSearchParams(location.search).get('c')||''}catch(e){}
 var subs=document.querySelectorAll('.chips .sub a');for(var i=0;i<subs.length;i++)subs[i].classList.toggle('on',subs[i].getAttribute('data-c')===c);
 var a=load(),h='',kn=knownGet();
-function list(l,title,empty){var nk=l.filter(function(x){return kn[x.s]}).length;
+function list(l,title,empty){CANEDIT=l.length>0;var nk=l.filter(function(x){return kn[x.s]}).length;
 var shown=l.filter(function(x){return !kn[x.s]}).concat(l.filter(function(x){return kn[x.s]}));   // 외운 것은 맨 아래로
 return '<div class="cat-head"><h2>'+title+'<small>'+l.length+(nk?' · 외움 '+nk:'')+'</small></h2><div class="ctl">'
-+(l.length?'<button type="button" class="edit-mine">'+(EDIT?'완료':'편집')+'</button>':'')
 +(l.length?'<button type="button" class="fc-open">카드로 외우기</button>':'')+'</div>'+'</div>'
 +(shown.length?'<ul class="rows mine-rows">'+shown.map(function(x){return mrow(x,kn[x.s])}).join('')+'</ul>':'<p class="empty">'+empty+'</p>')}
 if(c==='all'){h=list(a,'전체','저장한 것이 없습니다.')}
 else if(c&&name(c)){h=list(a.filter(function(x){return x.c===c}),name(c),'저장한 '+name(c)+ga(name(c))+' 없습니다.')}
 else{CATS.forEach(function(k){var l=a.filter(function(x){return x.c===k[0]});
 h+='<section>'+head(k[1],l.length,'saved.html?c='+k[0])+(l.length?'<div class="grid">'+l.map(card).join('')+'</div>':'<p class="empty">저장한 '+k[1]+ga(k[1])+' 없습니다.</p>')+'</section>'})}
-h+='<div class="listfoot"><nav class="pager" aria-label="페이지"></nav><div class="mine-tools"><button type="button" data-mt="reset">초기화</button></div></div>';
+h+='<div class="listfoot"><nav class="pager" aria-label="페이지"></nav><div class="mine-tools"><button type="button" data-mt="reset">초기화</button>'+(CANEDIT?'<span>·</span><button type="button" class="edit-mine'+(EDIT?' on':'')+'">'+(EDIT?'완료':'편집')+'</button>':'')+'</div></div>';
 box.innerHTML=h;memoApply();sync();if(typeof paginate==='function')paginate()}
 var KK='holt_known_v1';
 function knownGet(){try{var o=JSON.parse(localStorage.getItem(KK));return o&&typeof o==='object'?o:{}}catch(e){return {}}}
 function knownSet(o){try{localStorage.setItem(KK,JSON.stringify(o))}catch(e){}}
-var EDIT=false;
+var EDIT=false,CANEDIT=false;
 function mrow(x,k){return '<li class="row'+(k?' known':'')+'"><a href="e/'+esc(x.s)+'.html"><b>'+esc(x.p)+'</b><span>'+esc(x.k)+'</span></a>'
 +(EDIT?'<button type="button" class="rm" data-s="'+esc(x.s)+'">빼기</button>'
 :'<button type="button" class="kn'+(k?' on':'')+'" data-s="'+esc(x.s)+'" aria-pressed="'+(k?'true':'false')+'" aria-label="외움 표시" title="외움 표시">✓</button>')
