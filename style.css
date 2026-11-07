@@ -124,6 +124,9 @@ details[open] summary{background:var(--ink);color:#fff}
 .meta a{text-decoration:underline}
 .occ+.occ{margin-top:40px}
 .ad{margin:28px 0}
+.ad.direct{position:relative;text-align:center;margin:28px auto;max-width:740px;padding:0 16px}
+.ad.direct img{display:block;max-width:100%;height:auto;margin:0 auto;border:1px solid #ddd}
+.ad-label{display:block;text-align:left;font-size:11px;color:var(--gray);letter-spacing:.05em;margin-bottom:4px}
 .fix{list-style:none;padding:0;margin:0;display:grid;gap:10px}
 .fix li{background:var(--soft);padding:14px 18px}
 .fix p{margin:0}.x{text-decoration:line-through;color:var(--gray)}.o{font-weight:700}
