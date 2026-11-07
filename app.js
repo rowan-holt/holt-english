@@ -166,7 +166,16 @@ function SWR_(){return typeof SWR!=='undefined'?SWR:null}
 addEventListener('pageshow',function(e){if(e.persisted)verCheck()});
 document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible')verCheck()});
 setTimeout(verCheck,1500);
-var DEFER=null;addEventListener('beforeinstallprompt',function(e){e.preventDefault();DEFER=e;var b=document.querySelectorAll('.install');for(var i=0;i<b.length;i++)b[i].hidden=false});
-document.addEventListener('click',function(ev){var t=ev.target.closest&&ev.target.closest('.install');if(!t||!DEFER)return;ev.preventDefault();DEFER.prompt();DEFER.userChoice.then(function(r){track('app_install',{outcome:r.outcome});DEFER=null;t.hidden=true})});
+var DEFER=null,STANDALONE=(window.matchMedia&&matchMedia('(display-mode: standalone)').matches)||navigator.standalone===true;
+if(!STANDALONE){var ib=document.querySelectorAll('.install');for(var i=0;i<ib.length;i++)ib[i].hidden=false}
+addEventListener('beforeinstallprompt',function(e){e.preventDefault();DEFER=e});
+addEventListener('appinstalled',function(){track('app_install',{outcome:'installed'})});
+function installGuide(){var ios=/iPhone|iPad|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+var msg=ios?'Safari 아래쪽 <b>공유 버튼</b>을 누른 뒤 <b>홈 화면에 추가</b>를 누르세요.':'브라우저 메뉴(⋮)에서 <b>홈 화면에 추가</b> 또는 <b>앱 설치</b>를 누르세요.';
+var d=document.createElement('div');d.className='ig';d.setAttribute('role','dialog');d.setAttribute('aria-label','앱으로 설치');
+d.innerHTML='<div class="ig-box"><h3>앱으로 설치</h3><p>'+msg+'</p><p class="ig-s">이미 설치했다면 홈 화면의 HOLT ENGLISH 아이콘으로 열면 됩니다.</p><button type="button" class="ig-x">확인</button></div>';
+document.body.appendChild(d);d.addEventListener('click',function(ev){if(ev.target===d||ev.target.classList.contains('ig-x'))d.remove()});track('app_install',{outcome:'guide'})}
+document.addEventListener('click',function(ev){var t=ev.target.closest&&ev.target.closest('.install');if(!t)return;ev.preventDefault();
+if(!DEFER){installGuide();return}DEFER.prompt();DEFER.userChoice.then(function(r){track('app_install',{outcome:r.outcome});DEFER=null;if(r.outcome==='accepted')t.hidden=true})});
 memoApply();render();search();sync();paginate();
 })();
