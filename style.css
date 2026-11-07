@@ -112,7 +112,6 @@ body.memo-en .grid .card:not(.open):hover .k,body.memo-ko .grid .card:not(.open)
 .psize{margin-left:auto;display:flex;align-items:center;gap:2px;font-size:13px;color:var(--gray)}
 .psize button{border:0;background:none;font:inherit;font-family:"Jost",sans-serif;font-size:13px;color:var(--ink2);padding:3px 7px;cursor:pointer}
 .psize button.on{background:var(--ink);color:#fff}.psize span{margin-left:4px}
-.cat-head .kn-hint{order:9;width:100%;margin:0;font-size:13px;color:var(--gray);line-height:1.5}.cat-head .kn-hint b{display:inline-block;width:18px;height:18px;line-height:16px;border:1px solid #c8c8c8;color:#bbb;text-align:center;font-weight:400;font-size:11px;margin:0 2px;vertical-align:-3px}
 .pager{display:flex;justify-content:center;align-items:center;gap:4px;padding:30px 16px 6px;flex-wrap:wrap}
 .pager button{min-width:38px;height:38px;border:1px solid transparent;background:none;font-family:"Jost",sans-serif;font-size:15px;color:var(--ink);cursor:pointer}
 .pager button:hover{border-color:#bbb}.pager button.on{border-color:var(--ink);font-weight:500}.pager span{color:var(--gray);padding:0 4px}
