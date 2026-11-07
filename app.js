@@ -57,11 +57,11 @@ var items=[];for(var i=0;i<lis.length;i++){var s=lis[i].querySelector('.sv').get
 var todo=items.filter(function(x){return !kn[x.s]});if(!todo.length)todo=items.slice();
 for(var j=todo.length-1;j>0;j--){var r=Math.floor(Math.random()*(j+1)),t=todo[j];todo[j]=todo[r];todo[r]=t}
 FC={q:todo,total:todo.length,done:0,ko:memoGet()==='ko'};
-document.body.insertAdjacentHTML('beforeend','<div class="fc" role="dialog" aria-label="카드로 외우기"><div class="fc-top"><span class="fc-n"></span><button type="button" class="fc-x" aria-label="닫기">✕</button></div><div class="fc-card" tabindex="0"></div><div class="fc-btns"><button type="button" class="fc-again">다시 볼래요</button><button type="button" class="fc-ok">외웠어요</button></div><p class="fc-hint">카드를 누르면 뒷면이 보여요</p></div>');
+document.body.insertAdjacentHTML('beforeend','<div class="fc" role="dialog" aria-label="카드로 외우기"><div class="fc-top"><span class="fc-n"></span><button type="button" class="fc-x" aria-label="닫기">✕</button></div><div class="fc-card" tabindex="0"></div><div class="fc-btns"><button type="button" class="fc-again">아직 몰라요<small>조금 뒤 다시 나와요</small></button><button type="button" class="fc-ok">알아요<small>외움 ✓ 표시하고 넘어가요</small></button></div><p class="fc-hint">카드를 누르면 뒷면이 보여요</p></div>');
 document.body.style.overflow='hidden';fcShow();track('flashcard_open',{n:todo.length})}
 function fcShow(){var el=document.querySelector('.fc');if(!el)return;var card=el.querySelector('.fc-card');card.classList.remove('flipped');
-el.querySelector('.fc-n').textContent=Math.min(FC.done+1,FC.total)+' / '+FC.total;
-if(!FC.q.length){card.innerHTML='<div class="fc-front">다 외웠어요</div><div class="fc-back" style="visibility:visible">'+FC.total+'개를 끝까지 봤어요</div>';el.querySelector('.fc-btns').style.display='none';el.querySelector('.fc-hint').style.display='none';return}
+el.querySelector('.fc-n').textContent='남은 카드 '+FC.q.length+' · 외움 '+FC.done;
+if(!FC.q.length){card.innerHTML='<div class="fc-front">끝!</div><div class="fc-back" style="visibility:visible">'+FC.total+'개 모두 외움 ✓ 표시했어요</div>';el.querySelector('.fc-btns').style.display='none';el.querySelector('.fc-hint').style.display='none';return}
 var x=FC.q[0],f=FC.ko?x.k:x.p,b=FC.ko?x.p:x.k;card.innerHTML='<div class="fc-front'+(FC.ko?' ko':'')+'">'+esc(f)+'</div><div class="fc-back'+(FC.ko?'':' ko')+'">'+esc(b)+'</div>'}
 function fcClose(){var el=document.querySelector('.fc');if(el)el.remove();document.body.style.overflow='';FC=null;render()}
 document.addEventListener('click',function(ev){var t=ev.target.closest&&ev.target.closest('.kn,.mine-tools button,.fc-open,.fc-x,.fc-card,.fc-again,.fc-ok');if(!t)return;
