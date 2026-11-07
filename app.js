@@ -25,10 +25,12 @@ function render(){var box=document.getElementById('mine');if(!box)return;
 var c='';try{c=new URLSearchParams(location.search).get('c')||''}catch(e){}
 var subs=document.querySelectorAll('.chips .sub a');for(var i=0;i<subs.length;i++)subs[i].classList.toggle('on',subs[i].getAttribute('data-c')===c);
 var a=load(),h='',kn=knownGet();
-function list(l,title,empty){l=l.filter(function(x){return !kn[x.s]}).concat(l.filter(function(x){return kn[x.s]}));
-var nk=l.filter(function(x){return kn[x.s]}).length;
-return '<div class="cat-head"><h2>'+title+'<small>'+l.length+(nk?' · 외움 '+nk:'')+'</small></h2>'+(l.length?'<button type="button" class="fc-open">카드로 외우기</button>':'')+'</div>'
-+(l.length?'<ul class="rows mine-rows">'+l.map(function(x){return mrow(x,kn[x.s])}).join('')+'</ul>':'<p class="empty">'+empty+'</p>')}
+function list(l,title,empty){var nk=l.filter(function(x){return kn[x.s]}).length,hide=false;try{hide=localStorage.getItem('holt_hide_known')==='1'}catch(e){}
+var shown=(hide&&nk)?l.filter(function(x){return !kn[x.s]}):l;
+return '<div class="cat-head"><h2>'+title+'<small>'+l.length+(nk?' · 외움 '+nk:'')+'</small></h2>'
++(nk?'<button type="button" class="hide-kn'+(hide?' on':'')+'">'+(hide?'외운 것 보기':'외운 것 숨기기')+'</button>':'')
++(l.length?'<button type="button" class="fc-open">카드로 외우기</button>':'')+'</div>'
++(shown.length?'<ul class="rows mine-rows">'+shown.map(function(x){return mrow(x,kn[x.s])}).join('')+'</ul>':'<p class="empty">'+(l.length?'모두 외웠어요. [외운 것 보기]를 누르면 다시 보여요.':empty)+'</p>')}
 if(c==='all'){h=list(a,'전체','저장한 것이 없습니다.')}
 else if(c&&name(c)){h=list(a.filter(function(x){return x.c===c}),name(c),'저장한 '+name(c)+ga(name(c))+' 없습니다.')}
 else{CATS.forEach(function(k){var l=a.filter(function(x){return x.c===k[0]});
@@ -67,9 +69,10 @@ var ds=el.querySelectorAll('.fc-dir button');for(var i=0;i<ds.length;i++)ds[i].c
 el.querySelector('.fc-hint').textContent=FC.ko?'카드를 누르면 영어가 보여요':'카드를 누르면 뜻이 보여요';
 var x=FC.q[0],f=FC.ko?x.k:x.p,b=FC.ko?x.p:x.k;card.innerHTML='<div class="fc-front'+(FC.ko?' ko':'')+'">'+esc(f)+'</div><div class="fc-back'+(FC.ko?'':' ko')+'">'+esc(b)+'</div>'}
 function fcClose(){var el=document.querySelector('.fc');if(el)el.remove();document.body.style.overflow='';FC=null;render()}
-document.addEventListener('click',function(ev){var t=ev.target.closest&&ev.target.closest('.kn,.mine-tools button,.fc-open,.fc-x,.fc-card,.fc-again,.fc-ok,.fc-dir button');if(!t)return;
+document.addEventListener('click',function(ev){var t=ev.target.closest&&ev.target.closest('.kn,.hide-kn,.mine-tools button,.fc-open,.fc-x,.fc-card,.fc-again,.fc-ok,.fc-dir button');if(!t)return;
 if(t.hasAttribute('data-d')){if(!FC)return;FC.ko=t.getAttribute('data-d')==='ko';try{localStorage.setItem('holt_fc_dir',FC.ko?'ko':'en')}catch(e){}fcShow();return}
 if(t.classList.contains('kn')){var kn=knownGet(),s=t.getAttribute('data-s');if(kn[s])delete kn[s];else kn[s]=1;knownSet(kn);render();track('known_toggle',{item:s});return}
+if(t.classList.contains('hide-kn')){try{localStorage.setItem('holt_hide_known',t.classList.contains('on')?'0':'1')}catch(e){}render();return}
 if(t.hasAttribute('data-mt'))return mineTool(t.getAttribute('data-mt'));
 if(t.classList.contains('fc-open'))return fcOpen();
 if(t.classList.contains('fc-x'))return fcClose();
