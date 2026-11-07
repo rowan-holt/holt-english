@@ -25,7 +25,7 @@ function render(){var box=document.getElementById('mine');if(!box)return;
 var c='';try{c=new URLSearchParams(location.search).get('c')||''}catch(e){}
 var subs=document.querySelectorAll('.chips .sub a');for(var i=0;i<subs.length;i++)subs[i].classList.toggle('on',subs[i].getAttribute('data-c')===c);
 var a=load(),h='';
-if(c==='all'){h='<div class="cat-head"><h2>전부<small>'+a.length+'</small></h2></div>'+(a.length?'<ul class="rows">'+a.map(row).join('')+'</ul>':'<p class="empty">저장한 것이 없습니다.</p>')}
+if(c==='all'){h='<div class="cat-head"><h2>전체<small>'+a.length+'</small></h2></div>'+(a.length?'<ul class="rows">'+a.map(row).join('')+'</ul>':'<p class="empty">저장한 것이 없습니다.</p>')}
 else if(c&&name(c)){var l=a.filter(function(x){return x.c===c});
 h='<div class="cat-head"><h2>'+name(c)+'<small>'+l.length+'</small></h2></div>'+(l.length?'<ul class="rows">'+l.map(row).join('')+'</ul>':'<p class="empty">저장한 '+name(c)+ga(name(c))+' 없습니다.</p>')}
 else{CATS.forEach(function(k){var l=a.filter(function(x){return x.c===k[0]});
@@ -79,7 +79,7 @@ function psGet(){try{return +localStorage.getItem('holt_ps')||30}catch(e){return
 function setupList(ul){var it=ul.children,n=it.length,ps=psGet(),head=ul.previousElementSibling;
 var nx=ul.nextElementSibling;if(nx&&nx.classList.contains('pager'))nx.remove();
 if(head&&head.classList.contains('cat-head')){var o=head.querySelector('.psize');if(o)o.remove();
-if(n>10)head.insertAdjacentHTML('beforeend','<div class="psize">'+[10,30,50,100].map(function(k){return '<button type="button" data-ps="'+k+'"'+(k===ps?' class="on"':'')+'>'+k+'</button>'}).join('')+'<span>개씩</span></div>')}
+if(n>10)head.insertAdjacentHTML('beforeend','<div class="psize">'+[10,30,50,100].map(function(k){return '<button type="button" data-ps="'+k+'"'+(k===ps?' class="on"':'')+'>'+k+'</button>'}).join('')+'<span>개씩 보기</span></div>')}
 var pages=Math.max(1,Math.ceil(n/ps)),cur=ul._p||+(new URLSearchParams(location.search).get('p'))||1;cur=Math.min(Math.max(1,cur),pages);ul._p=cur;
 for(var i=0;i<n;i++)it[i].style.display=(i>=(cur-1)*ps&&i<cur*ps)?'':'none';
 if(pages<2)return;var b=[],add=function(p,l,on){b.push('<button type="button" data-p="'+p+'"'+(on?' class="on" aria-current="page"':'')+'>'+l+'</button>')};
