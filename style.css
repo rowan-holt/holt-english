@@ -30,7 +30,8 @@ border-bottom:1px solid var(--line);background:var(--bg);position:sticky;top:0;z
 /* 한 줄 목록: 영어  뜻 */
 .rows{list-style:none;margin:0;padding:0}
 .row{display:flex;align-items:center;gap:12px;padding:0 16px 0 24px;border-bottom:1px solid #ddd}
-.row a{flex:1;min-width:0;display:flex;align-items:baseline;gap:8px 24px;flex-wrap:wrap;padding:15px 0}
+.rows{max-width:none}
+.row a{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;padding:15px 0}
 .row a b{font-family:"Jost",sans-serif;font-weight:500;font-size:21px;line-height:1.35}
 .row a span{color:var(--ink2);font-size:15.5px;line-height:1.5}
 .row a:hover b{text-decoration:underline;text-underline-offset:4px}
