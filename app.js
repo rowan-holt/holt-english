@@ -1,7 +1,8 @@
 (function(){
 var K='holt_saved_v1',CATS=[['word','단어'],['phrase','표현'],['sentence','문장']];
 var ICON='<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M5 3h14v18l-7-6.2L5 21z"/></svg>';
-function load(){try{var a=JSON.parse(localStorage.getItem(K));return Array.isArray(a)?a:[]}catch(e){return []}}
+function load(){try{var a=JSON.parse(localStorage.getItem(K));if(!Array.isArray(a))return [];
+return a.map(function(x){if(x.c==='sentence'){x.p=String(x.p||'').replace(/\.\s*$/,'');x.k=String(x.k||'').replace(/\.\s*$/,'')}return x})}catch(e){return []}}
 function store(a){try{localStorage.setItem(K,JSON.stringify(a))}catch(e){}}
 function has(a,s){for(var i=0;i<a.length;i++)if(a[i].s===s)return true;return false}
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
@@ -24,7 +25,8 @@ function render(){var box=document.getElementById('mine');if(!box)return;
 var c='';try{c=new URLSearchParams(location.search).get('c')||''}catch(e){}
 var subs=document.querySelectorAll('.chips .sub a');for(var i=0;i<subs.length;i++)subs[i].classList.toggle('on',subs[i].getAttribute('data-c')===c);
 var a=load(),h='';
-if(c&&name(c)){var l=a.filter(function(x){return x.c===c});
+if(c==='all'){h='<div class="cat-head"><h2>전부<small>'+a.length+'</small></h2></div>'+(a.length?'<ul class="rows">'+a.map(row).join('')+'</ul>':'<p class="empty">저장한 것이 없습니다.</p>')}
+else if(c&&name(c)){var l=a.filter(function(x){return x.c===c});
 h='<div class="cat-head"><h2>'+name(c)+'<small>'+l.length+'</small></h2></div>'+(l.length?'<ul class="rows">'+l.map(row).join('')+'</ul>':'<p class="empty">저장한 '+name(c)+ga(name(c))+' 없습니다.</p>')}
 else{CATS.forEach(function(k){var l=a.filter(function(x){return x.c===k[0]});
 h+='<section>'+head(k[1],l.length,'saved.html?c='+k[0])+(l.length?'<div class="grid">'+l.map(card).join('')+'</div>':'<p class="empty">저장한 '+k[1]+ga(k[1])+' 없습니다.</p>')+'</section>'})}
