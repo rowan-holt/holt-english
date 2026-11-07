@@ -57,26 +57,32 @@ if(t==='reset'){if(!a.length&&!Object.keys(kn).length)return;
 if(confirm('내 학습장을 모두 비울까요? 저장한 '+a.length+'개와 외움 표시가 지워지고 되돌릴 수 없어요.')){store([]);knownSet({});render();track('mine_reset',{n:a.length})}}}
 var FC=null;
 var SPK='<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path d="M15.5 8.8a4.2 4.2 0 0 1 0 6.4M18.2 6.2a8 8 0 0 1 0 11.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',AU=null,AUB=null;
-function sayStop(){if(AU){AU.pause();AU=null}if(AUB){AUB.classList.remove('on');AUB=null}}
+function sayMark(){var r=document.querySelectorAll('.reading');for(var i=0;i<r.length;i++)r[i].classList.remove('reading')}
+function sayStop(){if(AU){AU.pause();AU=null}if(AUB){AUB.classList.remove('on');AUB=null}sayMark()}
 document.addEventListener('click',function(ev){var b=ev.target.closest&&ev.target.closest('.say');if(!b)return;ev.preventDefault();ev.stopPropagation();
-var same=AUB===b;sayStop();if(same)return;AUB=b;b.classList.add('on');AU=new Audio('/a/'+b.getAttribute('data-a')+'.mp3');
-AU.onended=AU.onerror=function(){if(AUB===b)sayStop()};AU.play().catch(function(){sayStop()});track('listen',{a:b.getAttribute('data-a')})},true);
+var same=AUB===b;sayStop();if(same)return;AUB=b;b.classList.add('on');
+var L=b.getAttribute('data-a').split(' '),h=b.closest('h2'),i=0,S=[];for(var n=h&&h.nextElementSibling;n&&n.tagName!=='H2';n=n.nextElementSibling)S.push(n);
+function nx(){if(AUB!==b)return;sayMark();if(i>=L.length)return sayStop();var f=L[i++];
+S.forEach(function(n){var m=n.matches('[data-ai="'+f+'"]')?[n]:n.querySelectorAll('[data-ai="'+f+'"]');for(var j=0;j<m.length;j++)m[j].classList.add('reading')});
+var a=AU=new Audio('/a/'+f+'.mp3');a.onended=function(){if(AU===a)setTimeout(function(){if(AU===a)nx()},350)};a.onerror=function(){if(AU===a)nx()};
+a.play().catch(function(){if(AU===a)sayStop()})}
+nx();track('listen',{a:L.length>1?L[0]+'+'+(L.length-1):L[0]})},true);
 function fcOpen(){var lis=document.querySelectorAll('#mine .mine-rows li'),kn=knownGet(),all=load(),by={};all.forEach(function(x){by[x.s]=x});
 var items=[];for(var i=0;i<lis.length;i++){var s=lis[i].querySelector('.sv').getAttribute('data-s');if(by[s])items.push(by[s])}
 var todo=items.filter(function(x){return !kn[x.s]});if(!todo.length)todo=items.slice();
 for(var j=todo.length-1;j>0;j--){var r=Math.floor(Math.random()*(j+1)),t=todo[j];todo[j]=todo[r];todo[r]=t}
 var dir='';try{dir=localStorage.getItem('holt_fc_dir')||''}catch(e){}
 FC={q:todo,total:todo.length,done:0,ko:dir?dir==='ko':memoGet()==='ko'};
-document.body.insertAdjacentHTML('beforeend','<div class="fc" role="dialog" aria-label="카드로 외우기"><div class="fc-top"><span class="fc-n"></span><span class="fc-dir" role="group" aria-label="앞면"><button type="button" data-d="en">영어 보고 뜻 맞히기</button><button type="button" data-d="ko">뜻 보고 영어 맞히기</button></span><button type="button" class="fc-x" aria-label="닫기">✕</button></div><div class="fc-card" tabindex="0"></div><div class="fc-btns"><button type="button" class="fc-again">아직 몰라요<small>조금 뒤 다시 나와요</small></button><button type="button" class="fc-ok">알아요<small>외움 ✓ 표시하고 넘어가요</small></button></div><p class="fc-hint"></p></div>');
+document.body.insertAdjacentHTML('beforeend','<div class="fc" role="dialog" aria-label="카드로 외우기"><div class="fc-top"><span class="fc-n"></span><span class="fc-dir" role="group" aria-label="앞면"><button type="button" data-d="en">영어 보고 뜻 맞히기</button><button type="button" data-d="ko">뜻 보고 영어 맞히기</button></span><button type="button" class="fc-x" aria-label="닫기">✕</button></div><div class="fc-card" tabindex="0"></div><div class="fc-btns"><button type="button" class="fc-again">아직 몰라요<small>조금 뒤 다시 나와요</small></button><button type="button" class="fc-ok">알아요<small>외움 ✓ 표시하고 넘어가요</small></button></div><p class="fc-hint"></p><button type="button" class="say fc-say">발음 듣기</button></div>');
 document.body.style.overflow='hidden';fcShow();track('flashcard_open',{n:todo.length})}
 function fcShow(){var el=document.querySelector('.fc');if(!el)return;var card=el.querySelector('.fc-card');card.classList.remove('flipped');
 el.querySelector('.fc-n').textContent='남은 카드 '+FC.q.length+' · 외움 '+FC.done;
-if(!FC.q.length){card.innerHTML='<div class="fc-front">끝!</div><div class="fc-back" style="visibility:visible">'+FC.total+'개 모두 외움 ✓ 표시했어요</div>';el.querySelector('.fc-btns').style.display='none';el.querySelector('.fc-hint').style.display='none';return}
+if(!FC.q.length){card.innerHTML='<div class="fc-front">끝!</div><div class="fc-back" style="visibility:visible">'+FC.total+'개 모두 외움 ✓ 표시했어요</div>';el.querySelector('.fc-btns').style.display='none';el.querySelector('.fc-hint').style.display='none';el.querySelector('.fc-say').style.display='none';return}
 var ds=el.querySelectorAll('.fc-dir button');for(var i=0;i<ds.length;i++)ds[i].classList.toggle('on',(ds[i].getAttribute('data-d')==='ko')===FC.ko);
 el.querySelector('.fc-hint').textContent=FC.ko?'카드를 누르면 영어가 보여요':'카드를 누르면 뜻이 보여요';
-var x=FC.q[0],f=FC.ko?x.k:x.p,b=FC.ko?x.p:x.k,sb='<button type="button" class="say" data-a="w-'+esc(x.s)+'" aria-label="듣기">'+SPK+'</button>';
-card.innerHTML='<div class="fc-front'+(FC.ko?' ko':'')+'">'+esc(f)+'</div>'+(FC.ko?'':sb)+'<div class="fc-back'+(FC.ko?'':' ko')+'">'+esc(b)+(FC.ko?'<br>'+sb:'')+'</div>'}
-function fcClose(){var el=document.querySelector('.fc');if(el)el.remove();document.body.style.overflow='';FC=null;render()}
+var x=FC.q[0],f=FC.ko?x.k:x.p,b=FC.ko?x.p:x.k;sayStop();el.querySelector('.fc-say').setAttribute('data-a','w-'+x.s);
+card.innerHTML='<div class="fc-front'+(FC.ko?' ko':'')+'">'+esc(f)+'</div><div class="fc-back'+(FC.ko?'':' ko')+'">'+esc(b)+'</div>'}
+function fcClose(){sayStop();var el=document.querySelector('.fc');if(el)el.remove();document.body.style.overflow='';FC=null;render()}
 document.addEventListener('click',function(ev){var t=ev.target.closest&&ev.target.closest('.kn,.rm,.edit-mine,.hide-kn,.mine-tools button,.fc-open,.fc-x,.fc-card,.fc-again,.fc-ok,.fc-dir button');if(!t)return;
 if(t.hasAttribute('data-d')){if(!FC)return;FC.ko=t.getAttribute('data-d')==='ko';try{localStorage.setItem('holt_fc_dir',FC.ko?'ko':'en')}catch(e){}fcShow();return}
 if(t.classList.contains('kn')){var kn=knownGet(),s=t.getAttribute('data-s');if(kn[s])delete kn[s];else kn[s]=1;knownSet(kn);render();track('known_toggle',{item:s});return}
