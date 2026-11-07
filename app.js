@@ -34,11 +34,11 @@ var mb=ev.target.closest&&ev.target.closest('.memo button');
 if(mb){var m=mb.getAttribute('data-m');memoSet(memoGet()===m?'':m);memoApply();return}
 var qb=ev.target.closest&&ev.target.closest('.quiz .reveal');
 if(qb){var bx=qb.closest('.quiz'),shown=bx.classList.toggle('solved');qb.textContent=shown?'다시 풀기':'정답 보기';return}
-var hx=memoGet()&&document.querySelector('.memo')&&ev.target.closest&&ev.target.closest('.term .hx,.doc p.en:not(.qz),.doc p.ko,.doc .me,.doc .mk');
-if(hx&&!hx.classList.contains('open')){hx.classList.add('open');return}
+var hx=memoGet()&&document.querySelector('.memo')&&ev.target.closest&&ev.target.closest('.term .hx,.doc p.en,.doc p.ko,.doc .me,.doc .mk');
+if(hx&&!hx.classList.contains('open')){ev.preventDefault();hx.classList.add('open');return}
 var hid=memoGet()&&ev.target.closest&&ev.target.closest('.row>a,.card>a');
 if(hid&&!ev.target.closest('.sv')){var it=hid.parentNode;if(!it.classList.contains('open')&&document.querySelector('.memo')){ev.preventDefault();it.classList.add('open');return}}
-var t=ev.target.closest&&ev.target.closest('.chips .sub a, #mine a[href^="saved.html?c="]');
+var t=ev.target.closest&&ev.target.closest('.chips .sub a, #mine a[href^="saved.html"]');
 if(t&&document.getElementById('mine')){ev.preventDefault();try{history.replaceState(null,'',t.getAttribute('href'))}catch(e){}render();window.scrollTo(0,0);return}
 var b=ev.target.closest&&ev.target.closest('.sv');if(!b)return;ev.preventDefault();ev.stopPropagation();
 var a=load(),s=b.getAttribute('data-s');

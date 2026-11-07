@@ -16,9 +16,9 @@ border-bottom:1px solid var(--line);background:var(--bg)}
 .intro{display:flex;justify-content:space-between;align-items:baseline;gap:20px;padding:44px 24px 18px;border-bottom:1px solid var(--line)}
 .intro h1{margin:0;font-weight:500;font-size:clamp(20px,2.2vw,30px);line-height:1.45;max-width:820px}
 .intro span{color:var(--gray);font-size:14px;white-space:nowrap}
-.menu{display:flex;align-items:stretch;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:6;background:var(--bg)}
-.chips{display:flex;flex-wrap:wrap}
-.tools{margin-left:auto;display:flex;align-items:center;gap:18px;padding:0 0 0 16px;background:var(--bg)}
+.menu{display:flex;flex-wrap:wrap;align-items:stretch;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:6;background:var(--bg)}
+.chips{display:flex;flex-wrap:nowrap;flex:none}
+.tools{min-width:0;min-height:46px;margin-left:auto;display:flex;align-items:center;gap:18px;padding:0 0 0 16px;background:var(--bg)}
 .chips a{padding:13px 28px;border-right:1px solid var(--line);font-size:15px;text-align:center}
 .chips a:hover,.chips a.on{background:var(--ink);color:#fff}
 .chips .sub{display:flex;align-items:flex-end;gap:10px;padding:0 20px 9px}
@@ -26,7 +26,7 @@ border-bottom:1px solid var(--line);background:var(--bg)}
 .chips .sub a:hover{background:none;color:var(--ink);text-decoration:underline;text-underline-offset:4px}
 .chips .sub a.on,.chips .sub a.on:hover{background:var(--ink);color:#fff;text-decoration:none}
 .tools .q{display:flex;align-items:center;padding:0 20px 0 0}
-.tools .q input{text-align:center;width:230px;border:0;border-bottom:1px solid var(--ink);border-radius:0;background:none;padding:6px 2px;font:inherit;font-size:14px;color:var(--ink);outline:0;-webkit-appearance:none;appearance:none}
+.tools .q input{text-align:center;width:clamp(110px,15vw,230px);border:0;border-bottom:1px solid var(--ink);border-radius:0;background:none;padding:6px 2px;font:inherit;font-size:14px;color:var(--ink);outline:0;-webkit-appearance:none;appearance:none}
 .tools .q input::placeholder{color:#b3b3b3;text-align:center}.tools .q input::-webkit-search-cancel-button{display:none}
 .tools .q button{border:0;background:none;padding:6px 0 6px 8px;cursor:pointer;color:var(--ink);line-height:0}
 /* 검색 결과 */
@@ -41,8 +41,9 @@ body.memo-en .rows .row:not(.open) a>span:not(.snip),body.memo-en .grid .card:no
 body.memo-ko .rows .row:not(.open) a>b,body.memo-ko .grid .card:not(.open)>a>b{color:transparent!important;background:#ecece9;user-select:none;min-width:90px}
 body.memo-en .grid .card:not(.open) .k{display:inline-block;min-width:110px}
 body.memo-ko .term .hx:not(.open),body.memo-en .term .meaning .hx:not(.open),
-body.memo-ko .doc p.en:not(.qz):not(.open),body.memo-en .doc p.ko:not(.open),body.memo-ko .doc .me:not(.open),body.memo-en .doc .mk:not(.open){color:transparent!important;background:#ecece9;user-select:none;cursor:help}
-body.memo-ko .doc p.en:not(.qz):not(.open),body.memo-en .doc p.ko:not(.open){width:fit-content;max-width:100%}
+body.memo-ko .doc p.en:not(.open),body.memo-en .doc p.ko:not(.open),body.memo-ko .doc .me:not(.open),body.memo-en .doc .mk:not(.open){color:transparent!important;background:#ecece9;user-select:none;cursor:help}
+body.memo-ko .doc p.en:not(.open),body.memo-en .doc p.ko:not(.open){width:fit-content;max-width:100%}
+body.memo-ko .doc p.qz:not(.open) .blank i{color:transparent!important;border-bottom-color:transparent}
 /* 퀴즈 빈칸 */
 .blank i{font-style:normal;font-weight:500;color:transparent;border-bottom:2px solid var(--ink);padding:0 .12em}
 .quiz.solved .blank i{color:var(--ink)}
@@ -122,7 +123,8 @@ details{margin-top:12px}summary{cursor:pointer;font-size:14px;font-weight:600;di
 details[open] summary{background:var(--ink);color:#fff}
 .meta{font-size:13px;color:var(--gray);margin-top:20px}
 .meta a{text-decoration:underline}
-.occ+.occ{margin-top:40px}.sub-h{margin:26px 0 8px;font-weight:600;color:var(--ink2)}
+.occ+.occ{margin-top:40px}
+a.tl b{text-decoration:underline;text-decoration-color:#bbb;text-underline-offset:4px}a.tl:hover b{text-decoration-color:var(--ink)}.sub-h{margin:26px 0 8px;font-weight:600;color:var(--ink2)}
 .ad{margin:28px 0}
 .ad.direct{position:relative;text-align:center;margin:28px auto;max-width:740px;padding:0 16px}
 .ad.direct img{display:block;max-width:100%;height:auto;margin:0 auto;border:1px solid #ddd}
@@ -132,7 +134,7 @@ details[open] summary{background:var(--ink);color:#fff}
 .fix p{margin:0}.x{text-decoration:line-through;color:var(--gray)}.o{font-weight:700}
 .tip{margin-top:14px}
 .page{max-width:740px;margin:0 auto;padding:56px 20px}
-.page h1{font-weight:800;font-size:34px;margin:0 0 20px}.page ul{padding-left:20px}.page li{margin:8px 0}.page h2{font-size:20px;margin:30px 0 8px}.page a{text-decoration:underline}
+.page h1{font-weight:800;font-size:34px;margin:0 0 20px}.page ul{padding-left:20px}.page li{margin:8px 0}.page h2{font-size:20px;margin:30px 0 8px}.page a{text-decoration:underline}.page a.plain{text-decoration:none}
 /* 꼬리 — holtnews.com과 같은 검은 띠 */
 footer.site{background:#000;color:#cfcfcf;margin-top:80px;padding:40px 56px 48px;font-size:13px;line-height:1.8;
 display:grid;grid-template-columns:auto 1fr auto;gap:20px 48px;align-items:start}
