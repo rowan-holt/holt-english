@@ -23,9 +23,14 @@ h='<div class="cat-head"><h2>'+name(c)+'<small>'+l.length+'</small></h2></div>'+
 else{CATS.forEach(function(k){var l=a.filter(function(x){return x.c===k[0]});
 h+='<section>'+head(k[1],l.length,'saved.html?c='+k[0])+(l.length?'<div class="grid">'+l.map(card).join('')+'</div>':'<p class="empty">저장한 '+k[1]+ga(k[1])+' 없습니다.</p>')+'</section>'})}
 box.innerHTML=h;sync()}
-document.addEventListener('click',function(ev){var b=ev.target.closest&&ev.target.closest('.sv');if(!b)return;ev.preventDefault();ev.stopPropagation();
+document.addEventListener('click',function(ev){
+var t=ev.target.closest&&ev.target.closest('.chips .sub a, #mine a[href^="saved.html?c="]');
+if(t&&document.getElementById('mine')){ev.preventDefault();try{history.replaceState(null,'',t.getAttribute('href'))}catch(e){}render();window.scrollTo(0,0);return}
+var b=ev.target.closest&&ev.target.closest('.sv');if(!b)return;ev.preventDefault();ev.stopPropagation();
 var a=load(),s=b.getAttribute('data-s');
 if(has(a,s))a=a.filter(function(x){return x.s!==s});else a.unshift({s:s,p:b.getAttribute('data-p'),k:b.getAttribute('data-k'),c:b.getAttribute('data-c'),t:b.getAttribute('data-t')||''});
 store(a);sync()});
+document.addEventListener('keydown',function(ev){if(ev.altKey||ev.ctrlKey||ev.metaKey||/INPUT|TEXTAREA/.test((ev.target||{}).tagName||''))return;
+var a=ev.key==='ArrowLeft'?document.querySelector('a.nav.prev'):ev.key==='ArrowRight'?document.querySelector('a.nav.next'):null;if(a)location.href=a.href});
 render();sync();
 })();
