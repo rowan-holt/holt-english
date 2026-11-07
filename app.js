@@ -27,7 +27,7 @@ var subs=document.querySelectorAll('.chips .sub a');for(var i=0;i<subs.length;i+
 var a=load(),h='',kn=knownGet();
 function list(l,title,empty){CANEDIT=l.length>0;var nk=l.filter(function(x){return kn[x.s]}).length;
 var shown=l.filter(function(x){return !kn[x.s]}).concat(l.filter(function(x){return kn[x.s]}));   // 외운 것은 맨 아래로
-return '<div class="cat-head"><h2>'+title+'<small>'+l.length+(nk?' · 외움 '+nk:'')+'</small></h2><div class="ctl">'
+return '<div class="cat-head"><h2>'+title+'<small>'+l.length+(nk?' · 외움 '+nk:'')+'</small>'+(shown.length?'<button type="button" class="say" data-a="'+shown.map(function(x){return 'w-'+esc(x.s)}).join(' ')+'" aria-label="'+title+' 전체 듣기">'+SPK+'</button>':'')+'</h2><div class="ctl">'
 +(l.length?'<button type="button" class="fc-open">카드로 외우기</button>':'')+'</div>'+'</div>'
 +(shown.length?'<ul class="rows mine-rows">'+shown.map(function(x){return mrow(x,kn[x.s])}).join('')+'</ul>':'<p class="empty">'+empty+'</p>')}
 if(c==='all'){h=list(a,'전체','저장한 것이 없습니다.')}
@@ -40,7 +40,7 @@ var KK='holt_known_v1';
 function knownGet(){try{var o=JSON.parse(localStorage.getItem(KK));return o&&typeof o==='object'?o:{}}catch(e){return {}}}
 function knownSet(o){try{localStorage.setItem(KK,JSON.stringify(o))}catch(e){}}
 var EDIT=false,CANEDIT=false;
-function mrow(x,k){return '<li class="row'+(k?' known':'')+'"><a href="e/'+esc(x.s)+'.html"><b>'+esc(x.p)+'</b><span>'+esc(x.k)+'</span></a>'
+function mrow(x,k){return '<li class="row'+(k?' known':'')+'" data-ai="w-'+esc(x.s)+'"><a href="e/'+esc(x.s)+'.html"><b>'+esc(x.p)+'</b><span>'+esc(x.k)+'</span></a>'
 +(EDIT?'<button type="button" class="rm" data-s="'+esc(x.s)+'">빼기</button>'
 :'<button type="button" class="kn'+(k?' on':'')+'" data-s="'+esc(x.s)+'" aria-pressed="'+(k?'true':'false')+'" aria-label="외움 표시" title="외움 표시">✓</button>')
 +'<i class="sv" data-s="'+esc(x.s)+'" hidden></i></li>'}
@@ -61,7 +61,7 @@ function sayMark(){var r=document.querySelectorAll('.reading');for(var i=0;i<r.l
 function sayStop(){if(AU){AU.pause();AU=null}if(AUB){AUB.classList.remove('on');AUB=null}sayMark()}
 document.addEventListener('click',function(ev){var b=ev.target.closest&&ev.target.closest('.say');if(!b)return;ev.preventDefault();ev.stopPropagation();
 var same=AUB===b;sayStop();if(same)return;AUB=b;b.classList.add('on');
-var L=b.getAttribute('data-a').split(' '),h=b.closest('h2'),i=0,S=[];for(var n=h&&h.nextElementSibling;n&&n.tagName!=='H2';n=n.nextElementSibling)S.push(n);
+var L=b.getAttribute('data-a').split(' '),h=b.closest('h2'),i=0,S=[];if(b.closest('.cat-head'))S=[document.querySelector('main')||document.body];else for(var n=h&&h.nextElementSibling;n&&n.tagName!=='H2';n=n.nextElementSibling)S.push(n);
 function nx(){if(AUB!==b)return;sayMark();if(i>=L.length)return sayStop();var f=L[i++];
 S.forEach(function(n){var m=n.matches('[data-ai="'+f+'"]')?[n]:n.querySelectorAll('[data-ai="'+f+'"]');for(var j=0;j<m.length;j++)m[j].classList.add('reading')});
 var a=AU=new Audio('/a/'+f+'.mp3');a.onended=function(){if(AU===a)setTimeout(function(){if(AU===a)nx()},350)};a.onerror=function(){if(AU===a)nx()};
