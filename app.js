@@ -24,13 +24,55 @@ var o=document.querySelectorAll('.open');for(var j=0;j<o.length;j++)o[j].classLi
 function render(){var box=document.getElementById('mine');if(!box)return;
 var c='';try{c=new URLSearchParams(location.search).get('c')||''}catch(e){}
 var subs=document.querySelectorAll('.chips .sub a');for(var i=0;i<subs.length;i++)subs[i].classList.toggle('on',subs[i].getAttribute('data-c')===c);
-var a=load(),h='';
-if(c==='all'){h='<div class="cat-head"><h2>전체<small>'+a.length+'</small></h2></div>'+(a.length?'<ul class="rows">'+a.map(row).join('')+'</ul>':'<p class="empty">저장한 것이 없습니다.</p>')}
-else if(c&&name(c)){var l=a.filter(function(x){return x.c===c});
-h='<div class="cat-head"><h2>'+name(c)+'<small>'+l.length+'</small></h2></div>'+(l.length?'<ul class="rows">'+l.map(row).join('')+'</ul>':'<p class="empty">저장한 '+name(c)+ga(name(c))+' 없습니다.</p>')}
+var a=load(),h='',kn=knownGet();
+function list(l,title,empty){l=l.filter(function(x){return !kn[x.s]}).concat(l.filter(function(x){return kn[x.s]}));
+var nk=l.filter(function(x){return kn[x.s]}).length;
+return '<div class="cat-head"><h2>'+title+'<small>'+l.length+(nk?' · 외움 '+nk:'')+'</small></h2>'+(l.length?'<button type="button" class="fc-open">카드로 외우기</button>':'')+'</div>'
++(l.length?'<ul class="rows mine-rows">'+l.map(function(x){return mrow(x,kn[x.s])}).join('')+'</ul>':'<p class="empty">'+empty+'</p>')}
+if(c==='all'){h=list(a,'전체','저장한 것이 없습니다.')}
+else if(c&&name(c)){h=list(a.filter(function(x){return x.c===c}),name(c),'저장한 '+name(c)+ga(name(c))+' 없습니다.')}
 else{CATS.forEach(function(k){var l=a.filter(function(x){return x.c===k[0]});
 h+='<section>'+head(k[1],l.length,'saved.html?c='+k[0])+(l.length?'<div class="grid">'+l.map(card).join('')+'</div>':'<p class="empty">저장한 '+k[1]+ga(k[1])+' 없습니다.</p>')+'</section>'})}
+h+='<div class="listfoot"><nav class="pager" aria-label="페이지"></nav><div class="mine-tools"><button type="button" data-mt="copy">목록 복사</button><button type="button" data-mt="paste">붙여넣기</button><button type="button" data-mt="reset">초기화</button></div></div>';
 box.innerHTML=h;memoApply();sync();if(typeof paginate==='function')paginate()}
+var KK='holt_known_v1';
+function knownGet(){try{var o=JSON.parse(localStorage.getItem(KK));return o&&typeof o==='object'?o:{}}catch(e){return {}}}
+function knownSet(o){try{localStorage.setItem(KK,JSON.stringify(o))}catch(e){}}
+function mrow(x,k){return '<li class="row'+(k?' known':'')+'"><a href="e/'+esc(x.s)+'.html"><b>'+esc(x.p)+'</b><span>'+esc(x.k)+'</span></a>'
++'<button type="button" class="kn'+(k?' on':'')+'" data-s="'+esc(x.s)+'" aria-pressed="'+(k?'true':'false')+'" aria-label="외웠어요">✓</button>'+btn(x)+'</li>'}
+function b64e(t){return btoa(unescape(encodeURIComponent(t)))}function b64d(t){return decodeURIComponent(escape(atob(t)))}
+function mineTool(t){var a=load(),kn=knownGet();
+if(t==='copy'){var code='HOLT1.'+b64e(JSON.stringify({s:a,k:kn}));
+var done=function(){alert('내 학습장 목록을 복사했어요. 메모장 등에 붙여 넣어 보관하고, 다른 기기에서 [붙여넣기]로 불러오세요.')};
+if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(code).then(done,function(){prompt('아래 코드를 복사해 두세요',code)});else prompt('아래 코드를 복사해 두세요',code);track('mine_copy',{n:a.length});return}
+if(t==='paste'){var v=prompt('[목록 복사]로 받은 코드를 붙여 넣어 주세요');if(!v)return;
+try{var d=JSON.parse(b64d(v.trim().replace(/^HOLT1\./,'')));var have={},n=0;a.forEach(function(x){have[x.s]=1});
+(d.s||[]).forEach(function(x){if(x&&x.s&&!have[x.s]){a.push(x);have[x.s]=1;n++}});
+for(var k in (d.k||{}))kn[k]=1;store(a);knownSet(kn);render();alert(n+'개를 불러왔어요.');track('mine_paste',{n:n})}catch(e){alert('코드를 읽지 못했어요. 처음부터 끝까지 그대로 붙여 넣었는지 확인해 주세요.')}return}
+if(t==='reset'){if(!a.length&&!Object.keys(kn).length)return;
+if(confirm('내 학습장을 모두 비울까요? 저장한 '+a.length+'개와 외움 표시가 지워지고 되돌릴 수 없어요.')){store([]);knownSet({});render();track('mine_reset',{n:a.length})}}}
+var FC=null;
+function fcOpen(){var lis=document.querySelectorAll('#mine .mine-rows li'),kn=knownGet(),all=load(),by={};all.forEach(function(x){by[x.s]=x});
+var items=[];for(var i=0;i<lis.length;i++){var s=lis[i].querySelector('.sv').getAttribute('data-s');if(by[s])items.push(by[s])}
+var todo=items.filter(function(x){return !kn[x.s]});if(!todo.length)todo=items.slice();
+for(var j=todo.length-1;j>0;j--){var r=Math.floor(Math.random()*(j+1)),t=todo[j];todo[j]=todo[r];todo[r]=t}
+FC={q:todo,total:todo.length,done:0,ko:memoGet()==='ko'};
+document.body.insertAdjacentHTML('beforeend','<div class="fc" role="dialog" aria-label="카드로 외우기"><div class="fc-top"><span class="fc-n"></span><button type="button" class="fc-x" aria-label="닫기">✕</button></div><div class="fc-card" tabindex="0"></div><div class="fc-btns"><button type="button" class="fc-again">다시 볼래요</button><button type="button" class="fc-ok">외웠어요</button></div><p class="fc-hint">카드를 누르면 뒷면이 보여요</p></div>');
+document.body.style.overflow='hidden';fcShow();track('flashcard_open',{n:todo.length})}
+function fcShow(){var el=document.querySelector('.fc');if(!el)return;var card=el.querySelector('.fc-card');card.classList.remove('flipped');
+el.querySelector('.fc-n').textContent=Math.min(FC.done+1,FC.total)+' / '+FC.total;
+if(!FC.q.length){card.innerHTML='<div class="fc-front">다 외웠어요</div><div class="fc-back" style="visibility:visible">'+FC.total+'개를 끝까지 봤어요</div>';el.querySelector('.fc-btns').style.display='none';el.querySelector('.fc-hint').style.display='none';return}
+var x=FC.q[0],f=FC.ko?x.k:x.p,b=FC.ko?x.p:x.k;card.innerHTML='<div class="fc-front'+(FC.ko?' ko':'')+'">'+esc(f)+'</div><div class="fc-back'+(FC.ko?'':' ko')+'">'+esc(b)+'</div>'}
+function fcClose(){var el=document.querySelector('.fc');if(el)el.remove();document.body.style.overflow='';FC=null;render()}
+document.addEventListener('click',function(ev){var t=ev.target.closest&&ev.target.closest('.kn,.mine-tools button,.fc-open,.fc-x,.fc-card,.fc-again,.fc-ok');if(!t)return;
+if(t.classList.contains('kn')){var kn=knownGet(),s=t.getAttribute('data-s');if(kn[s])delete kn[s];else kn[s]=1;knownSet(kn);render();track('known_toggle',{item:s});return}
+if(t.hasAttribute('data-mt'))return mineTool(t.getAttribute('data-mt'));
+if(t.classList.contains('fc-open'))return fcOpen();
+if(t.classList.contains('fc-x'))return fcClose();
+if(t.classList.contains('fc-card'))return t.classList.toggle('flipped');
+if(!FC||!FC.q.length)return;var x=FC.q.shift();
+if(t.classList.contains('fc-ok')){var k2=knownGet();k2[x.s]=1;knownSet(k2);FC.done++}else{FC.q.push(x)}fcShow()});
+document.addEventListener('keydown',function(ev){if(!FC)return;if(ev.key==='Escape')fcClose();else if(ev.key===' '){ev.preventDefault();var c=document.querySelector('.fc-card');if(c)c.classList.toggle('flipped')}});
 document.addEventListener('click',function(ev){
 var mb=ev.target.closest&&ev.target.closest('.memo button');
 if(mb){var m=mb.getAttribute('data-m');memoSet(memoGet()===m?'':m);memoApply();return}
@@ -77,18 +119,18 @@ document.addEventListener('keydown',function(ev){if(ev.altKey||ev.ctrlKey||ev.me
 var a=ev.key==='ArrowLeft'?document.querySelector('a.nav.prev'):ev.key==='ArrowRight'?document.querySelector('a.nav.next'):null;if(a)location.href=a.href});
 function psGet(){try{return +localStorage.getItem('holt_ps')||30}catch(e){return 30}}
 function setupList(ul){var it=ul.children,n=it.length,ps=psGet(),head=ul.previousElementSibling;
-var nx=ul.nextElementSibling;if(nx&&nx.classList.contains('pager'))nx.remove();
+var nx=ul.nextElementSibling,foot=(nx&&nx.classList.contains('listfoot'))?nx:(ul.parentNode.querySelector(':scope > .listfoot'));if(nx&&nx.classList.contains('pager'))nx.remove();
 if(head&&head.classList.contains('cat-head')){var o=head.querySelector('.psize');if(o)o.remove();
 if(n>10)head.insertAdjacentHTML('beforeend','<div class="psize">'+[10,30,50,100].map(function(k){return '<button type="button" data-ps="'+k+'"'+(k===ps?' class="on"':'')+'>'+k+'</button>'}).join('')+'<span>개씩 보기</span></div>')}
 var pages=Math.max(1,Math.ceil(n/ps)),cur=ul._p||+(new URLSearchParams(location.search).get('p'))||1;cur=Math.min(Math.max(1,cur),pages);ul._p=cur;
 for(var i=0;i<n;i++)it[i].style.display=(i>=(cur-1)*ps&&i<cur*ps)?'':'none';
-if(pages<2)return;var b=[],add=function(p,l,on){b.push('<button type="button" data-p="'+p+'"'+(on?' class="on" aria-current="page"':'')+'>'+l+'</button>')};
+if(foot)foot.querySelector('.pager').innerHTML='';if(pages<2)return;var b=[],add=function(p,l,on){b.push('<button type="button" data-p="'+p+'"'+(on?' class="on" aria-current="page"':'')+'>'+l+'</button>')};
 if(cur>1)add(cur-1,'‹');var last=0;for(var p=1;p<=pages;p++){if(p===1||p===pages||Math.abs(p-cur)<=(innerWidth<700?1:2)){if(last&&p-last>1)b.push('<span>…</span>');add(p,p,p===cur);last=p}}
-if(cur<pages)add(cur+1,'›');ul.insertAdjacentHTML('afterend','<nav class="pager" aria-label="페이지">'+b.join('')+'</nav>')}
+if(cur<pages)add(cur+1,'›');if(foot){foot.querySelector('.pager').innerHTML=b.join('');return}ul.insertAdjacentHTML('afterend','<nav class="pager" aria-label="페이지">'+b.join('')+'</nav>')}
 function paginate(){var uls=document.querySelectorAll('main ul.rows');for(var i=0;i<uls.length;i++)if(!uls[i].closest('#found'))setupList(uls[i])}
 document.addEventListener('click',function(ev){var t=ev.target.closest&&ev.target.closest('.pager button,.psize button');if(!t)return;
 if(t.hasAttribute('data-ps')){try{localStorage.setItem('holt_ps',t.getAttribute('data-ps'))}catch(e){}var uls=document.querySelectorAll('main ul.rows');for(var i=0;i<uls.length;i++)uls[i]._p=1;setP(1);paginate();return}
-var pg=t.closest('.pager'),ul=pg.previousElementSibling,p=+t.getAttribute('data-p');ul._p=p;setP(p);setupList(ul);
+var pg=t.closest('.pager'),ul=pg.parentNode.classList.contains('listfoot')?pg.parentNode.parentNode.querySelector('ul.rows'):pg.previousElementSibling,p=+t.getAttribute('data-p');ul._p=p;setP(p);setupList(ul);
 var h=ul.previousElementSibling||ul;window.scrollTo(0,h.getBoundingClientRect().top+scrollY-70)});
 function setP(p){try{var u=new URL(location.href);if(p>1)u.searchParams.set('p',p);else u.searchParams.delete('p');history.replaceState(null,'',u)}catch(e){}}
 function track(n,p){try{if(window.gtag)gtag('event',n,p||{})}catch(e){}}
