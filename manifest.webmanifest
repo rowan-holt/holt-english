@@ -1,0 +1,48 @@
+{
+ "name": "HOLT ENGLISH",
+ "short_name": "HOLT ENGLISH",
+ "description": "뉴스와 연구 이야기에 실제로 나온 영어 단어·표현·문장. 뜻, 원문, 함께 알아 두면 좋은 표현, 퀴즈까지.",
+ "lang": "ko",
+ "id": "/",
+ "start_url": "/?source=app",
+ "scope": "/",
+ "display": "standalone",
+ "background_color": "#ffffff",
+ "theme_color": "#ffffff",
+ "icons": [
+  {
+   "src": "/icons/icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png"
+  },
+  {
+   "src": "/icons/icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png"
+  },
+  {
+   "src": "/icons/maskable-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ],
+ "shortcuts": [
+  {
+   "name": "내 학습장",
+   "url": "/saved.html?c=all"
+  },
+  {
+   "name": "단어",
+   "url": "/words.html"
+  },
+  {
+   "name": "표현",
+   "url": "/phrases.html"
+  },
+  {
+   "name": "문장",
+   "url": "/sentences.html"
+  }
+ ]
+}

@@ -157,5 +157,8 @@ document.addEventListener('submit',function(ev){var i=ev.target.querySelector&&e
 if('IntersectionObserver' in window){var seen={},io=new IntersectionObserver(function(es){es.forEach(function(x){var id=x.target.getAttribute('data-ad');
 if(x.isIntersecting&&!seen[id]){seen[id]=1;track('ad_view',{ad_id:id,slot:x.target.getAttribute('data-slot')})}})},{threshold:.5});
 var ads=document.querySelectorAll('[data-ad]');for(var k=0;k<ads.length;k++)io.observe(ads[k])}
+if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost')){addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){})})}
+var DEFER=null;addEventListener('beforeinstallprompt',function(e){e.preventDefault();DEFER=e;var b=document.querySelectorAll('.install');for(var i=0;i<b.length;i++)b[i].hidden=false});
+document.addEventListener('click',function(ev){var t=ev.target.closest&&ev.target.closest('.install');if(!t||!DEFER)return;ev.preventDefault();DEFER.prompt();DEFER.userChoice.then(function(r){track('app_install',{outcome:r.outcome});DEFER=null;t.hidden=true})});
 memoApply();render();search();sync();paginate();
 })();
