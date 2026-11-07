@@ -122,7 +122,7 @@ details{margin-top:12px}summary{cursor:pointer;font-size:14px;font-weight:600;di
 details[open] summary{background:var(--ink);color:#fff}
 .meta{font-size:13px;color:var(--gray);margin-top:20px}
 .meta a{text-decoration:underline}
-.occ+.occ{margin-top:40px}
+.occ+.occ{margin-top:40px}.sub-h{margin:26px 0 8px;font-weight:600;color:var(--ink2)}
 .ad{margin:28px 0}
 .ad.direct{position:relative;text-align:center;margin:28px auto;max-width:740px;padding:0 16px}
 .ad.direct img{display:block;max-width:100%;height:auto;margin:0 auto;border:1px solid #ddd}
