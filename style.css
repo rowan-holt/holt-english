@@ -28,7 +28,20 @@ border-bottom:1px solid var(--line);background:var(--bg);position:sticky;top:0;z
 .chips .q input::placeholder{color:#aaa}.chips .q input::-webkit-search-cancel-button{display:none}
 .chips .q button{border:0;background:none;padding:6px 0 6px 8px;cursor:pointer;color:var(--ink);line-height:0}
 /* 검색 결과 */
-mark.hit{background:#EBA937;color:inherit;padding:0 2px}
+mark.hit{background:#F6D27F;color:var(--ink);padding:0 2px}
+/* 암기 모드 — 가린 칸은 회색 띠, 누르면 열림 */
+.memo{display:flex;align-items:center;gap:4px;margin-left:auto;font-size:13px}
+.memo span{color:var(--gray);margin-right:6px}
+.memo button{border:1px solid var(--ink);background:none;color:var(--ink);font:inherit;font-size:13px;padding:4px 10px;cursor:pointer;line-height:1.4}
+.memo button.on{background:var(--ink);color:#fff}
+.cat-head .memo+.more{margin-left:18px}
+.row a>*,.card>a>b{align-self:flex-start}
+body.memo-en .rows .row:not(.open) a>span:not(.snip),body.memo-en .grid .card:not(.open) .k,
+body.memo-ko .rows .row:not(.open) a>b,body.memo-ko .grid .card:not(.open)>a>b{color:transparent!important;background:#ecece9;user-select:none;min-width:90px}
+body.memo-en .grid .card:not(.open) .k{display:inline-block;min-width:110px}
+body.memo-en .row:not(.open)>a,body.memo-ko .row:not(.open)>a,body.memo-en .card:not(.open)>a,body.memo-ko .card:not(.open)>a{cursor:help}
+.card:hover .memo-k{color:inherit}
+body.memo-en .grid .card:not(.open):hover .k,body.memo-ko .grid .card:not(.open):hover>a>b{background:#444}
 .row .snip{display:block;color:var(--gray);font-size:14px;line-height:1.55;margin-top:4px}
 .qhead{padding:40px 24px 14px;border-bottom:1px solid var(--line)}
 .qhead h1{margin:0;font-weight:400;font-size:clamp(22px,2.4vw,32px);line-height:1.3}.qhead h1 small{color:var(--gray);font-size:.5em;margin-left:8px}
@@ -48,7 +61,7 @@ mark.hit{background:#EBA937;color:inherit;padding:0 2px}
 .row a:hover b{text-decoration:underline;text-underline-offset:4px}
 .cat-head h2 a:hover{text-decoration:underline;text-underline-offset:6px;text-decoration-thickness:1px}
 /* 카테고리 머리 */
-.cat-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:40px 24px 14px;border-bottom:1px solid var(--line)}
+.cat-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;padding:40px 24px 14px;border-bottom:1px solid var(--line)}
 .cat-head h2{margin:0;font-family:var(--latin);font-weight:400;font-size:clamp(26px,3vw,44px);line-height:1.2}
 .cat-head h2 small{font-size:.45em;color:var(--gray);margin-left:10px}
 .cat-head .more{font-size:14px;color:var(--ink2);white-space:nowrap}.cat-head .more:hover{text-decoration:underline;text-underline-offset:4px}
@@ -124,6 +137,7 @@ footer.site .c{text-align:right;align-self:end}
 .chips a:nth-child(n+4){grid-column:1/-1;border-right:0;border-top:1px solid var(--line)}
 .chips .q{grid-column:1/-1;margin:0;padding:8px 16px 10px;border-top:1px solid var(--line)}.chips .q input{flex:1;width:auto;font-size:16px}
 .qhead{padding:30px 16px 12px}
+.memo span{display:none}.memo button{font-size:12.5px;padding:4px 8px}
 .chips .sub{grid-column:1/-1;justify-content:center;gap:28px;padding:10px 0}
 .chips .sub a{padding:0;font-size:13px;border:0;grid-column:auto}
 .chips .sub{align-items:center;padding:10px 0}
