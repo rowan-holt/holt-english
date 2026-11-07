@@ -177,12 +177,18 @@ d.innerHTML='<div class="ig-box"><h3>앱으로 설치</h3><p>'+msg+'</p><p class
 document.body.appendChild(d);d.addEventListener('click',function(ev){if(ev.target===d||ev.target.classList.contains('ig-x'))d.remove()});track('app_install',{outcome:'guide'})}
 // 삼성 인터넷 등 크롬이 아닌 안드로이드 브라우저로 설치하면 그 브라우저가 만든 옛 버전 앱이라 Play 프로텍트가 '안전하지 않은 앱'으로 막음 → 크롬에서 열어 설치
 var UA=navigator.userAgent,AND=/Android/i.test(UA),NOTCHROME=AND&&(/SamsungBrowser|Whale|OPR|EdgA|Firefox|YaBrowser|MiuiBrowser|HuaweiBrowser|NAVER|KAKAOTALK|Instagram|FBAN|FBAV|; wv\)/i.test(UA)||!/Chrome\//.test(UA));
-function chromeGuide(){var u=location.href.replace(/^https?:\/\//,'');var go='intent://'+u+'#Intent;scheme=https;package=com.android.chrome;end';
-var d=document.createElement('div');d.className='ig';d.setAttribute('role','dialog');d.setAttribute('aria-label','크롬에서 설치');
-d.innerHTML='<div class="ig-box"><h3>크롬에서 설치해 주세요</h3><p>이 브라우저로 설치하면 휴대폰이 <b>안전하지 않은 앱</b>으로 막을 수 있어요. 크롬에서 열어 <b>앱 설치</b>를 누르면 문제없이 설치돼요.</p><p class="ig-s">이미 막힌 앱이 있다면 지우고 크롬에서 다시 설치하세요.</p><a class="ig-go" href="'+go+'">크롬에서 열기</a> <button type="button" class="ig-x">닫기</button></div>';
-document.body.appendChild(d);d.addEventListener('click',function(ev){if(ev.target===d||ev.target.classList.contains('ig-x'))d.remove()});track('app_install',{outcome:'to_chrome'})}
+function toChrome(){var u=location.href.replace(/^https?:\/\//,'').replace(/#.*$/,'');u+=(u.indexOf('?')<0?'?':'&')+'install=1';track('app_install',{outcome:'to_chrome'});
+location.href='intent://'+u+'#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url='+encodeURIComponent('https://play.google.com/store/apps/details?id=com.android.chrome')+';end'}
+// 크롬으로 넘어온 경우(?install=1): 설치 창을 띄울 수 있게 되면 '설치' 버튼 하나만 보여 줌(브라우저 규칙상 한 번은 눌러야 설치됨)
+if(!STANDALONE&&/[?&]install=1/.test(location.search)){
+addEventListener('beforeinstallprompt',function(){setTimeout(function(){if(!DEFER||document.querySelector('.ig'))return;
+var d=document.createElement('div');d.className='ig';d.setAttribute('role','dialog');d.setAttribute('aria-label','앱으로 설치');
+d.innerHTML='<div class="ig-box"><h3>HOLT ENGLISH</h3><button type="button" class="ig-go ig-in">설치</button><button type="button" class="ig-x">닫기</button></div>';
+document.body.appendChild(d);d.addEventListener('click',function(ev){if(ev.target.classList.contains('ig-in')){d.remove();DEFER.prompt();DEFER.userChoice.then(function(r){track('app_install',{outcome:r.outcome,from:'redirect'});DEFER=null})}
+else if(ev.target===d||ev.target.classList.contains('ig-x'))d.remove()})},0)});
+try{history.replaceState(null,'',location.href.replace(/([?&])install=1&?/,'$1').replace(/[?&]$/,''))}catch(e){}}
 document.addEventListener('click',function(ev){var t=ev.target.closest&&ev.target.closest('.install');if(!t)return;ev.preventDefault();
-if(NOTCHROME){chromeGuide();return}
+if(NOTCHROME){toChrome();return}
 if(!DEFER){installGuide();return}DEFER.prompt();DEFER.userChoice.then(function(r){track('app_install',{outcome:r.outcome});DEFER=null;if(r.outcome==='accepted')t.hidden=true})});
 memoApply();render();search();sync();paginate();
 })();
