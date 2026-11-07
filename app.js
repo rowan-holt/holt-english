@@ -173,7 +173,7 @@ addEventListener('appinstalled',function(){track('app_install',{outcome:'install
 function installGuide(){var ios=/iPhone|iPad|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
 var msg=ios?'Safari 아래쪽 <b>공유 버튼</b>을 누른 뒤 <b>홈 화면에 추가</b>를 누르세요.':'브라우저 메뉴(⋮)에서 <b>홈 화면에 추가</b> 또는 <b>앱 설치</b>를 누르세요.';
 var d=document.createElement('div');d.className='ig';d.setAttribute('role','dialog');d.setAttribute('aria-label','앱으로 설치');
-d.innerHTML='<div class="ig-box"><h3>앱으로 설치</h3><p>'+msg+'</p><p class="ig-s">이미 설치했다면 홈 화면의 HOLT ENGLISH 아이콘으로 열면 됩니다.</p><button type="button" class="ig-x">확인</button></div>';
+d.innerHTML='<div class="ig-box"><h3>앱으로 설치</h3><p>'+msg+'</p><p class="ig-s">이미 설치했다면 홈 화면의 HOLT 아이콘으로 열면 됩니다.</p><button type="button" class="ig-x">확인</button></div>';
 document.body.appendChild(d);d.addEventListener('click',function(ev){if(ev.target===d||ev.target.classList.contains('ig-x'))d.remove()});track('app_install',{outcome:'guide'})}
 // 삼성 인터넷 등 크롬이 아닌 안드로이드 브라우저로 설치하면 그 브라우저가 만든 옛 버전 앱이라 Play 프로텍트가 '안전하지 않은 앱'으로 막음 → 크롬에서 열어 설치
 var UA=navigator.userAgent,AND=/Android/i.test(UA),NOTCHROME=AND&&(/SamsungBrowser|Whale|OPR|EdgA|Firefox|YaBrowser|MiuiBrowser|HuaweiBrowser|NAVER|KAKAOTALK|Instagram|FBAN|FBAV|; wv\)/i.test(UA)||!/Chrome\//.test(UA));
@@ -183,7 +183,7 @@ location.href='intent://'+u+'#Intent;scheme=https;package=com.android.chrome;S.b
 if(!STANDALONE&&/[?&]install=1/.test(location.search)){
 addEventListener('beforeinstallprompt',function(){setTimeout(function(){if(!DEFER||document.querySelector('.ig'))return;
 var d=document.createElement('div');d.className='ig';d.setAttribute('role','dialog');d.setAttribute('aria-label','앱으로 설치');
-d.innerHTML='<div class="ig-box"><h3>HOLT ENGLISH</h3><button type="button" class="ig-go ig-in">설치</button><button type="button" class="ig-x">닫기</button></div>';
+d.innerHTML='<div class="ig-box"><h3>HOLT</h3><button type="button" class="ig-go ig-in">설치</button><button type="button" class="ig-x">닫기</button></div>';
 document.body.appendChild(d);d.addEventListener('click',function(ev){if(ev.target.classList.contains('ig-in')){d.remove();DEFER.prompt();DEFER.userChoice.then(function(r){track('app_install',{outcome:r.outcome,from:'redirect'});DEFER=null})}
 else if(ev.target===d||ev.target.classList.contains('ig-x'))d.remove()})},0)});
 try{history.replaceState(null,'',location.href.replace(/([?&])install=1&?/,'$1').replace(/[?&]$/,''))}catch(e){}}
