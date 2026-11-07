@@ -30,7 +30,34 @@ var b=ev.target.closest&&ev.target.closest('.sv');if(!b)return;ev.preventDefault
 var a=load(),s=b.getAttribute('data-s');
 if(has(a,s))a=a.filter(function(x){return x.s!==s});else a.unshift({s:s,p:b.getAttribute('data-p'),k:b.getAttribute('data-k'),c:b.getAttribute('data-c'),t:b.getAttribute('data-t')||''});
 store(a);sync()});
+function rx(q){return new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi')}
+function mark(t,q){var r=rx(q),o='',i=0,m;t=String(t);while((m=r.exec(t))){o+=esc(t.slice(i,m.index))+'<mark class="hit">'+esc(m[0])+'</mark>';i=m.index+m[0].length;if(!m[0].length)break}return o+esc(t.slice(i))}
+function snip(t,q){var i=t.toLowerCase().indexOf(q.toLowerCase());if(i<0)return '';var a=Math.max(0,i-40),b=Math.min(t.length,i+q.length+60);
+return (a>0?'… ':'')+mark(t.slice(a,b),q)+(b<t.length?' …':'')}
+function srow(x,q,body){return '<li class="row"><a href="e/'+esc(x.s)+'.html"><b>'+mark(x.p,q)+'</b><span>'+mark(x.k,q)+'</span>'+(body?'<span class="snip">'+body+'</span>':'')+'</a>'+btn({s:x.s,p:x.p,k:x.k,c:x.c,t:x.t})+'</li>'}
+function search(){var box=document.getElementById('found');if(!box)return;
+var q='';try{q=(new URLSearchParams(location.search).get('q')||'').trim()}catch(e){}
+var ins=document.querySelectorAll('.chips .q input');for(var i=0;i<ins.length;i++)ins[i].value=q;
+var h1=document.getElementById('qtitle');
+if(!q){h1.innerHTML='검색';box.innerHTML='';return}
+document.title=q+' 검색 | HOLT 영어';
+fetch(box.getAttribute('data-src')).then(function(r){return r.json()}).then(function(d){
+var ql=q.toLowerCase().replace(/’/g,"'"),hit=function(t){return String(t||'').toLowerCase().replace(/’/g,"'").indexOf(ql)>=0};
+var main=d.filter(function(x){return hit(x.p)||hit(x.k)});
+var rank=function(x){var p=x.p.toLowerCase(),k=x.k;return p===ql||k===q?0:(p.indexOf(ql)===0?1:2)};
+main.sort(function(a,b){return rank(a)-rank(b)});
+var ids={};main.forEach(function(x){ids[x.s]=1});
+var inBody=d.filter(function(x){return !ids[x.s]&&x.b.some(hit)});
+var html='',n=main.length+inBody.length;
+CATS.forEach(function(k){var l=main.filter(function(x){return x.c===k[0]});if(!l.length)return;
+html+='<div class="cat-head"><h2>'+k[1]+'<small>'+l.length+'</small></h2></div><ul class="rows">'+l.map(function(x){return srow(x,q)}).join('')+'</ul>'});
+if(inBody.length)html+='<div class="cat-head"><h2>예문·설명에서<small>'+inBody.length+'</small></h2></div><ul class="rows">'+inBody.map(function(x){
+var t='';for(var i=0;i<x.b.length;i++)if(hit(x.b[i])){t=snip(x.b[i],q);break}return srow(x,q,t)}).join('')+'</ul>';
+h1.innerHTML='‘'+esc(q)+'’ 검색 결과<small>'+n+'</small>';
+box.innerHTML=html||'<p class="empty">검색 결과가 없습니다.</p>';sync()}).catch(function(){box.innerHTML='<p class="empty">검색을 불러오지 못했습니다.</p>'})}
+document.addEventListener('submit',function(ev){var f=ev.target;if(!f.classList||!f.classList.contains('q')||!document.getElementById('found'))return;
+ev.preventDefault();var v=f.querySelector('input').value.trim();try{history.replaceState(null,'','search.html'+(v?'?q='+encodeURIComponent(v):''))}catch(e){}search()});
 document.addEventListener('keydown',function(ev){if(ev.altKey||ev.ctrlKey||ev.metaKey||/INPUT|TEXTAREA/.test((ev.target||{}).tagName||''))return;
 var a=ev.key==='ArrowLeft'?document.querySelector('a.nav.prev'):ev.key==='ArrowRight'?document.querySelector('a.nav.next'):null;if(a)location.href=a.href});
-render();sync();
+render();search();sync();
 })();
