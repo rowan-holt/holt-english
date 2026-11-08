@@ -1,3 +1,5 @@
 User-agent: *
 Allow: /
 Sitemap: https://english.holtnews.com/sitemap.xml
+
+#DaumWebMasterTool:abbfea81bb676b3afe64dbbd28f88410dce072e053c74f28c553e42d4f29cd01:8eDCqJCqTZrYCvf1G9zNRA==
