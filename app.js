@@ -35,10 +35,23 @@ else if(c&&name(c)){h=list(a.filter(function(x){return x.c===c}),name(c),'저장
 else{CATS.forEach(function(k){var l=a.filter(function(x){return x.c===k[0]});
 h+='<section>'+head(k[1],l.length,'saved.html?c='+k[0])+(l.length?'<div class="grid">'+l.map(card).join('')+'</div>':'<p class="empty">저장한 '+k[1]+ga(k[1])+' 없습니다.</p>')+'</section>'})}
 h+='<div class="listfoot"><nav class="pager" aria-label="페이지"></nav><div class="mine-tools"><button type="button" data-mt="reset">초기화</button>'+(CANEDIT?'<span>·</span><button type="button" class="edit-mine'+(EDIT?' on':'')+'">'+(EDIT?'완료':'편집')+'</button>':'')+'</div></div>';
-box.innerHTML=h;memoApply();sync();if(typeof paginate==='function')paginate()}
+box.innerHTML=statBar()+h;memoApply();sync();if(typeof paginate==='function')paginate()}
 var KK='holt_known_v1';
 function knownGet(){try{var o=JSON.parse(localStorage.getItem(KK));return o&&typeof o==='object'?o:{}}catch(e){return {}}}
 function knownSet(o){try{localStorage.setItem(KK,JSON.stringify(o))}catch(e){}}
+// 1108 간격 반복 복습: '알아요'를 누를 때마다 다음 복습 날짜가 1·3·7·14·30일 뒤로 밀리고, '아직 몰라요'면 처음부터
+var KS='holt_srs_v1',KL='holt_log_v1',IV=[0,1,3,7,14,30];
+function today(){var d=new Date();return Math.floor((d.getTime()-d.getTimezoneOffset()*6e4)/864e5)}
+function jget(k){try{var o=JSON.parse(localStorage.getItem(k));return o&&typeof o==='object'?o:{}}catch(e){return {}}}
+function jset(k,o){try{localStorage.setItem(k,JSON.stringify(o))}catch(e){}}
+function srsMark(s,ok){var r=jget(KS),x=r[s]||{b:0,d:0},t=today();x.b=ok?Math.min(x.b+1,IV.length-1):0;x.d=t+(ok?IV[x.b]:0);r[s]=x;jset(KS,r);
+var g=jget(KL);g[t]=g[t]||[0,0];g[t][0]++;if(ok)g[t][1]++;jset(KL,g)}
+function dueList(){var r=jget(KS),t=today();return load().filter(function(x){return r[x.s]&&r[x.s].d<=t})}
+function stats(){var g=jget(KL),t=today(),n=0,ok=0,st=0;for(var k in g){n+=g[k][0];ok+=g[k][1]}
+for(var d=g[t]?t:t-1;g[d];d--)st++;return {today:g[t]?g[t][0]:0,streak:st,acc:n?Math.round(ok*100/n):null}}
+function statBar(){var due=dueList().length,s=stats();if(!load().length)return '';
+return '<div class="srs"><div class="srs-n"><b>'+s.today+'</b>오늘 본 카드</div><div class="srs-n"><b>'+s.streak+'일</b>연속 학습</div><div class="srs-n"><b>'+(s.acc==null?'-':s.acc+'%')+'</b>알아요 비율</div>'
++(due?'<button type="button" class="fc-open srs-go" data-mode="review">오늘 복습할 카드 '+due+'개</button>':'<span class="srs-ok">'+(s.today?'오늘 복습 끝':'오늘 복습할 카드 없음')+'</span>')+'</div>'}
 var EDIT=false,CANEDIT=false;
 function mrow(x,k){return '<li class="row'+(k?' known':'')+'" data-ai="w-'+esc(x.s)+'"><a href="e/'+esc(x.s)+'.html"><b>'+esc(x.p)+'</b><span>'+esc(x.k)+'</span></a>'
 +(EDIT?'<button type="button" class="rm" data-s="'+esc(x.s)+'">빼기</button>'
@@ -46,15 +59,15 @@ function mrow(x,k){return '<li class="row'+(k?' known':'')+'" data-ai="w-'+esc(x
 +'<i class="sv" data-s="'+esc(x.s)+'" hidden></i></li>'}
 function b64e(t){return btoa(unescape(encodeURIComponent(t)))}function b64d(t){return decodeURIComponent(escape(atob(t)))}
 function mineTool(t){var a=load(),kn=knownGet();
-if(t==='copy'){var code='HOLT1.'+b64e(JSON.stringify({s:a,k:kn}));
+if(t==='copy'){var code='HOLT1.'+b64e(JSON.stringify({s:a,k:kn,r:jget(KS)}));
 var done=function(){alert('내 학습장 목록을 복사했어요. 메모장 등에 붙여 넣어 보관하고, 다른 기기에서 [붙여넣기]로 불러오세요.')};
 if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(code).then(done,function(){prompt('아래 코드를 복사해 두세요',code)});else prompt('아래 코드를 복사해 두세요',code);track('mine_copy',{n:a.length});return}
 if(t==='paste'){var v=prompt('[목록 복사]로 받은 코드를 붙여 넣어 주세요');if(!v)return;
 try{var d=JSON.parse(b64d(v.trim().replace(/^HOLT1\./,'')));var have={},n=0;a.forEach(function(x){have[x.s]=1});
 (d.s||[]).forEach(function(x){if(x&&x.s&&!have[x.s]){a.push(x);have[x.s]=1;n++}});
-for(var k in (d.k||{}))kn[k]=1;store(a);knownSet(kn);render();alert(n+'개를 불러왔어요.');track('mine_paste',{n:n})}catch(e){alert('코드를 읽지 못했어요. 처음부터 끝까지 그대로 붙여 넣었는지 확인해 주세요.')}return}
+for(var k in (d.k||{}))kn[k]=1;var rr=jget(KS);for(var k4 in (d.r||{}))if(!rr[k4])rr[k4]=d.r[k4];jset(KS,rr);store(a);knownSet(kn);render();alert(n+'개를 불러왔어요.');track('mine_paste',{n:n})}catch(e){alert('코드를 읽지 못했어요. 처음부터 끝까지 그대로 붙여 넣었는지 확인해 주세요.')}return}
 if(t==='reset'){if(!a.length&&!Object.keys(kn).length)return;
-if(confirm('내 학습장을 모두 비울까요? 저장한 '+a.length+'개와 외움 표시가 지워지고 되돌릴 수 없어요.')){store([]);knownSet({});render();track('mine_reset',{n:a.length})}}}
+if(confirm('내 학습장을 모두 비울까요? 저장한 '+a.length+'개와 외움 표시가 지워지고 되돌릴 수 없어요.')){store([]);knownSet({});jset(KS,{});jset(KL,{});render();track('mine_reset',{n:a.length})}}}
 var FC=null;
 var SPK='<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path d="M15.5 8.8a4.2 4.2 0 0 1 0 6.4M18.2 6.2a8 8 0 0 1 0 11.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',AU=null,AUB=null;
 function sayMark(){var r=document.querySelectorAll('.reading');for(var i=0;i<r.length;i++)r[i].classList.remove('reading')}
@@ -67,17 +80,17 @@ S.forEach(function(n){var m=n.matches('[data-ai="'+f+'"]')?[n]:n.querySelectorAl
 var a=AU=new Audio('/a/'+f+'.mp3');a.onended=function(){if(AU===a)setTimeout(function(){if(AU===a)nx()},350)};a.onerror=function(){if(AU===a)nx()};
 a.play().catch(function(){if(AU===a)sayStop()})}
 nx();track('listen',{a:L.length>1?L[0]+'+'+(L.length-1):L[0]})},true);
-function fcOpen(){var lis=document.querySelectorAll('#mine .mine-rows li'),kn=knownGet(),all=load(),by={};all.forEach(function(x){by[x.s]=x});
+function fcOpen(mode){var lis=document.querySelectorAll('#mine .mine-rows li'),kn=knownGet(),all=load(),by={};all.forEach(function(x){by[x.s]=x});
 var items=[];for(var i=0;i<lis.length;i++){var s=lis[i].querySelector('.sv').getAttribute('data-s');if(by[s])items.push(by[s])}
-var todo=items.filter(function(x){return !kn[x.s]});if(!todo.length)todo=items.slice();
+var todo=mode==='review'?dueList():items.filter(function(x){return !kn[x.s]});if(!todo.length&&mode!=='review')todo=items.slice();if(!todo.length)return;
 for(var j=todo.length-1;j>0;j--){var r=Math.floor(Math.random()*(j+1)),t=todo[j];todo[j]=todo[r];todo[r]=t}
 var dir='';try{dir=localStorage.getItem('holt_fc_dir')||''}catch(e){}
-FC={q:todo,total:todo.length,done:0,ko:dir?dir==='ko':memoGet()==='ko'};
-document.body.insertAdjacentHTML('beforeend','<div class="fc" role="dialog" aria-label="카드로 외우기"><div class="fc-top"><span class="fc-n"></span><span class="fc-dir" role="group" aria-label="앞면"><button type="button" data-d="en">영어 보고 뜻 맞히기</button><button type="button" data-d="ko">뜻 보고 영어 맞히기</button></span><button type="button" class="fc-x" aria-label="닫기">✕</button></div><div class="fc-card" tabindex="0"></div><div class="fc-btns"><button type="button" class="fc-again">아직 몰라요<small>조금 뒤 다시 나와요</small></button><button type="button" class="fc-ok">알아요<small>외움 ✓ 표시하고 넘어가요</small></button></div><p class="fc-hint"></p><button type="button" class="say fc-say">발음 듣기</button></div>');
+FC={q:todo,total:todo.length,done:0,ko:dir?dir==='ko':memoGet()==='ko',rv:mode==='review'};
+document.body.insertAdjacentHTML('beforeend','<div class="fc" role="dialog" aria-label="카드로 외우기"><div class="fc-top"><span class="fc-n"></span><span class="fc-dir" role="group" aria-label="앞면"><button type="button" data-d="en">영어 보고 뜻 맞히기</button><button type="button" data-d="ko">뜻 보고 영어 맞히기</button></span><button type="button" class="fc-x" aria-label="닫기">✕</button></div><div class="fc-card" tabindex="0"></div><div class="fc-btns"><button type="button" class="fc-again">아직 몰라요<small>조금 뒤 다시 나와요</small></button><button type="button" class="fc-ok">알아요<small>외움 ✓, 며칠 뒤 다시 복습해요</small></button></div><p class="fc-hint"></p><button type="button" class="say fc-say">발음 듣기</button></div>');
 document.body.style.overflow='hidden';fcShow();track('flashcard_open',{n:todo.length})}
 function fcShow(){var el=document.querySelector('.fc');if(!el)return;var card=el.querySelector('.fc-card');card.classList.remove('flipped');
 el.querySelector('.fc-n').textContent='남은 카드 '+FC.q.length+' · 외움 '+FC.done;
-if(!FC.q.length){card.innerHTML='<div class="fc-front">끝!</div><div class="fc-back" style="visibility:visible">'+FC.total+'개 모두 외움 ✓ 표시했어요</div>';el.querySelector('.fc-btns').style.display='none';el.querySelector('.fc-hint').style.display='none';el.querySelector('.fc-say').style.display='none';return}
+if(!FC.q.length){card.innerHTML='<div class="fc-front">끝!</div><div class="fc-back" style="visibility:visible">'+(FC.rv?'오늘 복습 '+FC.total+'개를 마쳤어요':FC.total+'개 모두 외움 ✓ 표시했어요')+'</div>';el.querySelector('.fc-btns').style.display='none';el.querySelector('.fc-hint').style.display='none';el.querySelector('.fc-say').style.display='none';return}
 var ds=el.querySelectorAll('.fc-dir button');for(var i=0;i<ds.length;i++)ds[i].classList.toggle('on',(ds[i].getAttribute('data-d')==='ko')===FC.ko);
 el.querySelector('.fc-hint').textContent=FC.ko?'카드를 누르면 영어가 보여요':'카드를 누르면 뜻이 보여요';
 var x=FC.q[0],f=FC.ko?x.k:x.p,b=FC.ko?x.p:x.k;sayStop();el.querySelector('.fc-say').setAttribute('data-a','w-'+x.s);
@@ -90,11 +103,12 @@ if(t.classList.contains('edit-mine')){EDIT=!EDIT;render();return}
 if(t.classList.contains('rm')){var s2=t.getAttribute('data-s');store(load().filter(function(x){return x.s!==s2}));track('unsave_item',{item:s2});render();return}
 if(t.classList.contains('hide-kn')){try{localStorage.setItem('holt_hide_known',t.classList.contains('on')?'0':'1')}catch(e){}render();return}
 if(t.hasAttribute('data-mt'))return mineTool(t.getAttribute('data-mt'));
-if(t.classList.contains('fc-open'))return fcOpen();
+if(t.classList.contains('fc-open'))return fcOpen(t.getAttribute('data-mode'));
 if(t.classList.contains('fc-x'))return fcClose();
 if(t.classList.contains('fc-card'))return t.classList.toggle('flipped');
 if(!FC||!FC.q.length)return;var x=FC.q.shift();
-if(t.classList.contains('fc-ok')){var k2=knownGet();k2[x.s]=1;knownSet(k2);FC.done++}else{FC.q.push(x)}fcShow()});
+if(t.classList.contains('fc-ok')){var k2=knownGet();k2[x.s]=1;knownSet(k2);FC.done++;srsMark(x.s,true);track('srs_ok',{item:x.s})}
+else{FC.q.push(x);srsMark(x.s,false);if(FC.rv){var k3=knownGet();delete k3[x.s];knownSet(k3)}track('srs_again',{item:x.s})}fcShow()});
 document.addEventListener('keydown',function(ev){if(!FC)return;if(ev.key==='Escape')fcClose();else if(ev.key===' '){ev.preventDefault();var c=document.querySelector('.fc-card');if(c)c.classList.toggle('flipped')}});
 document.addEventListener('click',function(ev){
 var mb=ev.target.closest&&ev.target.closest('.memo button');
