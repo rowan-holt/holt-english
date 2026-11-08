@@ -28,7 +28,7 @@ var a=load(),h='',kn=knownGet();
 function list(l,title,empty){CANEDIT=l.length>0;var nk=l.filter(function(x){return kn[x.s]}).length;
 var shown=l.filter(function(x){return !kn[x.s]}).concat(l.filter(function(x){return kn[x.s]}));   // 외운 것은 맨 아래로
 return '<div class="cat-head"><h2>'+title+'<small>'+l.length+(nk?' · 외움 '+nk:'')+'</small>'+(shown.length?'<button type="button" class="say" data-a="'+shown.map(function(x){return 'w-'+esc(x.s)}).join(' ')+'" aria-label="'+title+' 전체 듣기">'+SPK+'</button>':'')+'</h2><div class="ctl">'
-+(l.length?'<button type="button" class="fc-open">카드로 외우기</button>':'')+'</div>'+'</div>'
++'</div>'+'</div>'
 +(shown.length?'<ul class="rows mine-rows">'+shown.map(function(x){return mrow(x,kn[x.s])}).join('')+'</ul>':'<p class="empty">'+empty+'</p>')}
 if(c==='all'){h=list(a,'전체','저장한 것이 없습니다.')}
 else if(c&&name(c)){h=list(a.filter(function(x){return x.c===c}),name(c),'저장한 '+name(c)+ga(name(c))+' 없습니다.')}
@@ -51,7 +51,8 @@ function stats(){var g=jget(KL),t=today(),n=0,ok=0,st=0;for(var k in g){n+=g[k][
 for(var d=g[t]?t:t-1;g[d];d--)st++;return {today:g[t]?g[t][0]:0,streak:st,acc:n?Math.round(ok*100/n):null}}
 function statBar(){var due=dueList().length,s=stats();if(!load().length)return '';
 return '<div class="srs"><div class="srs-n"><b>'+s.today+'</b>오늘 본 카드</div><div class="srs-n"><b>'+s.streak+'일</b>연속 학습</div><div class="srs-n"><b>'+(s.acc==null?'-':s.acc+'%')+'</b>알아요 비율</div>'
-+(due?'<button type="button" class="fc-open srs-go" data-mode="review">오늘 복습할 카드 '+due+'개</button>':'<span class="srs-ok">'+(s.today?'오늘 복습 끝':'오늘 복습할 카드 없음')+'</span>')+'</div>'}
++'<div class="srs-act">'+(due?'<button type="button" class="fc-open srs-go" data-mode="review">오늘 복습 '+due+'개</button>':'')
++'<button type="button" class="fc-open srs-card">카드로 외우기</button></div></div>'}
 var EDIT=false,CANEDIT=false;
 function mrow(x,k){return '<li class="row'+(k?' known':'')+'" data-ai="w-'+esc(x.s)+'"><a href="e/'+esc(x.s)+'.html"><b>'+esc(x.p)+'</b><span>'+esc(x.k)+'</span></a>'
 +(EDIT?'<button type="button" class="rm" data-s="'+esc(x.s)+'">빼기</button>'
@@ -82,6 +83,7 @@ a.play().catch(function(){if(AU===a)sayStop()})}
 nx();track('listen',{a:L.length>1?L[0]+'+'+(L.length-1):L[0]})},true);
 function fcOpen(mode){var lis=document.querySelectorAll('#mine .mine-rows li'),kn=knownGet(),all=load(),by={};all.forEach(function(x){by[x.s]=x});
 var items=[];for(var i=0;i<lis.length;i++){var s=lis[i].querySelector('.sv').getAttribute('data-s');if(by[s])items.push(by[s])}
+if(!lis.length)items=all.slice();   // 내 학습장 첫 화면(목록 없음)에서는 저장한 것 전체로
 var todo=mode==='review'?dueList():items.filter(function(x){return !kn[x.s]});if(!todo.length&&mode!=='review')todo=items.slice();if(!todo.length)return;
 for(var j=todo.length-1;j>0;j--){var r=Math.floor(Math.random()*(j+1)),t=todo[j];todo[j]=todo[r];todo[r]=t}
 var dir='';try{dir=localStorage.getItem('holt_fc_dir')||''}catch(e){}
