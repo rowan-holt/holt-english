@@ -12,8 +12,8 @@ border-bottom:1px solid var(--line);background:var(--bg)}
 .logo{font-family:"Jost",sans-serif;font-weight:500;font-size:clamp(30px,5vw,70px);letter-spacing:.05em;line-height:1.15;white-space:nowrap}
 .top .logo{display:flex;flex-direction:column;align-items:center;gap:.07em;line-height:.92}
 .top .logo .vv{font-weight:400;font-size:.2em;letter-spacing:.16em;line-height:1;color:var(--ink2)}
-.top .right{justify-self:end;font-size:clamp(14px,1.25vw,18px)}
-.top .right:hover{text-decoration:underline;text-underline-offset:5px}
+.top .right{justify-self:end;font-size:clamp(14px,1.25vw,18px);display:flex;gap:22px}   /* 1111: HOLT NEWS·HOLT ISSUE 두 링크 */
+.top .right a:hover{text-decoration:underline;text-underline-offset:5px}
 /* 첫 줄 */
 .intro{display:flex;justify-content:space-between;align-items:baseline;gap:20px;padding:44px 24px 18px;border-bottom:1px solid var(--line)}
 .intro h1{margin:0;font-weight:500;font-size:clamp(20px,2.2vw,30px);line-height:1.45;max-width:820px}
@@ -234,7 +234,7 @@ footer.site{position:relative}footer.site .install{position:absolute;left:50%;to
 .grid .card:nth-child(3n){border-right:0}}
 @media (max-width:700px){.top{grid-template-columns:1fr auto;padding:5px 16px 6px;row-gap:2px}
 .top .logo{gap:2px}.top .logo .vv{font-size:9.5px}
-.top .logo{grid-column:1;grid-row:1;justify-self:start;font-size:28px}.top .right{grid-column:2;grid-row:1;font-size:14px}
+.top .logo{grid-column:1;grid-row:1;justify-self:start;font-size:28px}.top .right{grid-column:2;grid-row:1;font-size:13px;flex-direction:column;gap:0;align-items:flex-end;line-height:1.6}
 .top>span{display:none}
 .chips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
 .chips a{padding:12px 4px;font-size:14.5px}.chips a:nth-child(3n){border-right:0}
