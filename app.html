@@ -58,7 +58,7 @@ document.querySelectorAll('#tb [data-k]').forEach(function(b){b.addEventListener
 if(k===cur)frame(k,S[k]);else location.hash=k})});
 addEventListener('message',function(ev){if(!/^https:\/\/(english\.|issue\.)?holtnews\.com$/.test(ev.origin))return;var d=ev.data;
 if(!d||d.holt!=='go'||typeof d.url!=='string')return;var k=keyOf(d.url);if(!k)return;frame(k,d.url);if(k!==cur)location.hash=k});
-function open(isFirst){first=isFirst;var p=get();sh.querySelectorAll('.op').forEach(function(o){o.classList.toggle('on',o.getAttribute('data-k')===p)});
+function open(isFirst){first=isFirst;var p=get()||'news';sh.querySelectorAll('.op').forEach(function(o){o.classList.toggle('on',o.getAttribute('data-k')===p)});
 document.getElementById('shx').hidden=isFirst;sh.hidden=false}
 sh.querySelectorAll('.op').forEach(function(o){o.addEventListener('click',function(){var k=o.getAttribute('data-k');put(k);
 sh.querySelectorAll('.op').forEach(function(x){x.classList.toggle('on',x===o)});
@@ -66,7 +66,7 @@ setTimeout(function(){sh.hidden=true;if(first){history.replaceState(null,'','#'+
 document.getElementById('set').addEventListener('click',function(){open(false)});
 document.getElementById('shx').addEventListener('click',function(){sh.hidden=true});
 sh.addEventListener('click',function(ev){if(ev.target===sh&&!first)sh.hidden=true});
-if(!fromHash()){var p=get();if(p&&S[p]){history.replaceState(null,'','#'+p);show(p)}else open(true)}
+if(!fromHash()){var p=get();p=(p&&S[p])?p:'news';history.replaceState(null,'','#'+p);show(p)}
 })();</script>
 </body>
 </html>
