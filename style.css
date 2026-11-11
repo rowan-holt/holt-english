@@ -274,3 +274,4 @@ footer.site{grid-template-columns:1fr auto;padding:32px 20px 40px}footer.site>di
 .term .prev{justify-content:flex-start;text-align:left;border-right:1px solid var(--line)}.term .next{flex-direction:row-reverse;justify-content:flex-start;text-align:right}
 .nav .ar{font-size:22px;flex:none}.nav .nl{font-size:13.5px;max-width:none;-webkit-line-clamp:1;word-break:break-all}
 table,tbody,tr,td{display:block}tr{padding:10px 0;border-bottom:1px solid #ddd}td{border:0;padding:2px 0}tr:last-child{border:0}}
+html.in-app header.top .right{visibility:hidden}

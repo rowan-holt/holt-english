@@ -4,7 +4,7 @@
  "description": "Vocabulary Vault — 뉴스와 연구 이야기에 실제로 나온 영어 단어·표현·문장. 뜻, 원문, 함께 알아 두면 좋은 표현, 퀴즈까지.",
  "lang": "ko",
  "id": "/",
- "start_url": "/?source=app",
+ "start_url": "/app.html",
  "scope": "/",
  "display": "standalone",
  "background_color": "#ffffff",
@@ -29,20 +29,20 @@
  ],
  "shortcuts": [
   {
+   "name": "HOLT NEWS",
+   "url": "/app.html#news"
+  },
+  {
+   "name": "HOLT ISSUE",
+   "url": "/app.html#issue"
+  },
+  {
    "name": "내 학습장",
-   "url": "/saved.html?c=all"
+   "url": "/app.html#english/saved.html?c=all"
   },
   {
-   "name": "단어",
-   "url": "/words.html"
-  },
-  {
-   "name": "표현",
-   "url": "/phrases.html"
-  },
-  {
-   "name": "문장",
-   "url": "/sentences.html"
+   "name": "오답 노트",
+   "url": "/app.html#issue/notes.html"
   }
  ]
 }
