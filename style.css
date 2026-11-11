@@ -188,6 +188,13 @@ details[open] summary{background:var(--ink);color:#fff}
 .meta{font-size:13px;color:var(--gray);margin-top:20px}
 .meta a{text-decoration:underline}
 .occ+.occ{margin-top:40px}
+.hn-card{margin:22px 0 6px;border:1.5px solid var(--ink);padding:18px 20px 16px;background:#fff}
+.hn-k{display:block;font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--ink2)}
+.hn-t{display:block;margin-top:6px;font-size:19px;font-weight:800;line-height:1.4;letter-spacing:-.02em}.hn-t:hover{text-decoration:underline;text-underline-offset:4px}
+.hn-d{margin:6px 0 0;font-size:14px;line-height:1.6;color:var(--ink2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.hn-b{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.hn-b a{font-size:14px;font-weight:700;padding:9px 16px;border:1px solid var(--ink)}
+.hn-go{background:var(--ink);color:#fff}.hn-go:hover{opacity:.85}.hn-en:hover{background:var(--soft)}
 a.tl b{text-decoration:underline;text-decoration-color:#bbb;text-underline-offset:4px}a.tl:hover b{text-decoration-color:var(--ink)}.sub-h{margin:26px 0 8px;font-weight:600;color:var(--ink2)}
 .ad{margin:28px 0}
 .ad.direct{position:relative;text-align:center;margin:28px auto;max-width:740px;padding:0 16px}
