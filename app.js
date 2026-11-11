@@ -216,6 +216,7 @@ var d=document.createElement('div');d.className='ig';d.setAttribute('role','dial
 d.innerHTML='<div class="ig-box"><h3>HOLT</h3><button type="button" class="ig-go ig-in">설치</button><button type="button" class="ig-x">닫기</button></div>';
 document.body.appendChild(d);d.addEventListener('click',function(ev){if(ev.target.classList.contains('ig-in')){d.remove();DEFER.prompt();DEFER.userChoice.then(function(r){track('app_install',{outcome:r.outcome,from:'redirect'});DEFER=null})}
 else if(ev.target===d||ev.target.classList.contains('ig-x'))d.remove()})},0)});
+if(NOTCHROME)toChrome();else setTimeout(function(){if(!DEFER&&!document.querySelector('.ig'))installGuide()},1800);
 try{history.replaceState(null,'',location.href.replace(/([?&])install=1&?/,'$1').replace(/[?&]$/,''))}catch(e){}}
 document.addEventListener('click',function(ev){var t=ev.target.closest&&ev.target.closest('.install');if(!t)return;ev.preventDefault();
 if(NOTCHROME){toChrome();return}
