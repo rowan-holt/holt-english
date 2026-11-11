@@ -218,6 +218,8 @@ a.tl b{text-decoration:underline;text-decoration-color:#bbb;text-underline-offse
 footer.site{background:#000;color:#cfcfcf;margin-top:80px;padding:40px 56px 48px;font-size:13px;line-height:1.8;
 display:grid;grid-template-columns:auto 1fr auto;gap:20px 48px;align-items:start}
 footer.site .logo-s{font-family:"Jost",sans-serif;font-weight:600;color:#fff;font-size:17px;letter-spacing:.04em}
+/* 1111 꼬리말: HOLT NEWS | ENGLISH | ISSUE — 세 사이트 공통(HOLT는 맨 앞에만) */
+footer.site .brand{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}footer.site .brand i{font-style:normal;font-weight:400;opacity:.5;font-family:var(--sans)}footer.site .brand .sib{font-family:var(--sans);font-weight:400;font-size:15px;letter-spacing:0;color:#fff}footer.site .brand .sib:hover{text-decoration:underline;text-underline-offset:4px}
 footer.site nav{display:flex;gap:10px;flex-wrap:wrap;color:#fff}footer.site nav span{opacity:.5}
 footer.site .c{text-align:right;align-self:end}
 footer.site{position:relative}footer.site .install{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:#fff;border:1px solid #fff;padding:7px 18px;font-size:14px;line-height:1.4}footer.site .install:hover{background:#fff;color:#000}footer.site .install[hidden]{display:none}
