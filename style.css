@@ -221,7 +221,7 @@ footer.site .logo-s{font-family:"Jost",sans-serif;font-weight:600;color:#fff;fon
 /* 1111 꼬리말: HOLT NEWS | ENGLISH | ISSUE — 세 사이트 공통(HOLT는 맨 앞에만) */
 footer.site .brand{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}footer.site .brand i{font-style:normal;font-weight:400;opacity:.5;font-family:var(--sans)}footer.site .brand .sib{font-family:var(--sans);font-weight:400;font-size:15px;letter-spacing:0;color:#fff}footer.site .brand .sib:hover{text-decoration:underline;text-underline-offset:4px}
 footer.site nav{display:flex;gap:10px;flex-wrap:wrap;color:#fff}footer.site nav span{opacity:.5}
-footer.site .c{text-align:right;align-self:end}
+footer.site .c{text-align:right;align-self:end}footer.site .c .install{margin:0 0 12px}/* 1112 사용자: 앱으로 설치는 꼬리말 오른쪽(© 위)으로 */
 footer.site .install{display:inline-block;margin-top:14px;color:#fff;border:1px solid #fff;padding:6px 16px;font-size:13px;line-height:1.4;text-decoration:none}footer.site .install:hover{background:#fff;color:#000}footer.site .install[hidden]{display:none}footer.site .brand>:not(.cur):not(i){opacity:.5}footer.site .brand>:not(.cur):not(i):hover{opacity:1}
 .ig{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px}
 .ig-box{background:#fff;color:var(--ink);max-width:360px;width:100%;padding:26px 24px 20px;border:1px solid var(--ink)}
