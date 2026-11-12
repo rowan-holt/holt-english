@@ -222,13 +222,13 @@ footer.site .logo-s{font-family:"Jost",sans-serif;font-weight:600;color:#fff;fon
 footer.site .brand{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}footer.site .brand i{font-style:normal;font-weight:400;opacity:.5;font-family:var(--sans)}footer.site .brand .sib{font-family:var(--sans);font-weight:400;font-size:15px;letter-spacing:0;color:#fff}footer.site .brand .sib:hover{text-decoration:underline;text-underline-offset:4px}
 footer.site nav{display:flex;gap:10px;flex-wrap:wrap;color:#fff}footer.site nav span{opacity:.5}
 footer.site .c{text-align:right;align-self:end}
-footer.site{position:relative}footer.site .install{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:#fff;border:1px solid #fff;padding:7px 18px;font-size:14px;line-height:1.4}footer.site .install:hover{background:#fff;color:#000}footer.site .install[hidden]{display:none}
+footer.site .install{display:inline-block;margin-top:14px;color:#fff;border:1px solid #fff;padding:6px 16px;font-size:13px;line-height:1.4;text-decoration:none}footer.site .install:hover{background:#fff;color:#000}footer.site .install[hidden]{display:none}footer.site .brand .cur{opacity:.5}
 .ig{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px}
 .ig-box{background:#fff;color:var(--ink);max-width:360px;width:100%;padding:26px 24px 20px;border:1px solid var(--ink)}
 .ig-box h3{margin:0 0 12px;font-size:18px}.ig-box p{margin:0 0 10px;font-size:15px;line-height:1.6}.ig-box .ig-s{font-size:13px;color:var(--gray)}
 .ig-go{display:block;width:100%;margin-top:16px;padding:11px 0;text-align:center;background:var(--ink);color:#fff;border:0;font:inherit;font-size:15px;font-weight:600;cursor:pointer}.ig-go~.ig-x{background:none;color:var(--ink);margin-top:8px;width:100%}
 .ig-x{display:block;margin:16px 0 0 auto;border:1px solid var(--ink);background:var(--ink);color:#fff;font:inherit;font-size:14px;padding:7px 20px;cursor:pointer}
-@media (max-width:1200px){footer.site .install{position:static;transform:none;grid-column:2;justify-self:start;margin-top:-6px}}
+
 @media (max-width:1000px){.recent .posts{grid-template-columns:repeat(2,minmax(0,1fr))}.post:nth-child(2n){border-right:0}
 .post:nth-child(-n+2){border-bottom:1px solid var(--line)}.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.grid .card:nth-child(4n){border-right:1px solid var(--line)}
 .grid .card:nth-child(3n){border-right:0}}
@@ -267,7 +267,7 @@ footer.site{position:relative}footer.site .install{position:absolute;left:50%;to
 .card b{font-size:min(26px,calc((100cqi - 56px) / (var(--n,1) * .58)))}.card b.m{font-size:min(21px,calc((100cqi - 56px) / (var(--n,1) * .58)))}.card b.l{font-size:16.5px}.card .k{font-size:14px}
 .intro{flex-direction:column;padding:30px 16px 14px}.cat-head{padding:30px 16px 12px}.cat-desc{padding:12px 16px}
 .chips a{padding:10px 14px;font-size:14px}.alpha{padding:0 16px}.alpha li{margin-right:0}
-footer.site{grid-template-columns:1fr auto;padding:32px 20px 40px}footer.site>div:not(.logo-s){grid-column:1/-1}footer.site .c{text-align:left}footer.site .install{position:static;transform:none;grid-row:1;grid-column:2;justify-self:end;align-self:center;margin:0;padding:5px 14px;font-size:13px}
+footer.site{grid-template-columns:1fr;padding:32px 20px 40px}footer.site .c{text-align:left}
 .term{grid-template-columns:1fr 1fr;grid-template-areas:"mid mid" "prev next";padding:40px 0 0}
 .term .mid{padding:0 16px 28px}
 .nav{flex-direction:row;gap:8px;padding:13px 16px;border-top:1px solid var(--line);min-height:50px}
