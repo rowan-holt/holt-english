@@ -170,6 +170,8 @@ a.prev:hover .ar{transform:translateX(-4px)}a.next:hover .ar{transform:translate
 .term .kind{font-size:13px;letter-spacing:.06em;color:var(--gray);margin-bottom:10px}
 .term .kind a:hover{text-decoration:underline}
 .term h1{margin:0;font-family:"Jost",sans-serif;font-weight:500;font-size:clamp(40px,7vw,96px);line-height:1.08;letter-spacing:-.01em}
+.term .ipa{margin:10px 0 0;font-family:-apple-system,BlinkMacSystemFont,Roboto,"Segoe UI","Noto Sans","Lucida Grande",sans-serif;font-size:clamp(16px,1.6vw,20px);color:var(--gray);letter-spacing:.02em}
+.term .ipa+.meaning{margin-top:14px}
 .term .meaning{margin:22px 0 0;font-size:clamp(19px,2vw,24px);font-weight:700}
 .doc{max-width:740px;margin:0 auto;padding:10px 20px}
 .sub{display:none}
