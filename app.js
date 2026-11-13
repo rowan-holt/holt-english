@@ -39,7 +39,7 @@ box.innerHTML=statBar()+h;memoApply();sync();if(typeof paginate==='function')pag
 var KK='holt_known_v1';
 function knownGet(){try{var o=JSON.parse(localStorage.getItem(KK));return o&&typeof o==='object'?o:{}}catch(e){return {}}}
 function knownSet(o){try{localStorage.setItem(KK,JSON.stringify(o))}catch(e){}}
-// 1108 간격 반복 복습: '알아요'를 누를 때마다 다음 복습 날짜가 1·3·7·14·30일 뒤로 밀리고, '아직 몰라요'면 처음부터
+// 1108 간격 반복 복습: '알아요'를 누를 때마다 다음 복습 날짜가 1·3·7·14·30일 뒤로 밀리고, '몰라요'면 처음부터  // 1113 사용자: '아직 몰라요' → '몰라요'
 var KS='holt_srs_v1',KL='holt_log_v1',IV=[0,1,3,7,14,30];
 function today(){var d=new Date();return Math.floor((d.getTime()-d.getTimezoneOffset()*6e4)/864e5)}
 function jget(k){try{var o=JSON.parse(localStorage.getItem(k));return o&&typeof o==='object'?o:{}}catch(e){return {}}}
@@ -88,7 +88,7 @@ var todo=mode==='review'?dueList():items.filter(function(x){return !kn[x.s]});if
 for(var j=todo.length-1;j>0;j--){var r=Math.floor(Math.random()*(j+1)),t=todo[j];todo[j]=todo[r];todo[r]=t}
 var dir='';try{dir=localStorage.getItem('holt_fc_dir')||''}catch(e){}
 FC={q:todo,total:todo.length,done:0,ko:dir?dir==='ko':memoGet()==='ko',rv:mode==='review'};
-document.body.insertAdjacentHTML('beforeend','<div class="fc" role="dialog" aria-label="카드로 외우기"><div class="fc-top"><span class="fc-n"></span><span class="fc-dir" role="group" aria-label="앞면"><button type="button" data-d="en">영어 보고 뜻 맞히기</button><button type="button" data-d="ko">뜻 보고 영어 맞히기</button></span><button type="button" class="fc-x" aria-label="닫기">✕</button></div><div class="fc-card" tabindex="0"></div><div class="fc-btns"><button type="button" class="fc-again">아직 몰라요<small>조금 뒤 다시 나와요</small></button><button type="button" class="fc-ok">알아요<small>외움 ✓, 며칠 뒤 다시 복습해요</small></button></div><p class="fc-hint"></p><button type="button" class="say fc-say">발음 듣기</button></div>');
+document.body.insertAdjacentHTML('beforeend','<div class="fc" role="dialog" aria-label="카드로 외우기"><div class="fc-top"><span class="fc-n"></span><span class="fc-dir" role="group" aria-label="앞면"><button type="button" data-d="en">영어 보고 뜻 맞히기</button><button type="button" data-d="ko">뜻 보고 영어 맞히기</button></span><button type="button" class="fc-x" aria-label="닫기">✕</button></div><div class="fc-card" tabindex="0"></div><div class="fc-btns"><button type="button" class="fc-again">몰라요<small>조금 뒤 다시 나와요</small></button><button type="button" class="fc-ok">알아요<small>외움 ✓, 며칠 뒤 다시 복습해요</small></button></div><p class="fc-hint"></p><button type="button" class="say fc-say">발음 듣기</button></div>');
 document.body.style.overflow='hidden';fcShow();track('flashcard_open',{n:todo.length})}
 function fcShow(){var el=document.querySelector('.fc');if(!el)return;var card=el.querySelector('.fc-card');card.classList.remove('flipped');
 el.querySelector('.fc-n').textContent='남은 카드 '+FC.q.length+' · 외움 '+FC.done;
