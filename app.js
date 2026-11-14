@@ -163,7 +163,7 @@ ev.preventDefault();var v=f.querySelector('input').value.trim();try{history.repl
 document.addEventListener('keydown',function(ev){if(ev.altKey||ev.ctrlKey||ev.metaKey||/INPUT|TEXTAREA/.test((ev.target||{}).tagName||''))return;
 var a=ev.key==='ArrowLeft'?document.querySelector('a.nav.prev'):ev.key==='ArrowRight'?document.querySelector('a.nav.next'):null;if(a)location.href=a.href});
 function psGet(){try{return +localStorage.getItem('holt_ps')||30}catch(e){return 30}}
-function setupList(ul){var it=ul.children,n=it.length,ps=psGet(),head=ul.previousElementSibling;
+function setupList(ul){var it=ul.querySelectorAll(':scope>.row'),n=it.length,ps=psGet(),head=ul.previousElementSibling;
 var nx=ul.nextElementSibling,foot=(nx&&nx.classList.contains('listfoot'))?nx:(ul.parentNode.querySelector(':scope > .listfoot'));if(nx&&nx.classList.contains('pager'))nx.remove();
 if(head&&head.classList.contains('cat-head')){var o=head.querySelector('.psize');if(o)o.remove();
 head.classList.remove('has-ps');
@@ -171,6 +171,7 @@ if(n>10){head.insertAdjacentHTML('beforeend','<div class="psize">'+[10,30,50,100
 var sp=head.querySelector('h2 .say');if(sp){var cl=sp.cloneNode(true);cl.classList.add('ps-say');head.querySelector('.psize').insertBefore(cl,head.querySelector('.psize').firstChild);head.classList.add('has-ps')}}}   // 모바일: 두 줄일 때 스피커를 아래 줄 왼쪽으로
 var pages=Math.max(1,Math.ceil(n/ps)),cur=ul._p||+(new URLSearchParams(location.search).get('p'))||1;cur=Math.min(Math.max(1,cur),pages);ul._p=cur;
 for(var i=0;i<n;i++)it[i].style.display=(i>=(cur-1)*ps&&i<cur*ps)?'':'none';
+var ar=ul.querySelectorAll(':scope>.adrow');for(var j=0;j<ar.length;j++){var pv=ar[j].previousElementSibling;ar[j].style.display=pv?pv.style.display:'none'}   // 1115 광고 줄은 바로 앞 줄이 보일 때만
 if(foot)foot.querySelector('.pager').innerHTML='';if(pages<2)return;var b=[],add=function(p,l,on){b.push('<button type="button" data-p="'+p+'"'+(on?' class="on" aria-current="page"':'')+'>'+l+'</button>')};
 if(cur>1)add(cur-1,'‹');var last=0;for(var p=1;p<=pages;p++){if(p===1||p===pages||Math.abs(p-cur)<=(innerWidth<700?1:2)){if(last&&p-last>1)b.push('<span>…</span>');add(p,p,p===cur);last=p}}
 if(cur<pages)add(cur+1,'›');if(foot){foot.querySelector('.pager').innerHTML=b.join('');return}ul.insertAdjacentHTML('afterend','<nav class="pager" aria-label="페이지">'+b.join('')+'</nav>')}
