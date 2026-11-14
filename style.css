@@ -178,6 +178,7 @@ a.prev:hover .ar{transform:translateX(-4px)}a.next:hover .ar{transform:translate
 .doc h2{font-size:14px;font-weight:600;letter-spacing:.04em;color:var(--gray);margin:44px 0 12px;padding-top:14px;border-top:1px solid var(--line)}
 mark{background:linear-gradient(transparent 55%,var(--hl) 55%);color:inherit;padding:0 1px}
 .box{background:var(--soft);padding:18px 20px}
+.sib{margin-top:28px;font-size:14px;color:var(--ink2);line-height:1.9}.sib b.me{font-weight:600}.sib .tl+.tl::before,.sib b+.tl::before,.sib .tl+b::before{content:', ';color:var(--ink2)}
 .en{font-family:var(--latin);font-size:19px;margin:0;line-height:1.6}.ko{color:var(--ink2);margin:4px 0 0}
 .pair+.pair{margin-top:18px}
 table{border-collapse:collapse;width:100%;font-size:15.5px}
