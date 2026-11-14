@@ -1,4 +1,4 @@
-:root{--bg:#fff;--ink:#111;--ink2:#444;--gray:#8a8a8a;--line:#111;--soft:#f3f3f1;--hl:#ffe28c;
+:root{--bg:#fff;--ink:#111;--ink2:#444;--gray:#6b6b6b;/* 1114 접근성: 회색 글씨 대비 4.5:1 이상 */--line:#111;--soft:#f3f3f1;--hl:#ffe28c;
 --latin:"Jost","Pretendard Variable",Pretendard,sans-serif;
 --sans:"Pretendard Variable",Pretendard,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif}
 *,*::before,*::after{box-sizing:border-box}
@@ -64,7 +64,7 @@ body.memo-en .grid .card:not(.open):hover .k,body.memo-ko .grid .card:not(.open)
 .sv.on path{fill:currentColor}.sv:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .sv.big{margin-top:16px}.sv.big svg{width:30px;height:30px}
 /* 스피커 아래 끝 = 옆 글자 바닥선(1108). 버튼 바닥선 = svg 아래 끝이라 아이콘 그림 아래 빈칸(24칸 중 5.4)만큼 vertical-align으로 내림, 위·아래 음수 margin은 줄 높이 안 늘리려고 */
-.say{--i:18px;--p:4px;background:none;border:0;padding:var(--p) 6px;margin:calc(-1*var(--p) - var(--i)*.25) 0 calc(-1*var(--p) - var(--i)*5.4/24) 4px;cursor:pointer;color:#8a8a8a;line-height:0;vertical-align:calc(var(--i)*-5.4/24);-webkit-tap-highlight-color:transparent}
+.say{--i:18px;--p:4px;background:none;border:0;padding:var(--p) 6px;margin:calc(-1*var(--p) - var(--i)*.25) 0 calc(-1*var(--p) - var(--i)*5.4/24) 4px;cursor:pointer;color:#6b6b6b;line-height:0;vertical-align:calc(var(--i)*-5.4/24);-webkit-tap-highlight-color:transparent}
 .say svg{display:block;width:var(--i);height:var(--i)}
 .say:hover,.say.on{color:var(--ink)}.say:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .say.big{--i:26px;--p:6px;margin-left:.12em}.acts{display:flex;justify-content:center;gap:6px}.acts .sv.big{margin-top:16px}
@@ -278,3 +278,15 @@ footer.site{grid-template-columns:1fr;padding:32px 20px 40px}footer.site .c{text
 .nav .ar{font-size:22px;flex:none}.nav .nl{font-size:13.5px;max-width:none;-webkit-line-clamp:1;word-break:break-all}
 table,tbody,tr,td{display:block}tr{padding:10px 0;border-bottom:1px solid #ddd}td{border:0;padding:2px 0}tr:last-child{border:0}}
 html.in-app header.top .right{visibility:hidden}html.in-app .install{display:none!important}html.in-app .foot .brand,html.in-app footer.site .brand{display:none!important}html.in-app .foot,html.in-app footer.site{margin-top:40px!important;padding:20px 20px 22px!important;gap:6px 24px!important;line-height:1.6!important}html.in-app .foot nav+nav{margin-top:2px!important}
+/* ===== 접근성 공통 (tools/a11y.py, 1114) ===== */
+.vh,.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;clip-path:inset(50%)!important;white-space:nowrap!important;border:0!important}
+.skip{position:absolute;left:8px;top:-200px;z-index:10000;background:#111;color:#fff!important;padding:12px 18px;font-size:16px;font-weight:700;text-decoration:none!important;border-radius:4px}
+.skip:focus{top:8px;outline:3px solid #ffbf47;outline-offset:0}
+footer.site nav a,footer.foot nav a,header.top .right a{display:inline-block;padding-block:2px}
+main:focus{outline:none}
+:where(a,button,input,select,textarea,summary,label,[tabindex]):focus-visible{outline:2px solid #111!important;outline-offset:2px!important;box-shadow:0 0 0 4px #fff!important}
+.a11y-live{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+.a11y-pause{position:absolute;left:-9999px}
+.a11y-pause:focus{position:static;left:auto;display:inline-block;margin:6px 0;font:inherit;font-size:13px;padding:4px 10px;border:1px solid #111;background:#fff;color:#111}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+@media (forced-colors:active){.skip:focus{outline:3px solid CanvasText}}

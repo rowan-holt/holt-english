@@ -7,7 +7,7 @@ function store(a){try{localStorage.setItem(K,JSON.stringify(a))}catch(e){}}
 function has(a,s){for(var i=0;i<a.length;i++)if(a[i].s===s)return true;return false}
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 function sync(){var a=load();var bs=document.querySelectorAll('.sv');for(var i=0;i<bs.length;i++){var b=bs[i],on=has(a,b.getAttribute('data-s'));
-b.classList.toggle('on',on);b.setAttribute('aria-pressed',on?'true':'false');b.setAttribute('aria-label',on?'내 학습장에서 빼기':'내 학습장에 저장')}}
+b.classList.toggle('on',on);b.setAttribute('aria-pressed',on?'true':'false');var nm=b.getAttribute('data-p')||'';b.setAttribute('aria-label',(on?'내 학습장에서 빼기':'내 학습장에 저장')+(nm?': '+nm:''))}}
 function btn(x){return '<button class="sv" type="button" data-s="'+esc(x.s)+'" data-p="'+esc(x.p)+'" data-k="'+esc(x.k)+'" data-c="'+esc(x.c)+'" data-t="'+esc(x.t||'')+'">'+ICON+'</button>'}
 function ga(w){var c=w.charCodeAt(w.length-1)-0xAC00;return (c>=0&&c%28)?'이':'가'}
 function name(c){for(var i=0;i<CATS.length;i++)if(CATS[i][0]===c)return CATS[i][1];return ''}
@@ -56,7 +56,7 @@ return '<div class="srs"><div class="srs-n"><b>'+s.today+'</b>오늘 본 카드<
 var EDIT=false,CANEDIT=false;
 function mrow(x,k){return '<li class="row'+(k?' known':'')+'" data-ai="w-'+esc(x.s)+'"><a href="e/'+esc(x.s)+'.html"><b>'+esc(x.p)+'</b><span>'+esc(x.k)+'</span></a>'
 +(EDIT?'<button type="button" class="rm" data-s="'+esc(x.s)+'">빼기</button>'
-:'<button type="button" class="kn'+(k?' on':'')+'" data-s="'+esc(x.s)+'" aria-pressed="'+(k?'true':'false')+'" aria-label="외움 표시" title="외움 표시">✓</button>')
+:'<button type="button" class="kn'+(k?' on':'')+'" data-s="'+esc(x.s)+'" aria-pressed="'+(k?'true':'false')+'" aria-label="외움 표시: '+esc(x.p)+'" title="외움 표시">✓</button>')
 +'<i class="sv" data-s="'+esc(x.s)+'" hidden></i></li>'}
 function b64e(t){return btoa(unescape(encodeURIComponent(t)))}function b64d(t){return decodeURIComponent(escape(atob(t)))}
 function mineTool(t){var a=load(),kn=knownGet();
@@ -89,15 +89,19 @@ for(var j=todo.length-1;j>0;j--){var r=Math.floor(Math.random()*(j+1)),t=todo[j]
 var dir='';try{dir=localStorage.getItem('holt_fc_dir')||''}catch(e){}
 FC={q:todo,total:todo.length,done:0,ko:dir?dir==='ko':memoGet()==='ko',rv:mode==='review'};
 document.body.insertAdjacentHTML('beforeend','<div class="fc" role="dialog" aria-label="카드로 외우기"><div class="fc-top"><span class="fc-n"></span><span class="fc-dir" role="group" aria-label="앞면"><button type="button" data-d="en">영어 보고 뜻 맞히기</button><button type="button" data-d="ko">뜻 보고 영어 맞히기</button></span><button type="button" class="fc-x" aria-label="닫기">✕</button></div><div class="fc-card" tabindex="0"></div><div class="fc-btns"><button type="button" class="fc-again">몰라요<small>조금 뒤 다시 나와요</small></button><button type="button" class="fc-ok">알아요<small>외움 ✓, 며칠 뒤 다시 복습해요</small></button></div><p class="fc-hint"></p><button type="button" class="say fc-say">발음 듣기</button></div>');
-document.body.style.overflow='hidden';fcShow();track('flashcard_open',{n:todo.length})}
+document.body.style.overflow='hidden';FCRET=document.activeElement;var dlg=document.querySelector('.fc');dlg.setAttribute('aria-modal','true');var cd=dlg.querySelector('.fc-card');cd.setAttribute('role','button');
+fcShow();cd.focus();track('flashcard_open',{n:todo.length})}
 function fcShow(){var el=document.querySelector('.fc');if(!el)return;var card=el.querySelector('.fc-card');card.classList.remove('flipped');
 el.querySelector('.fc-n').textContent='남은 카드 '+FC.q.length+' · 외움 '+FC.done;
 if(!FC.q.length){card.innerHTML='<div class="fc-front">끝!</div><div class="fc-back" style="visibility:visible">'+(FC.rv?'오늘 복습 '+FC.total+'개를 마쳤어요':FC.total+'개 모두 외움 ✓ 표시했어요')+'</div>';el.querySelector('.fc-btns').style.display='none';el.querySelector('.fc-hint').style.display='none';el.querySelector('.fc-say').style.display='none';return}
 var ds=el.querySelectorAll('.fc-dir button');for(var i=0;i<ds.length;i++)ds[i].classList.toggle('on',(ds[i].getAttribute('data-d')==='ko')===FC.ko);
 el.querySelector('.fc-hint').textContent=FC.ko?'카드를 누르면 영어가 보여요':'카드를 누르면 뜻이 보여요';
 var x=FC.q[0],f=FC.ko?x.k:x.p,b=FC.ko?x.p:x.k;sayStop();el.querySelector('.fc-say').setAttribute('data-a','w-'+x.s);
-card.innerHTML='<div class="fc-front'+(FC.ko?' ko':'')+'">'+esc(f)+'</div><div class="fc-back'+(FC.ko?'':' ko')+'">'+esc(b)+'</div>'}
-function fcClose(){sayStop();var el=document.querySelector('.fc');if(el)el.remove();document.body.style.overflow='';FC=null;render()}
+card.innerHTML='<div class="fc-front'+(FC.ko?' ko':'')+'"'+(FC.ko?'':' lang="en"')+'>'+esc(f)+'</div><div class="fc-back'+(FC.ko?'':' ko')+'"'+(FC.ko?' lang="en"':'')+' aria-hidden="true">'+esc(b)+'</div>';
+card.setAttribute('aria-label',(FC.ko?'뜻: ':'영어: ')+f+'. 누르면 '+(FC.ko?'영어':'뜻')+'가 보여요');card.setAttribute('aria-expanded','false');if(window.a11ySay)a11ySay((FC.ko?'뜻: ':'영어: ')+f)}
+var FCRET=null;
+function fcFlip(c){var o=c.classList.toggle('flipped'),bk=c.querySelector('.fc-back');if(bk&&bk.textContent&&c.getAttribute('role')){bk.setAttribute('aria-hidden',o?'false':'true');c.setAttribute('aria-expanded',o?'true':'false');if(o&&window.a11ySay)a11ySay(bk.textContent)}}   // 1114 접근성: 뒤집으면 답을 읽어 줌
+function fcClose(){sayStop();var el=document.querySelector('.fc');if(el)el.remove();document.body.style.overflow='';FC=null;render();if(FCRET&&FCRET.focus&&document.contains(FCRET))FCRET.focus();FCRET=null}
 document.addEventListener('click',function(ev){var t=ev.target.closest&&ev.target.closest('.kn,.rm,.edit-mine,.hide-kn,.mine-tools button,.fc-open,.fc-x,.fc-card,.fc-again,.fc-ok,.fc-dir button');if(!t)return;
 if(t.hasAttribute('data-d')){if(!FC)return;FC.ko=t.getAttribute('data-d')==='ko';try{localStorage.setItem('holt_fc_dir',FC.ko?'ko':'en')}catch(e){}fcShow();return}
 if(t.classList.contains('kn')){var kn=knownGet(),s=t.getAttribute('data-s');if(kn[s])delete kn[s];else kn[s]=1;knownSet(kn);render();track('known_toggle',{item:s});return}
@@ -107,20 +111,22 @@ if(t.classList.contains('hide-kn')){try{localStorage.setItem('holt_hide_known',t
 if(t.hasAttribute('data-mt'))return mineTool(t.getAttribute('data-mt'));
 if(t.classList.contains('fc-open'))return fcOpen(t.getAttribute('data-mode'));
 if(t.classList.contains('fc-x'))return fcClose();
-if(t.classList.contains('fc-card'))return t.classList.toggle('flipped');
+if(t.classList.contains('fc-card'))return fcFlip(t);
 if(!FC||!FC.q.length)return;var x=FC.q.shift();
 if(t.classList.contains('fc-ok')){var k2=knownGet();k2[x.s]=1;knownSet(k2);FC.done++;srsMark(x.s,true);track('srs_ok',{item:x.s})}
 else{FC.q.push(x);srsMark(x.s,false);if(FC.rv){var k3=knownGet();delete k3[x.s];knownSet(k3)}track('srs_again',{item:x.s})}fcShow()});
-document.addEventListener('keydown',function(ev){if(!FC)return;if(ev.key==='Escape')fcClose();else if(ev.key===' '){ev.preventDefault();var c=document.querySelector('.fc-card');if(c)c.classList.toggle('flipped')}});
+document.addEventListener('keydown',function(ev){if(!FC)return;if(ev.key==='Escape')fcClose();else if(ev.key===' '||(ev.key==='Enter'&&ev.target.classList&&ev.target.classList.contains('fc-card'))){ev.preventDefault();var c=document.querySelector('.fc-card');if(c)fcFlip(c)}
+else if(ev.key==='Tab'){var f=[].slice.call(document.querySelectorAll('.fc button,.fc [tabindex]')).filter(function(x){return x.offsetParent!==null});if(!f.length)return;   // 대화상자 안에서만 Tab
+var i=f.indexOf(document.activeElement);if(ev.shiftKey&&i<=0){ev.preventDefault();f[f.length-1].focus()}else if(!ev.shiftKey&&i===f.length-1){ev.preventDefault();f[0].focus()}}});
 document.addEventListener('click',function(ev){
 var mb=ev.target.closest&&ev.target.closest('.memo button');
 if(mb){var m=mb.getAttribute('data-m');memoSet(memoGet()===m?'':m);memoApply();return}
 var qb=ev.target.closest&&ev.target.closest('.quiz .reveal');
-if(qb){var bx=qb.closest('.quiz'),shown=bx.classList.toggle('solved');qb.textContent=shown?'다시 풀기':'정답 보기';return}
+if(qb){var bx=qb.closest('.quiz'),shown=bx.classList.toggle('solved');qb.textContent=shown?'다시 풀기':'정답 보기';a11yQuiz(bx,shown);return}
 var hx=memoGet()&&document.querySelector('.memo')&&ev.target.closest&&ev.target.closest('.term .hx,.doc p.en,.doc p.ko,.doc .me,.doc .mk');
-if(hx&&!hx.classList.contains('open')){ev.preventDefault();hx.classList.add('open');return}
+if(hx&&!hx.classList.contains('open')){ev.preventDefault();hx.classList.add('open');a11yMemo();if(window.a11ySay)a11ySay(hx.textContent);hx.focus&&hx.focus();return}
 var hid=memoGet()&&ev.target.closest&&ev.target.closest('.row>a,.card>a');
-if(hid&&!ev.target.closest('.sv')){var it=hid.parentNode;if(!it.classList.contains('open')&&document.querySelector('.memo')){ev.preventDefault();it.classList.add('open');return}}
+if(hid&&!ev.target.closest('.sv')){var it=hid.parentNode;if(!it.classList.contains('open')&&document.querySelector('.memo')){ev.preventDefault();it.classList.add('open');a11yMemo();if(window.a11ySay)a11ySay(hid.textContent);return}}
 var t=ev.target.closest&&ev.target.closest('.chips .sub a, #mine a[href^="saved.html"]');
 if(t&&document.getElementById('mine')){ev.preventDefault();try{history.replaceState(null,'',t.getAttribute('href'))}catch(e){}render();window.scrollTo(0,0);return}
 var b=ev.target.closest&&ev.target.closest('.sv');if(!b)return;ev.preventDefault();ev.stopPropagation();
@@ -221,5 +227,25 @@ try{history.replaceState(null,'',location.href.replace(/([?&])install=1&?/,'$1')
 document.addEventListener('click',function(ev){var t=ev.target.closest&&ev.target.closest('.install');if(!t)return;ev.preventDefault();
 if(NOTCHROME){toChrome();return}
 if(!DEFER){installGuide();return}DEFER.prompt();DEFER.userChoice.then(function(r){track('app_install',{outcome:r.outcome});DEFER=null;if(r.outcome==='accepted')t.hidden=true})});
-memoApply();render();search();sync();paginate();
+// ===== 1114 사용자(시각장애인도 모든 콘텐츠를) — 화면낭독기 =====
+// 영어 글에 lang="en"(영어 발음으로 읽게), 암기 모드로 가린 글은 화면낭독기에도 가림(누르면 열림), 퀴즈 빈칸은 정답 보기 전엔 읽지 않음
+function a11yLang(r){var l=(r||document).querySelectorAll('.en,.me,.qz,.term h1 .hx,a[href*="e/"]>b,.fc-front:not(.ko),.fc-back:not(.ko)');for(var i=0;i<l.length;i++)if(!l[i].hasAttribute('lang'))l[i].setAttribute('lang','en')}
+var MEMO_SEL={ko:'.rows .row:not(.open) a>b,.grid .card:not(.open)>a>b,.term .hx:not(.open),.doc p.en:not(.open),.doc .me:not(.open)',
+en:'.rows .row:not(.open) a>span:not(.snip),.grid .card:not(.open) .k,.term .meaning .hx:not(.open),.doc p.ko:not(.open),.doc .mk:not(.open)'};
+function a11yMemo(){var o=document.querySelectorAll('[data-a11y-h]');for(var i=0;i<o.length;i++){var x=o[i];x.removeAttribute('data-a11y-h');x.removeAttribute('aria-hidden');
+if(x.getAttribute('data-a11y-b')){x.removeAttribute('role');x.removeAttribute('tabindex');x.removeAttribute('aria-label');x.removeAttribute('data-a11y-b')}}
+var nt=document.querySelectorAll('.a11y-memo');for(var j=0;j<nt.length;j++)nt[j].remove();
+var m=document.querySelector('.memo')?memoGet():'';if(!m)return;var what=m==='ko'?'영어':'뜻',h=document.querySelectorAll(MEMO_SEL[m]);
+for(var k=0;k<h.length;k++){var e=h[k];e.setAttribute('data-a11y-h','1');var a=e.closest('a');
+if(a){e.setAttribute('aria-hidden','true');a.insertAdjacentHTML('beforeend','<span class="vh a11y-memo">('+what+' 가려짐, 누르면 보여요)</span>')}
+else{e.setAttribute('data-a11y-b','1');e.setAttribute('role','button');e.setAttribute('tabindex','0');e.setAttribute('aria-label','가려진 '+what+'. 누르면 보여요')}}}
+function a11yQuiz(bx,shown){var bl=bx.querySelector('.blank'),v=bx.querySelector('.a11y-blank'),rb=bx.querySelector('.reveal');if(!bl)return;
+bl.setAttribute('aria-hidden',shown?'false':'true');if(!v){bl.insertAdjacentHTML('beforebegin','<span class="vh a11y-blank" lang="ko">(빈칸)</span>');v=bx.querySelector('.a11y-blank')}
+v.hidden=!!shown;if(rb)rb.setAttribute('aria-expanded',shown?'true':'false');
+if(shown&&window.a11ySay){var qc=bx.querySelector('.qz').cloneNode(true),vb=qc.querySelector('.a11y-blank');if(vb)vb.remove();a11ySay('정답: '+bl.textContent.replace(/\s+/g,' ').trim()+'. '+qc.textContent.replace(/\s+/g,' ').trim())}}
+function a11yAll(){a11yLang();var q=document.querySelectorAll('.quiz');for(var i=0;i<q.length;i++)a11yQuiz(q[i],q[i].classList.contains('solved'));a11yMemo()}
+var _memoApply=memoApply;memoApply=function(){_memoApply();a11yMemo()};
+document.addEventListener('keydown',function(ev){var t=ev.target;if((ev.key==='Enter'||ev.key===' ')&&t&&t.getAttribute&&t.getAttribute('data-a11y-b')){ev.preventDefault();t.click()}});
+var A11YOBS=[];if(window.MutationObserver){['mine','found'].forEach(function(id){var el=document.getElementById(id);if(!el)return;var ob=new MutationObserver(function(){a11yLang(el);a11yMemo();ob.takeRecords()});ob.observe(el,{childList:true,subtree:true});A11YOBS.push(ob)})}   // 내가 바꾼 것으로 다시 불리지 않게 takeRecords
+memoApply();render();search();sync();paginate();a11yAll();
 })();

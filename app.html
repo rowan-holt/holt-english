@@ -20,7 +20,8 @@
 #fr iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:none;background:#fff}
 #fr iframe.on{display:block}
 #tb{position:fixed;left:0;right:0;bottom:0;height:56px;padding-bottom:env(safe-area-inset-bottom);display:flex;background:#fff;border-top:1px solid #e6e6e6}
-#tb button{flex:1;border:0;background:none;padding:0;font:600 13px/1 Jost,sans-serif;letter-spacing:.09em;color:#a3a3a3;position:relative;cursor:pointer}
+#tb .tl{display:contents}
+#tb button{flex:1;border:0;background:none;padding:0;font:600 13px/1 Jost,sans-serif;letter-spacing:.09em;color:#6b6b6b;position:relative;cursor:pointer}
 #tb button.on{color:#111}
 #tb button.on::before{content:"";position:absolute;top:-1px;left:50%;width:28px;height:2px;margin-left:-14px;background:#111}
 #tb #set{flex:0 0 56px;display:flex;align-items:center;justify-content:center;color:#555}
@@ -31,7 +32,7 @@
 .in p{margin:0 0 10px;font-size:13px;color:#666}
 .op{display:block;width:100%;text-align:left;margin-top:8px;padding:14px 16px;border:1px solid #e3e3e3;border-radius:12px;background:#fff;cursor:pointer;position:relative;color:#111}
 .op b{display:block;font:600 15px/1.2 Jost,sans-serif;letter-spacing:.06em}
-.op span{display:block;margin-top:4px;font-size:13px;color:#666;font-family:'Pretendard Variable',Pretendard,sans-serif}
+.op span{display:block;margin-top:4px;font-size:13px;color:#595959;font-family:'Pretendard Variable',Pretendard,sans-serif}
 .op.on{border-color:#111;box-shadow:inset 0 0 0 1px #111}
 .op.on::after{content:"✓";position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:16px}
 #shx{display:block;width:100%;margin-top:6px;padding:14px;border:0;background:none;font-size:14px;color:#666;cursor:pointer}
@@ -39,7 +40,7 @@
 </head>
 <body>
 <div id="fr"></div>
-<nav id="tb" role="tablist" aria-label="HOLT"><button type="button" role="tab" data-k="news">NEWS</button><button type="button" role="tab" data-k="english">ENGLISH</button><button type="button" role="tab" data-k="issue">ISSUE</button><button type="button" id="set" aria-label="처음 볼 화면 설정"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button></nav>
+<nav id="tb" aria-label="HOLT"><div class="tl" role="tablist" aria-label="HOLT 사이트"><button type="button" role="tab" aria-selected="false" data-k="news">NEWS</button><button type="button" role="tab" aria-selected="false" data-k="english">ENGLISH</button><button type="button" role="tab" aria-selected="false" data-k="issue">ISSUE</button></div><button type="button" id="set" aria-label="처음 볼 화면 설정"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button></nav>
 <div id="sh" hidden><div class="in" role="dialog" aria-modal="true" aria-labelledby="sh-t">
 <h2 id="sh-t">처음 볼 화면</h2><p>앱을 열면 이 화면부터 보여요. 언제든 ⚙에서 바꿀 수 있어요.</p><button type="button" class="op" data-k="news"><b>HOLT NEWS</b><span>뉴스·연구 해설</span></button><button type="button" class="op" data-k="english"><b>HOLT ENGLISH</b><span>뉴스 속 영어 표현</span></button><button type="button" class="op" data-k="issue"><b>HOLT ISSUE</b><span>읽고 푸는 시사상식</span></button>
 <button type="button" id="shx">닫기</button></div></div>
@@ -58,12 +59,13 @@ document.querySelectorAll('#tb [data-k]').forEach(function(b){b.addEventListener
 if(k===cur)frame(k,S[k]);else location.hash=k})});
 addEventListener('message',function(ev){if(!/^https:\/\/(english\.|issue\.)?holtnews\.com$/.test(ev.origin))return;var d=ev.data;
 if(!d||d.holt!=='go'||typeof d.url!=='string')return;var k=keyOf(d.url);if(!k)return;frame(k,d.url);if(k!==cur)location.hash=k});
-function open(isFirst){first=isFirst;var p=get()||'news';sh.querySelectorAll('.op').forEach(function(o){o.classList.toggle('on',o.getAttribute('data-k')===p)});
-document.getElementById('shx').hidden=isFirst;sh.hidden=false}
+function open(isFirst){first=isFirst;var p=get()||'news';sh.querySelectorAll('.op').forEach(function(o){var on=o.getAttribute('data-k')===p;o.classList.toggle('on',on);o.setAttribute('aria-pressed',on)});
+document.getElementById('shx').hidden=isFirst;sh.hidden=false;var c=sh.querySelector('.op.on')||sh.querySelector('.op');c&&c.focus()}
 sh.querySelectorAll('.op').forEach(function(o){o.addEventListener('click',function(){var k=o.getAttribute('data-k');put(k);
-sh.querySelectorAll('.op').forEach(function(x){x.classList.toggle('on',x===o)});
+sh.querySelectorAll('.op').forEach(function(x){x.classList.toggle('on',x===o);x.setAttribute('aria-pressed',x===o)});
 setTimeout(function(){sh.hidden=true;if(first){history.replaceState(null,'','#'+k);show(k)}},first?0:220)})});
 document.getElementById('set').addEventListener('click',function(){open(false)});
+document.addEventListener('keydown',function(ev){if(ev.key==='Escape'&&!sh.hidden&&!first){sh.hidden=true;document.getElementById('set').focus()}});
 document.getElementById('shx').addEventListener('click',function(){sh.hidden=true});
 sh.addEventListener('click',function(ev){if(ev.target===sh&&!first)sh.hidden=true});
 if(!fromHash()){var p=get();p=(p&&S[p])?p:'news';history.replaceState(null,'','#'+p);show(p)}
