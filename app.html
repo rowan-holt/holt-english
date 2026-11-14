@@ -44,6 +44,10 @@
 <div id="sh" hidden><div class="in" role="dialog" aria-modal="true" aria-labelledby="sh-t">
 <h2 id="sh-t">처음 볼 화면</h2><p>앱을 열면 이 화면부터 보여요. 언제든 ⚙에서 바꿀 수 있어요.</p><button type="button" class="op" data-k="news"><b>HOLT NEWS</b><span>뉴스·연구 해설</span></button><button type="button" class="op" data-k="english"><b>HOLT ENGLISH</b><span>뉴스 속 영어 표현</span></button><button type="button" class="op" data-k="issue"><b>HOLT ISSUE</b><span>읽고 푸는 시사상식</span></button>
 <button type="button" id="shx">닫기</button></div></div>
+<script>(function(){var HL;try{HL=localStorage.getItem('holt_lang')}catch(e){}if(!HL)HL=/^ko/i.test(navigator.language||'')?'ko':'en';if(HL!=='en')return;var E={"news": "News and research, explained", "english": "English from the news", "issue": "Read-and-solve current affairs"},q=function(s){return document.querySelector(s)};
+document.documentElement.lang='en';q('#tb .tl').setAttribute('aria-label','HOLT sites');q('#set').setAttribute('aria-label','Choose start screen');
+q('#sh-t').textContent='Start screen';q('#sh p').textContent='The app opens here first. Change it any time with ⚙.';q('#shx').textContent='Close';
+document.querySelectorAll('#sh .op').forEach(function(b){b.querySelector('span').textContent=E[b.dataset.k]})})()</script>
 <script>(function(){
 var S={"news": "https://holtnews.com/", "issue": "https://issue.holtnews.com/", "english": "https://english.holtnews.com/"},fr=document.getElementById('fr'),sh=document.getElementById('sh'),F={},cur=null,first=false;
 function get(){try{return localStorage.getItem('holt-app-start')}catch(e){return null}}

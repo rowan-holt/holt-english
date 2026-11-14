@@ -206,10 +206,14 @@ var DEFER=null,STANDALONE=(window.matchMedia&&matchMedia('(display-mode: standal
 if(!STANDALONE){var ib=document.querySelectorAll('.install');for(var i=0;i<ib.length;i++)ib[i].hidden=false}
 addEventListener('beforeinstallprompt',function(e){e.preventDefault();DEFER=e});
 addEventListener('appinstalled',function(){track('app_install',{outcome:'installed'})});
+// 1114 사용자: holtnews 영어판에서 온 설치(?lang=en)는 안내 영어 + 앱 언어 기억
+var IGEN=/[?&]lang=en\b/.test(location.search);if(IGEN){try{localStorage.setItem('holt_lang','en')}catch(e){}}
 function installGuide(){var ios=/iPhone|iPad|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
-var msg=ios?'Safari 아래쪽 <b>공유 버튼</b>을 누른 뒤 <b>홈 화면에 추가</b>를 누르세요.':'브라우저 메뉴(⋮)에서 <b>홈 화면에 추가</b> 또는 <b>앱 설치</b>를 누르세요.';
-var d=document.createElement('div');d.className='ig';d.setAttribute('role','dialog');d.setAttribute('aria-label','앱으로 설치');
-d.innerHTML='<div class="ig-box"><h3>앱으로 설치</h3><p>'+msg+'</p><p class="ig-s">이미 설치했다면 홈 화면의 HOLT 아이콘으로 열면 됩니다.</p><button type="button" class="ig-x">확인</button></div>';
+var msg=IGEN?(ios?'Tap the <b>Share</b> button at the bottom of Safari, then tap <b>Add to Home Screen</b>.':'Open the browser menu (⋮) and tap <b>Add to Home screen</b> or <b>Install app</b>.'):
+(ios?'Safari 아래쪽 <b>공유 버튼</b>을 누른 뒤 <b>홈 화면에 추가</b>를 누르세요.':'브라우저 메뉴(⋮)에서 <b>홈 화면에 추가</b> 또는 <b>앱 설치</b>를 누르세요.');
+var d=document.createElement('div');d.className='ig';d.setAttribute('role','dialog');d.setAttribute('aria-label',IGEN?'Install the app':'앱으로 설치');
+d.innerHTML=IGEN?'<div class="ig-box"><h3>Install the app</h3><p>'+msg+'</p><p class="ig-s">Already installed? Open it from the HOLT icon on your home screen.</p><button type="button" class="ig-x">OK</button></div>':
+'<div class="ig-box"><h3>앱으로 설치</h3><p>'+msg+'</p><p class="ig-s">이미 설치했다면 홈 화면의 HOLT 아이콘으로 열면 됩니다.</p><button type="button" class="ig-x">확인</button></div>';
 document.body.appendChild(d);d.addEventListener('click',function(ev){if(ev.target===d||ev.target.classList.contains('ig-x'))d.remove()});track('app_install',{outcome:'guide'})}
 // 삼성 인터넷 등 크롬이 아닌 안드로이드 브라우저로 설치하면 그 브라우저가 만든 옛 버전 앱이라 Play 프로텍트가 '안전하지 않은 앱'으로 막음 → 크롬에서 열어 설치
 var UA=navigator.userAgent,AND=/Android/i.test(UA),NOTCHROME=AND&&(/SamsungBrowser|Whale|OPR|EdgA|Firefox|YaBrowser|MiuiBrowser|HuaweiBrowser|NAVER|KAKAOTALK|Instagram|FBAN|FBAV|; wv\)/i.test(UA)||!/Chrome\//.test(UA));
@@ -218,12 +222,12 @@ location.href='intent://'+u+'#Intent;scheme=https;package=com.android.chrome;S.b
 // 크롬으로 넘어온 경우(?install=1): 설치 창을 띄울 수 있게 되면 '설치' 버튼 하나만 보여 줌(브라우저 규칙상 한 번은 눌러야 설치됨)
 if(!STANDALONE&&/[?&]install=1/.test(location.search)){
 addEventListener('beforeinstallprompt',function(){setTimeout(function(){if(!DEFER||document.querySelector('.ig'))return;
-var d=document.createElement('div');d.className='ig';d.setAttribute('role','dialog');d.setAttribute('aria-label','앱으로 설치');
-d.innerHTML='<div class="ig-box"><h3>HOLT</h3><button type="button" class="ig-go ig-in">설치</button><button type="button" class="ig-x">닫기</button></div>';
+var d=document.createElement('div');d.className='ig';d.setAttribute('role','dialog');d.setAttribute('aria-label',IGEN?'Install the app':'앱으로 설치');
+d.innerHTML='<div class="ig-box"><h3>HOLT</h3><button type="button" class="ig-go ig-in">'+(IGEN?'Install':'설치')+'</button><button type="button" class="ig-x">'+(IGEN?'Close':'닫기')+'</button></div>';
 document.body.appendChild(d);d.addEventListener('click',function(ev){if(ev.target.classList.contains('ig-in')){d.remove();DEFER.prompt();DEFER.userChoice.then(function(r){track('app_install',{outcome:r.outcome,from:'redirect'});DEFER=null})}
 else if(ev.target===d||ev.target.classList.contains('ig-x'))d.remove()})},0)});
 if(NOTCHROME)toChrome();else setTimeout(function(){if(!DEFER&&!document.querySelector('.ig'))installGuide()},1800);
-try{history.replaceState(null,'',location.href.replace(/([?&])install=1&?/,'$1').replace(/[?&]$/,''))}catch(e){}}
+try{history.replaceState(null,'',location.href.replace(/([?&])install=1&?/,'$1').replace(/([?&])lang=en&?/,'$1').replace(/[?&]$/,''))}catch(e){}}
 document.addEventListener('click',function(ev){var t=ev.target.closest&&ev.target.closest('.install');if(!t)return;ev.preventDefault();
 if(NOTCHROME){toChrome();return}
 if(!DEFER){installGuide();return}DEFER.prompt();DEFER.userChoice.then(function(r){track('app_install',{outcome:r.outcome});DEFER=null;if(r.outcome==='accepted')t.hidden=true})});
