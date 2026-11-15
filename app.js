@@ -184,6 +184,7 @@ function setP(p){try{var u=new URL(location.href);if(p>1)u.searchParams.set('p',
 function track(n,p){try{if(window.gtag)gtag('event',n,p||{})}catch(e){}}
 document.addEventListener('click',function(ev){var t=ev.target.closest&&ev.target.closest('a,button');if(!t)return;
 if(t.hasAttribute('data-ad'))return track('ad_click',{ad_id:t.getAttribute('data-ad'),slot:t.getAttribute('data-slot')});
+if(t.tagName==='A'&&t.closest('nav.chips,header nav.right')){try{var u=new URL(t.href),k=u.host!==location.host?u.host.split('.')[0]:(u.pathname.replace(/^\//,'').replace(/(\/?index)?\.html$/,'').replace(/[^a-z0-9]+/g,'_')||'home');track('menu_'+k.slice(0,30))}catch(e){}return} // 1115 사용자: 어느 메뉴를 눌렀는지도 방문 요약에(세 사이트 같이) — menu_words, menu_holtnews …
 if(t.classList.contains('sv'))return track(t.classList.contains('on')?'save_item':'unsave_item',{item:t.getAttribute('data-s')});
 if(t.closest('.memo'))return track('memo_mode',{mode:t.getAttribute('data-m')});
 if(t.classList.contains('reveal'))return track('quiz_reveal',{page:location.pathname});
