@@ -219,12 +219,12 @@ a.tl b{text-decoration:underline;text-decoration-color:#bbb;text-underline-offse
 .page{max-width:740px;margin:0 auto;padding:56px 20px}
 .page h1{font-weight:800;font-size:34px;margin:0 0 20px}.page ul{padding-left:20px}.page li{margin:8px 0}.page h2{font-size:20px;margin:30px 0 8px}.page a{text-decoration:underline}.page a.plain{text-decoration:none}
 /* 꼬리 — holtnews.com과 같은 검은 띠 */
-footer.site{background:#000;color:#cfcfcf;margin-top:80px;padding:40px 56px 48px;font-size:13px;line-height:1.8;
-display:grid;grid-template-columns:auto 1fr auto;gap:20px 48px;align-items:start}
+footer.site{background:#000;color:#cfcfcf;margin-top:64px;padding:24px 56px 26px;font-size:13px;line-height:1.6;
+display:grid;grid-template-columns:auto 1fr auto;gap:12px 48px;align-items:start}
 footer.site .logo-s{font-family:"Jost",sans-serif;font-weight:600;color:#fff;font-size:17px;letter-spacing:.04em}
 /* 1111 꼬리말: HOLT NEWS | ENGLISH | ISSUE — 세 사이트 공통(HOLT는 맨 앞에만) */
-footer.site .brand{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}footer.site .brand i{font-style:normal;font-weight:400;opacity:.5;font-family:var(--sans)}footer.site .brand .sib{font-family:var(--sans);font-weight:400;font-size:15px;letter-spacing:0;color:#fff}footer.site .brand .sib:hover{text-decoration:underline;text-underline-offset:4px}
-footer.site nav{display:flex;gap:10px;flex-wrap:wrap;color:#fff}footer.site nav span{opacity:.5}
+footer.site .brand{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}footer.site .brand i{font-style:normal;font-weight:400;opacity:.5;font-family:var(--sans)}footer.site .brand .sib{font-family:var(--sans);font-weight:400;font-size:15px;letter-spacing:0;color:#fff;margin:0;line-height:inherit}footer.site .brand .sib:hover{text-decoration:underline;text-underline-offset:4px}
+footer.site nav{display:flex;gap:10px;flex-wrap:wrap;color:#fff}footer.site nav span{opacity:.5}footer.site nav+nav{margin-top:4px}html.in-app footer.site nav+nav{margin-top:2px!important}footer.site nav:last-child{color:#cfcfcf}
 footer.site .c{text-align:right;align-self:end}footer.site .c .install{margin:0 0 12px}/* 1112 사용자: 앱으로 설치는 꼬리말 오른쪽(© 위)으로 */
 footer.site .install{display:inline-block;margin-top:14px;color:#fff;border:1px solid #fff;padding:6px 16px;font-size:13px;line-height:1.4;text-decoration:none}footer.site .install:hover{background:#fff;color:#000}footer.site .install[hidden]{display:none}footer.site .brand>:not(.cur):not(i){opacity:.5}footer.site .brand>:not(.cur):not(i):hover{opacity:1}
 .ig{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px}
@@ -271,7 +271,7 @@ footer.site .install{display:inline-block;margin-top:14px;color:#fff;border:1px 
 .card b{font-size:min(26px,calc((100cqi - 56px) / (var(--n,1) * .58)))}.card b.m{font-size:min(21px,calc((100cqi - 56px) / (var(--n,1) * .58)))}.card b.l{font-size:16.5px}.card .k{font-size:14px}
 .intro{flex-direction:column;padding:30px 16px 14px}.cat-head{padding:30px 16px 12px}.cat-desc{padding:12px 16px}
 .chips a{padding:10px 14px;font-size:14px}.alpha{padding:0 16px}.alpha li{margin-right:0}
-footer.site{grid-template-columns:1fr;padding:32px 20px 40px}footer.site .c{text-align:left}
+footer.site{grid-template-columns:1fr;padding:22px 20px 26px;font-size:12px}footer.site nav{gap:6px}footer.site .c{text-align:left}
 .term{grid-template-columns:1fr 1fr;grid-template-areas:"mid mid" "prev next";padding:40px 0 0}
 .term .mid{padding:0 16px 28px}
 .nav{flex-direction:row;gap:8px;padding:13px 16px;border-top:1px solid var(--line);min-height:50px}
