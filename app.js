@@ -48,9 +48,9 @@ function srsMark(s,ok){var r=jget(KS),x=r[s]||{b:0,d:0},t=today();x.b=ok?Math.mi
 var g=jget(KL);g[t]=g[t]||[0,0];g[t][0]++;if(ok)g[t][1]++;jset(KL,g)}
 function dueList(){var r=jget(KS),t=today();return load().filter(function(x){return r[x.s]&&r[x.s].d<=t})}
 function stats(){var g=jget(KL),t=today(),n=0,ok=0,st=0;for(var k in g){n+=g[k][0];ok+=g[k][1]}
-for(var d=g[t]?t:t-1;g[d];d--)st++;return {today:g[t]?g[t][0]:0,streak:st,acc:n?Math.round(ok*100/n):null}}
+st=Object.keys(g).length;return {today:g[t]?g[t][0]:0,streak:st,acc:n?Math.round(ok*100/n):null}}
 function statBar(){var due=dueList().length,s=stats();if(!load().length)return '';
-return '<div class="srs"><div class="srs-n"><b>'+s.today+'</b>오늘 본 카드</div><div class="srs-n"><b>'+s.streak+'일</b>연속 학습</div><div class="srs-n"><b>'+(s.acc==null?'-':s.acc+'%')+'</b>알아요 비율</div>'
+return '<div class="srs"><div class="srs-n"><b>'+s.today+'</b>오늘 본 카드</div><div class="srs-n"><b>'+s.streak+'일</b>공부한 날</div><div class="srs-n"><b>'+(s.acc==null?'-':s.acc+'%')+'</b>알아요 비율</div>'
 +'<div class="srs-act">'+(due?'<button type="button" class="fc-open srs-go" data-mode="review">오늘 복습 '+due+'개</button>':'')
 +'<button type="button" class="fc-open srs-card">카드로 외우기</button></div></div>'}
 var EDIT=false,CANEDIT=false;
@@ -81,7 +81,8 @@ S.forEach(function(n){var m=n.matches('[data-ai="'+f+'"]')?[n]:n.querySelectorAl
 var a=AU=new Audio('/a/'+f+'.mp3');a.onended=function(){if(AU===a)setTimeout(function(){if(AU===a)nx()},350)};a.onerror=function(){if(AU===a)nx()};
 a.play().catch(function(){if(AU===a)sayStop()})}
 nx();track('listen',{a:L.length>1?L[0]+'+'+(L.length-1):L[0]})},true);
-function fcOpen(mode){var lis=document.querySelectorAll('#mine .mine-rows li'),kn=knownGet(),all=load(),by={};all.forEach(function(x){by[x.s]=x});
+function fcOpen(mode){var g0=jget(KL),t0=today();if(!g0[t0]){g0[t0]=[0,0];jset(KL,g0)}   // 1115 사용자: 카드로 외우기를 누르기만 해도 그날을 공부한 날로 셈
+var lis=document.querySelectorAll('#mine .mine-rows li'),kn=knownGet(),all=load(),by={};all.forEach(function(x){by[x.s]=x});
 var items=[];for(var i=0;i<lis.length;i++){var s=lis[i].querySelector('.sv').getAttribute('data-s');if(by[s])items.push(by[s])}
 if(!lis.length)items=all.slice();   // 내 학습장 첫 화면(목록 없음)에서는 저장한 것 전체로
 var todo=mode==='review'?dueList():items.filter(function(x){return !kn[x.s]});if(!todo.length&&mode!=='review')todo=items.slice();if(!todo.length)return;
