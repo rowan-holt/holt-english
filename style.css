@@ -2,7 +2,7 @@
 --latin:"Jost","Pretendard Variable",Pretendard,sans-serif;
 --sans:"Pretendard Variable",Pretendard,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif}
 *,*::before,*::after{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
+html{-webkit-text-size-adjust:100%;scrollbar-gutter:stable}   /* 1121 사용자: 웹 메뉴마다 로고가 옆으로 움직임 — 짧은 쪽(스크롤 막대 없음)과 긴 쪽 폭 차이. 막대 자리를 늘 비워 둠 */
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.75;
 word-break:keep-all;overflow-wrap:break-word}
 a{color:inherit;text-decoration:none}
@@ -237,9 +237,10 @@ footer.site .install{display:inline-block;margin-top:14px;color:#fff;border:1px 
 @media (max-width:1000px){.recent .posts{grid-template-columns:repeat(2,minmax(0,1fr))}.post:nth-child(2n){border-right:0}
 .post:nth-child(-n+2){border-bottom:1px solid var(--line)}.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.grid .card:nth-child(4n){border-right:1px solid var(--line)}
 .grid .card:nth-child(3n){border-right:0}}
-@media (max-width:700px){.top{display:flex;justify-content:center;padding:10px 16px 7px}
+@media (max-width:700px){.top{grid-template-columns:1fr auto;padding:5px 16px 6px;row-gap:2px}
 .top .logo{gap:1px}.top .logo .vv{font-size:9.5px}
-.top .logo{font-size:28px}.top>span,.top .right{display:none}   /* 1121 사용자: 휴대폰·앱도 로고 가운데(세 사이트 같은 크기·높이). 다른 사이트 링크는 꼬리말 NEWS|ENGLISH|ISSUE 줄에 */
+.top .logo{grid-column:1;grid-row:1;justify-self:start;font-size:28px}.top .right{grid-column:2;grid-row:1;font-size:13px;flex-direction:column;gap:0;align-items:flex-end;line-height:1.6}
+.top>span{display:none}
 .chips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
 .chips a{padding:12px 4px;font-size:14.5px}.chips a:nth-child(3n){border-right:0}
 .chips a:nth-child(n+4){grid-column:1/-1;border-right:0;border-top:1px solid var(--line)}
