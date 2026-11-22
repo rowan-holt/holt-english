@@ -55,7 +55,7 @@ var S={"news": "https://holtnews.com/", "issue": "https://issue.holtnews.com/", 
 function get(){try{return localStorage.getItem('holt-app-start')}catch(e){return null}}
 function put(k){try{localStorage.setItem('holt-app-start',k)}catch(e){}}
 function keyOf(u){for(var k in S)if(u.indexOf(S[k])===0)return k;return null}
-function frame(k,url){var f=F[k];if(!f){f=document.createElement('iframe');f.title='HOLT '+k.toUpperCase();f.src=url||S[k];fr.appendChild(f);F[k]=f}else if(url)f.src=url;return f}
+function frame(k,url){var f=F[k];if(!f){f=document.createElement('iframe');f.title='HOLT '+k.toUpperCase();f.setAttribute('allow','web-share; clipboard-write; clipboard-read; fullscreen; autoplay; encrypted-media; picture-in-picture');f.setAttribute('allowfullscreen','');f.src=url||S[k];fr.appendChild(f);F[k]=f}else if(url)f.src=url;return f}
 function show(k,url){var f=frame(k,url);for(var j in F)F[j].classList.toggle('on',j===k);cur=k;
 document.querySelectorAll('#tb [data-k]').forEach(function(b){var on=b.getAttribute('data-k')===k;b.classList.toggle('on',on);b.setAttribute('aria-selected',on)})}
 function parse(){var m=/^#(news|issue|english)(\/.*)?$/.exec(location.hash);return m?{k:m[1],url:m[2]?S[m[1]]+m[2].slice(1):null}:null}
